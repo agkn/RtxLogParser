@@ -46,8 +46,7 @@ public class TypeEnum extends BasicType {
 
     @Override
     void print(Context aContext, ByteBuffer aByteBuffer, int aIndent) {
-        aContext.outIndent(aIndent);
-        aContext.out().printf("%s: ", mName);
+        aContext.out().printf(" (%s) ", mName);
 
         StringBuilder out = new StringBuilder("0x");
         for(int i = 0; i < mType.getSize(); i++) {

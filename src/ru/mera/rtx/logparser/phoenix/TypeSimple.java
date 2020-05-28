@@ -11,8 +11,9 @@ public class TypeSimple extends Type {
 
     @Override
     void print(Context aContext, ByteBuffer aByteBuffer, int aIndent) {
+        aContext.out().print("0x");
         for(int i = 0; i < mType.getSize(); i++) {
-            aContext.out().append(Integer.toHexString(0xff & aByteBuffer.get()));
+            aContext.out().printf("%02X", 0xff & aByteBuffer.get());
         }
     }
 

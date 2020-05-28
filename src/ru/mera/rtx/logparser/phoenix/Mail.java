@@ -30,10 +30,11 @@ public class Mail {
         PrintStream out = aContext.out();
         aContext.out().println();
         aContext.outIndent(aIndent);
-        out.printf("%s (%s)\n", mPrimitive, mId);
+        out.printf("# %s\n%s (%s)\n", mDescription, mPrimitive, mId);
         for(TypeField f: mMembers) {
             f.print(aContext, aByteBuffer, aIndent + Type.INDENT);
         }
+        out.println();
     }
 
     public String getMailId() {
