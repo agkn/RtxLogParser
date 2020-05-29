@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 public class LogProcessorTest {
 
     @Test
-    public void testBufferRegex() {
+    public void testInBufferRegex() {
         String str = "Raw recv: (10)10 00 06 2e 00 01 bd 43 00 2f";
         Pattern p = LogProcessor.BUFF_PATTERN;
         Matcher matcher = p.matcher(str);
@@ -30,4 +30,13 @@ public class LogProcessorTest {
         assertEquals(0x10, buff.get());
     }
 
+    @Test
+    public void testOutBufferRegex() {
+        String str = "AudioInitPcmReq { mId = 0x4280, IsMaster = true, PcmCh0Delay = 0, exception } RAW MAIL: 80 42 01 01 00 01 00";
+        Pattern p = LogProcessor.BUFF_OUT_PATTERN;
+        Matcher matcher = p.matcher(str);
+        assertTrue(matcher.matches());
+        String array = matcher.group(1);
+        assertEquals(array, "80 42 01 01 00 01 00");
+    }
 }

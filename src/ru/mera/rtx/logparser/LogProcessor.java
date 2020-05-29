@@ -15,6 +15,8 @@ import java.util.regex.Pattern;
 public class LogProcessor {
     //Raw recv: (10)10 00 06 2e 00 01 bd 43 00 2f
     final static Pattern BUFF_PATTERN = Pattern.compile(".+\\((\\d+)\\)\\s*(([0-9a-f]{2}\\s?)+).*");
+    //RAW MAIL: 80 42 01 01 00 01 00
+    final static Pattern BUFF_OUT_PATTERN = Pattern.compile(".+RAW MAIL:\\s*(([0-9a-f]{2}\\s?)+).*");
     final ByteBuffer mBuffer = ByteBuffer.allocate(100);
 
     public void process(Reader aInput, PrintStream aOut) throws IOException, ParserConfigurationException, SAXException {
@@ -49,9 +51,34 @@ public class LogProcessor {
 
     private void handle(LogEntry aEntry, Context aContext) {
         // 05-15 15:45:15.071 I/System.out(  845): Raw recv: (10)10 00 06 2e 00 01 bd 43 00 2f
-        if (!"System.out".equals(aEntry.getModule())) {
+        if ("System.out".equals(aEntry.getModule())) {
+            decodeInMail(aEntry, aContext);
+        }
+
+        //05-28 12:49:58.958   777   815 I MTX     : AudioInitPcmReq { mId = 0x4280, IsMaster = true, PcmCh0Delay = 0, exception } RAW MAIL: 80 42 01 01 00 01 00
+        if ("MTX".equals(aEntry.getModule())) {
+            decodeOutMail(aEntry, aContext);
+        }
+
+    }
+
+    private void decodeOutMail(LogEntry aEntry, Context aContext) {
+        Matcher matcher = BUFF_OUT_PATTERN.matcher(aEntry.getMsg());
+        if(!matcher.matches()) {
             return;
         }
+        String array = matcher.group(1);
+        ParserUtils.strToBuffer(array, mBuffer).rewind();
+        if (mBuffer.limit() < 2) {
+            return;
+        }
+
+        mBuffer.order(ByteOrder.LITTLE_ENDIAN);
+        short id = mBuffer.getShort();
+        outMail(aContext, id, aEntry);
+    }
+
+    private void decodeInMail(LogEntry aEntry, Context aContext) {
 
         Matcher matcher = BUFF_PATTERN.matcher(aEntry.getMsg());
         if(!matcher.matches()) {
@@ -67,14 +94,17 @@ public class LogProcessor {
 
         ParserUtils.strToBuffer(array, mBuffer).rewind();
         short id = ParserUtils.getMailId(mBuffer);
-        Mail mail = aContext.getMail(id);
+        outMail(aContext, id, aEntry);
+    }
+
+    private void outMail(Context aContext, short aMailId, LogEntry aEntry) {
+        Mail mail = aContext.getMail(aMailId);
         if (mail == null) {
-            aContext.out().printf("!!! Can't find mail %s\n", Integer.toHexString(id));
+            aContext.out().printf("!!! Can't find mail %s\n", Integer.toHexString(aMailId));
         } else {
             try {
                 mail.print(aContext, mBuffer, 0);
             } catch (Exception aE) {
-                aContext.out().println("\n!!! Can't parse:  " + array);
                 System.err.println("!!! Can't parse:  " + aEntry + ": " + aE);
             }
         }
