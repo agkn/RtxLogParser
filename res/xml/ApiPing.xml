@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="API_Ping.doc" wordmacrover="74">
+  <group name="ApiPing">
+    <types>
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" description="Include of API configuration header." />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" description="Include of generic API types." />
+    </includefiles>
+    <macros>
+    </macros>
+    <mails>
+      <mail primitive="API_PING_START_REQ" id="0x4480" direction="out" description="Start PING at an interval" >
+        <parameter type="rsuint16" name="Interval" />
+      </mail>
+      <mail primitive="API_PING_START_CFM" id="0x4481" direction="out" description="Confirm on PING_START_REQ." >
+        <parameter type="RsStatusType" name="Status" description="Indicates whether the command succeeded or not." />
+      </mail>
+      <mail primitive="API_PING_STOP_REQ" id="0x4482" direction="out" description="Stop pinging of the base." >
+      </mail>
+      <mail primitive="API_PING_STOP_CFM" id="0x4483" direction="out" description="Stop pinging of the base." >
+        <parameter type="RsStatusType" name="Status" description="Indicates whether the command succeeded or not." />
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

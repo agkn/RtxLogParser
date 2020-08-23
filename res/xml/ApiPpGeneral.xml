@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="Phoenix_API_PP_General.doc" wordmacrover="72">
+  <group name="ApiPpGeneral">
+    <types>
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" description="The following API files must be included." />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" description="The following API files must be included." />
+    </includefiles>
+    <macros>
+    </macros>
+    <mails>
+      <mail primitive="API_PP_GET_FW_VERSION_REQ" id="0x5200" direction="in" description="This command is used by the MMI to get the Firmware version of the unit." />
+      <mail primitive="API_PP_GET_FW_VERSION_CFM" id="0x5201" direction="out" description="This mail is used to confirm the API_PP_GET_FW_VERSION_REQ command." >
+        <parameter type="rsuint32" name="VersionHex" description="The Firmware version." />
+        <parameter type="rsuint8" name="LinkDate" constarraysize="5" description="The link date." />
+        <parameter type="ApiDectTypeType" name="DectType" description="Specifies whether this is unit is setup for EU or US DECT." />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="Possible Info elements:
+[API_IE_AVAILABLE_APIS]" />
+      </mail>
+      <mail primitive="API_PP_RESET_REQ" id="0x5202" direction="in" description="This mail is used by the MMI to request the API to do a SW reset. The API will reinitialize the unit and return an API_PP_RESET_IND when the API is ready to accept commands from the MMI again." />
+      <mail primitive="API_PP_RESET_IND" id="0x5203" direction="out" description="This mail is used by the API to indicate to the MMI that the API is ready to accept commands from the MMI." />
+      <mail primitive="API_PP_POWER_OFF_REQ" id="0x5204" direction="in" description="This mail is used by the MMI to request the API to power down the unit. 
+API_PP_POWER_OFF_REQ turns off the unit immediately. It doesn&apos;t return any cfm message." />
+      <mail primitive="API_PP_CRADLE_DETECT_REQ" id="0x5205" direction="in" description="This mail is used by the MMI to force the API to reply instantly with the cradle status (API_PP_BAT_CRADLE_IND)." />
+      <mail primitive="API_PP_CRADLE_DETECT_IND" id="0x5206" direction="out" description="This mail is used by the API to indicate the cradle status to the MMI.
+It is automatically send by the API at every change or instantly if requested by the API_PP_BAT_CRADLE_REQ" >
+        <parameter type="ApiCradleStatusType" name="ApiCradleStatus" description="The current status of the cradle" />
+      </mail>
+      <mail primitive="API_PP_SET_TIME_REQ" id="0x5207" direction="in" description="This mail is by the MMI to request the FP to set its real time clock to a specific timestamp, then distribute it to the registered PP&apos;s. This mail should only be sent if the ClockMaster in Dect System Settings List is set to PP, otherwise the entered time will not be set, and instead the time on the Fp will be distributed." >
+        <parameter type="ApiTimeDateCodingType" name="Coding" description="Describes if only date, time, or both should be set." />
+        <parameter type="ApiTimeDateInterpretationType" name="Interpretation" description="Describes the time stamp interpretation" />
+        <parameter type="ApiTimeDateCodeType" name="ApiTimeDateCode" description="The time stamp" />
+      </mail>
+      <mail primitive="API_PP_SET_TIME_CFM" id="0x5208" direction="out" description="This mail is used by the API to confirm the API_PP_SET_TIME_REQ command." >
+        <parameter type="RsStatusType" name="Status" description="Indicates whether the API_PP_SET_TIME_REQ was executed correctly or not.
+RsStatusType is defined in the ROS" />
+      </mail>
+      <mail primitive="API_PP_SYNC_TIME_REQ" id="0x520B" direction="in" description="This mail is by the MMI to request the FP to distribute the FP time to all registered PP&apos;s. This mail should only be sent if the ClockMaster in Dect System Settings List is set yo Fp" />
+      <mail primitive="API_PP_GET_TIME_REQ" id="0x5209" direction="in" description="This mail is by the MMI to request the API to return the current timestamp on the PP." />
+      <mail primitive="API_PP_GET_TIME_CFM" id="0x520A" direction="out" description="This mail is used by the API to confirm the API_PP_GET_TIME_REQ command.
+It holds the current time stamp." >
+        <parameter type="ApiTimeDateCodeType" name="ApiTimeDateCode" description="The time stamp" />
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

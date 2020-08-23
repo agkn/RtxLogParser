@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="Phoenix_API_GenEveNot.doc" wordmacrover="57">
+  <group name="ApiGenEveNot">
+    <types>
+      <typedef name="ApiGenAttachedHandsetsType" type="rsuint32" description="Specified as a bitfield with handset number 1 as bit no. 0." />
+      <enum name="ApiGenLineIdSubType" type="RSENUM8" description="This enum holds the different line identifier sub types" >
+        <member name="API_GEN_LINEIDSUB_EXT" value="0x00" description="Line identifier for external call" />
+        <member name="API_GEN_LINEIDSUB_RELATING_TO" value="0x03" description="Releating to" />
+        <member name="API_GEN_LINEIDSUB_ALL" value="0x04" description="All lines" />
+      </enum>
+      <enum name="ApiGenEveNotEventType" type="RSENUM8" description="This enum holds the different types of Generic Event Notifications" >
+        <member name="API_GEN_MESSAGE_WAITING" value="0x00" description="Voice message waiting notification type" />
+        <member name="API_GEN_MISSED_CALL" value="0x01" description="Missed call notification type" />
+        <member name="API_GEN_WEB_CONTENT" value="0x02" description="Web content notification type" />
+        <member name="API_GEN_LIST_CHANGE_IND" value="0x03" description="List change notification type" />
+        <member name="API_GEN_SW_UPGRADE_IND" value="0x04" description="Software upgrade indication" />
+        <member name="API_GEN_PROPREITARY" value="0x40" description="Propreitary event type. Properitary event types can be added as needed in the range [0x40 - 0x7F]" />
+      </enum>
+      <enum name="ApiGenEveNotMessageWaitingEventSubType" type="RSENUM8" description="This enum describes the event sub types to be used when the event is an API_GEN_MESSAGE_WAITING event." >
+        <member name="API_GEN_MWS_UNKNOWN" value="0x00" description="Unkown message subtype" />
+        <member name="API_GEN_MWS_VOICE_MESSAGE" value="0x01" description="Voice message subtype" />
+        <member name="API_GEN_MWS_SMS_MESSAGE" value="0x02" description="SMS message subtype" />
+        <member name="API_GEN_MWS_EMAIL_MESSAGE" value="0x03" description="E-mail message subtype" />
+        <member name="API_GEN_MWS_NO_SUBTYPE" value="0xFF" description="No message subtype" />
+      </enum>
+      <enum name="ApiGenEveNotMissedCallEventSubType" type="RSENUM8" description="This enum describes the event sub types to be used when the event is an API_GEN_MISSED_CALL event." >
+        <member name="API_GEN_MCS_UNKNOWN" value="0x00" description="Unknown missed call subtype" />
+        <member name="API_GEN_MCS_NEW_MISSED_CALL" value="0x01" description="New missed voice call arrived" />
+        <member name="API_GEN_MCS_LIST_MODIFIED" value="0x02" description="No new missed call, but number of unread entries may have changed" />
+        <member name="API_GEN_MCS_NO_SUBTYPE" value="0xFF" description="No missed call subtype" />
+      </enum>
+      <enum name="ApiGenEveNotWebContentEventSubType" type="RSENUM8" description="This enum describes the event sub types to be used when the event is an API_GEN_WEB_CONTENT event." >
+        <member name="API_GEN_WCS_UNKNOWN" value="0x00" description="Unknown web content subtype" />
+        <member name="API_GEN_WCS_RSS_DESCRIPTION" value="0x01" description="RSS description subtype" />
+        <member name="API_GEN_WCS_NO_SUBTYPE" value="0xFF" description="No web content subtype" />
+      </enum>
+      <enum name="ApiGenEveNotSwUpgradeEventSubType" type="RSENUM8" description="This enum describes the event sub types to be used when the event is an API_GEN_SW_UPGRADE_IND event." >
+        <member name="API_GEN_SWU_UNKNOWN" value="0x00" description="Unknown" />
+        <member name="API_GEN_SWU_FIRMWARE_UPGRADE" value="0x01" description="Firmware upgrade" />
+        <member name="API_GEN_SWU_PROPRIETARY" value="0x40" description="Reserved for proprietary upgrade codes" />
+      </enum>
+      <enum name="ApiGenEveNotLcEventType" type="RSENUM8" >
+        <member name="API_GEN_LC_EVENT_NEW" value="0x00" description="A new entry has been added to the list." />
+        <member name="API_GEN_LC_EVENT_MODIFY" value="0x01" description="An existing entry has been edited." />
+        <member name="API_GEN_LC_EVENT_DELETE" value="0x02" description="An entry has been deleted." />
+        <member name="API_GEN_LC_EVENT_RS_UNREAD" value="0x03" description="An entry has been marked as unread." />
+        <member name="API_GEN_LC_EVENT_RS_READ" value="0x04" description="An entry has been marked as read." />
+      </enum>
+      <struct name="ApiGenEveNotLcDataGeneralType" >
+        <member type="ApiIeType" name="EntryFields" vararraysize="rsuint8" vararraylengthname="LengthOfEntryFields" description="List of entry field ids that was modified" />
+      </struct>
+      <struct name="ApiGenEveNotLcDataDeleteType" >
+        <member type="ApiInfoElementType" name="ieBlockPtr" vararraysize="rsuint16" vararraylengthname="ieBlockLength" />
+      </struct>
+      <union name="ApiGenEveNotLcDataUnionType" >
+        <member type="ApiGenEveNotLcDataGeneralType" name="General" />
+        <member type="ApiGenEveNotLcDataDeleteType" name="Delete" />
+      </union>
+      <struct name="ApiGenEveNotListChangeAddDataType" >
+        <member type="ApiGenEveNotLcEventType" name="ListEventType" />
+        <member type="ApiLasEntryIdType" name="EntryIdentifier" description="EntryIdentifier of the entry that was modified (0 if entire list was modified)." />
+        <member type="ApiLasEntryIndexType" name="CurrentIndex" description="Current (new) index of the entry that was modified (0 if entire list was modified or an entry was deleted)." />
+        <member type="ApiGenEveNotLcDataUnionType" name="Data" />
+      </struct>
+      <struct name="ApiGenEveNotEventNotificationType" description="This type describes the actual event notification. It consists of an event type, one of the corresponding event subtypes and the event multiplicity which should be used to indicate how many unconsulted events of the specific type that is waiting." >
+        <member type="ApiGenEveNotEventType" name="EventType" description="The event notification type" />
+        <member type="rsuint8" name="EventSubType" description="The related event notification sub type." />
+        <member type="rsuint16" name="EventMultiplicity" description="The event multiplicity which indicates how many unconsulted events of the specific sub type that is waiting." />
+        <member type="rsuint8" name="Data" vararraysize="rsuint16" vararraylengthname="LengthOfData" description="Additional event data (Only available on Fp API)" />
+      </struct>
+      <struct name="ApiGenEveNotProprietaryEventNotificationType" description="This type describes the format of a Proprietary event notification." >
+        <member type="ApiGenEveNotEventType" name="EventType" description="The event notification type. All proprietary events shall be in the range [0x40 - 0x7F]." />
+        <member type="rsuint16" name="Discriminator" description="The discriminator field shall contain the EMC." />
+        <member type="rsuint8" name="Data" vararraysize="rsuint8" vararraylengthname="LengthOfData" description="Proprietary event data." />
+      </struct>
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" description="The following API configuration file must be included." />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" description="Include of common API types ." />
+      <includefile name="Phoenix/Api/Las/ApiLas.h" description="Include of LAS API types." />
+    </includefiles>
+    <macros>
+      <defines name="API_LINE_ID_INVALID 0xFF" description="Used as ApiLineIdType when the event is not related to any line." />
+    </macros>
+    <mails>
+      <mail primitive="API_FP_GENEVENOT_EVENT_REQ" id="0x5700" direction="in" description="This mail is sent from the FpApplication to sent a generic events notification." >
+        <parameter type="rsbool" name="EnableIndication" description="If TRUE then an API_GENEVENOT_EVENT_IND will be returned through the API." />
+        <parameter type="ApiGenLineIdSubType" name="LineIdSubType" description="The line identifier subtype of the line related to the event." />
+        <parameter type="rsuint8" name="LineIdValue" description="Range 0x00-0x7F
+API_LINE_ID_INVALID = 0xFF indicates that no line ID is added" />
+        <parameter type="ApiGenAttachedHandsetsType" name="AttachedHandsets" description="The clients (PP) to be notified of the event." />
+        <parameter type="rsuint8" name="EventNotificationCount" description="Number of event notifications in the mail." />
+        <parameter type="rsuint8" name="Data" vararraysize="rsuint16" vararraylengthname="LengthOfData" metatype="ApiGenEveNotEventNotificationType" description="Notification data. This shall be formatted as one or more ApiGenEveNotEventNotificationType or ApiGenEveNotProprietaryEventNotificationType." />
+      </mail>
+      <mail primitive="API_FP_GENEVENOT_EVENT_IND" id="0x5701" direction="out" description="This mail is used to inform the FpApplication when there is an events notification from the FP." >
+        <parameter type="ApiGenLineIdSubType" name="LineIdSubType" description="The line identifier subtype of the line related to the event" />
+        <parameter type="rsuint8" name="LineIdValue" description="Range 0x00-0x7F
+API_LINE_ID_INVALID = 0xFF indicates that no line ID is added" />
+        <parameter type="rsuint8" name="CountOfEvents" description="Number of event notifications in the mail" />
+        <parameter type="rsuint8" name="Data" vararraysize="rsuint16" vararraylengthname="LengthOfData" metatype="ApiGenEveNotEventNotificationType" description="Notification data. This shall be formatted as one or more ApiGenEveNotEventNotificationType or ApiGenEveNotProprietaryEventNotificationType." />
+      </mail>
+      <mail primitive="API_FP_GENEVENOT_PP_EVENT_IND" id="0x5702" direction="out" description="This mail is used to inform the FpApplication when there is an events notification sent from a PP." >
+        <parameter type="rsuint8" name="HandsetId" description="HandsetId of handset that sent the event." />
+        <parameter type="rsuint8" name="CountOfEvents" description="Number of event notifications in the mail" />
+        <parameter type="rsuint8" name="Data" vararraysize="rsuint16" vararraylengthname="LengthOfData" metatype="ApiGenEveNotEventNotificationType" description="Notification data. This shall be formatted as one or more ApiGenEveNotEventNotificationType or ApiGenEveNotProprietaryEventNotificationType." />
+      </mail>
+      <mail primitive="API_PP_GENEVENOT_EVENT_REQ" id="0x5703" direction="in" description="This mail is used to send a generic event notification from the PpApplication to the base." >
+        <parameter type="rsuint8" name="EventNotificationCount" description="Number of event notifications in the mail." />
+        <parameter type="rsuint8" name="Data" vararraysize="rsuint16" vararraylengthname="LengthOfData" metatype="ApiGenEveNotEventNotificationType" description="Notification data. This shall be formatted as one or more ApiGenEveNotEventNotificationType or ApiGenEveNotProprietaryEventNotificationType." />
+      </mail>
+      <mail primitive="API_PP_GENEVENOT_EVENT_IND" id="0x5704" direction="out" description="This mail is used to inform the PPApplication when there is an events notification from the FP." >
+        <parameter type="ApiGenLineIdSubType" name="LineIdSubType" description="The line identifier subtype of the line related to the event" />
+        <parameter type="rsuint8" name="LineIdValue" description="Range 0x00-0x7F
+API_LINE_ID_INVALID = 0xFF indicates that no line ID is added" />
+        <parameter type="rsuint8" name="CountOfEvents" description="Number of event notifications in the mail" />
+        <parameter type="rsuint8" name="Data" vararraysize="rsuint16" vararraylengthname="LengthOfData" metatype="ApiGenEveNotEventNotificationType" description="Notification data. This shall be formatted as one or more ApiGenEveNotEventNotificationType or ApiGenEveNotProprietaryEventNotificationType." />
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

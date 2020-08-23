@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="API_Nvs.doc" wordmacrover="74">
+  <group name="ApiNvs">
+    <types>
+      <struct name="ApiNvsSubscriptionDataType" description="Datatype for Subscription data (NonShadowEnrollDataType)" >
+        <member type="rsuint8" name="RFPI[5]" />
+        <member type="rsuint8" name="ServiceClass" />
+        <member type="rsuint8" name="LAL" />
+        <member type="rsuint8" name="IpuiLen" />
+        <member type="rsuint8" name="IPUI[13]" />
+        <member type="rsuint8" name="ZAP" />
+        <member type="rsuint8" name="Status" />
+        <member type="rsuint8" name="UAK[16]" />
+      </struct>
+      <enum name="ApiNvsIdType" type="RSENUM8" description="NVS ID?s Defines an entry in the NVS" >
+        <member name="NVS_ID_CODECT_TYPE_FOR_OUTGOING_CALL" value="0x00" />
+        <member name="NVS_ID_LINE_NO_OUTGOING_CALL" value="0x01" />
+        <member name="NVS_ID_ACTIVE_REGISTRATION" value="0x02" />
+        <member name="NVS_ID_ENROLL_FP0_ATTRIBUTES" value="0x03" />
+        <member name="NVS_ID_ENROLL_FP1_ATTRIBUTES" value="0x04" />
+        <member name="NVS_ID_ENROLL_FP2_ATTRIBUTES" value="0x05" />
+        <member name="NVS_ID_ENROLL_FP3_ATTRIBUTES" value="0x06" />
+        <member name="NVS_ID_ENROLL_FP4_ATTRIBUTES" value="0x07" />
+        <member name="NVS_ID_ENROLL_FP5_ATTRIBUTES" value="0x08" />
+        <member name="NVS_ID_ENROLL_FP6_ATTRIBUTES" value="0x09" />
+        <member name="NVS_ID_ENROLL_FP7_ATTRIBUTES" value="0x0A" />
+        <member name="NVS_ID_ENROLL_FP8_ATTRIBUTES" value="0x0B" />
+        <member name="NVS_ID_ENROLL_FP9_ATTRIBUTES" value="0x0C" />
+        <member name="NVS_ID_ENROLL_FP10_ATTRIBUTES" value="0x0D" />
+        <member name="NVS_ID_ENROLL_FP11_ATTRIBUTES" value="0x0E" />
+        <member name="NVS_ID_ENROLL_STATUS_FLAG_0" value="0x0F" />
+        <member name="NVS_ID_ENROLL_STATUS_FLAG_1" value="0x10" />
+        <member name="NVS_ID_ENROLL_STATUS_FLAG_2" value="0x11" />
+        <member name="NVS_ID_ENROLL_STATUS_FLAG_3" value="0x12" />
+        <member name="NVS_ID_ENROLL_STATUS_FLAG_4" value="0x13" />
+        <member name="NVS_ID_ENROLL_STATUS_FLAG_5" value="0x14" />
+        <member name="NVS_ID_ENROLL_STATUS_FLAG_6" value="0x15" />
+        <member name="NVS_ID_ENROLL_STATUS_FLAG_7" value="0x16" />
+        <member name="NVS_ID_ENROLL_STATUS_FLAG_8" value="0x17" />
+        <member name="NVS_ID_ENROLL_STATUS_FLAG_9" value="0x18" />
+        <member name="NVS_ID_ENROLL_STATUS_FLAG_10" value="0x19" />
+        <member name="NVS_ID_ENROLL_STATUS_FLAG_11" value="0x1A" />
+        <member name="NVS_ID_EARLY_ENCRYPTION_KEY_SUBS0" value="0x1B" />
+        <member name="NVS_ID_EARLY_ENCRYPTION_KEY_SUBS1" value="0x1C" />
+        <member name="NVS_ID_EARLY_ENCRYPTION_KEY_SUBS2" value="0x1D" />
+        <member name="NVS_ID_EARLY_ENCRYPTION_KEY_SUBS3" value="0x1E" />
+        <member name="NVS_ID_EARLY_ENCRYPTION_KEY_SUBS4" value="0x1F" />
+        <member name="NVS_ID_EARLY_ENCRYPTION_KEY_SUBS5" value="0x20" />
+        <member name="NVS_ID_EARLY_ENCRYPTION_KEY_SUBS6" value="0x21" />
+        <member name="NVS_ID_EARLY_ENCRYPTION_KEY_SUBS7" value="0x22" />
+        <member name="NVS_ID_EARLY_ENCRYPTION_KEY_SUBS8" value="0x23" />
+        <member name="NVS_ID_EARLY_ENCRYPTION_KEY_SUBS9" value="0x24" />
+        <member name="NVS_ID_EARLY_ENCRYPTION_KEY_SUBS10" value="0x25" />
+        <member name="NVS_ID_EARLY_ENCRYPTION_KEY_SUBS11" value="0x26" />
+        <member name="NVS_ID_EE_ENROLL_FP_ATTRIBUTES_ALL" value="0x27" />
+        <member name="NVS_ID_ENROLL_STATUS_FLAG_ALL" value="0x28" />
+        <member name="NVS_ID_EARLY_ENCRYPTION_KEY_ALL" value="0x29" />
+        <member name="NVS_ID_ENROLL_SUBS0" value="0x2A" />
+        <member name="NVS_ID_ENROLL_SUBS1" value="0x2B" />
+        <member name="NVS_ID_ENROLL_SUBS2" value="0x2C" />
+        <member name="NVS_ID_ENROLL_SUBS3" value="0x2D" />
+        <member name="NVS_ID_ENROLL_SUBS4" value="0x2E" />
+        <member name="NVS_ID_ENROLL_SUBS5" value="0x2F" />
+        <member name="NVS_ID_ENROLL_SUBS6" value="0x30" />
+        <member name="NVS_ID_ENROLL_SUBS7" value="0x31" />
+        <member name="NVS_ID_ENROLL_SUBS8" value="0x32" />
+        <member name="NVS_ID_ENROLL_SUBS9" value="0x33" />
+        <member name="NVS_ID_ENROLL_SUBS10" value="0x34" />
+        <member name="NVS_ID_ENROLL_SUBS11" value="0x35" />
+        <member name="NVS_ID_ERROR_LOG" value="0x36" />
+        <member name="NVS_ID_ASSERT_LOG" value="0x37" />
+        <member name="NVS_ID_PARK0" value="0x38" />
+        <member name="NVS_ID_PARK1" value="0x39" />
+        <member name="NVS_ID_PARK2" value="0x3A" />
+        <member name="NVS_ID_PARK3" value="0x3B" />
+        <member name="NVS_ID_PARK4" value="0x3C" />
+        <member name="NVS_ID_PARK5" value="0x3D" />
+        <member name="NVS_ID_PARK6" value="0x3E" />
+        <member name="NVS_ID_PARK7" value="0x3F" />
+        <member name="NVS_ID_PARK8" value="0x40" />
+        <member name="NVS_ID_PARK9" value="0x41" />
+        <member name="NVS_ID_PARK10" value="0x42" />
+        <member name="NVS_ID_PARK11" value="0x43" />
+        <member name="NVS_ID_PLI0" value="0x44" />
+        <member name="NVS_ID_PLI1" value="0x45" />
+        <member name="NVS_ID_PLI2" value="0x46" />
+        <member name="NVS_ID_PLI3" value="0x47" />
+        <member name="NVS_ID_PLI4" value="0x48" />
+        <member name="NVS_ID_PLI5" value="0x49" />
+        <member name="NVS_ID_PLI6" value="0x4A" />
+        <member name="NVS_ID_PLI7" value="0x4B" />
+        <member name="NVS_ID_PLI8" value="0x4C" />
+        <member name="NVS_ID_PLI9" value="0x4D" />
+        <member name="NVS_ID_PLI10" value="0x4E" />
+        <member name="NVS_ID_PLI11" value="0x4F" />
+        <member name="NVS_ID_ENROLL_SUBS0_RFPI" value="0x50" />
+        <member name="NVS_ID_ENROLL_SUBS0_SERVICE_CLASS" value="0x51" />
+        <member name="NVS_ID_ENROLL_SUBS0_LAL" value="0x52" />
+        <member name="NVS_ID_ENROLL_SUBS0_IPUI_LENGHT" value="0x53" />
+        <member name="NVS_ID_ENROLL_SUBS0_IPUI" value="0x54" />
+        <member name="NVS_ID_ENROLL_SUBS0_ZAP" value="0x55" />
+        <member name="NVS_ID_ENROLL_SUBS0_STATUS" value="0x56" />
+        <member name="NVS_ID_ENROLL_SUBS0_UAK	" value="0x57" />
+        <member name="NVS_ID_ENROLL_SUBS1_RFPI" value="0x58" />
+        <member name="NVS_ID_ENROLL_SUBS1_SERVICE_CLASS" value="0x59" />
+        <member name="NVS_ID_ENROLL_SUBS1_LAL" value="0x5A" />
+        <member name="NVS_ID_ENROLL_SUBS1_IPUI_LENGHT" value="0x5B" />
+        <member name="NVS_ID_ENROLL_SUBS1_IPUI" value="0x5C" />
+        <member name="NVS_ID_ENROLL_SUBS1_ZAP" value="0x5D" />
+        <member name="NVS_ID_ENROLL_SUBS1_STATUS" value="0x5E" />
+        <member name="NVS_ID_ENROLL_SUBS1_UAK	" value="0x5F" />
+        <member name="NVS_ID_ENROLL_SUBS2_RFPI" value="0x60" />
+        <member name="NVS_ID_ENROLL_SUBS2_SERVICE_CLASS" value="0x61" />
+        <member name="NVS_ID_ENROLL_SUBS2_LAL" value="0x62" />
+        <member name="NVS_ID_ENROLL_SUBS2_IPUI_LENGHT" value="0x63" />
+        <member name="NVS_ID_ENROLL_SUBS2_IPUI" value="0x64" />
+        <member name="NVS_ID_ENROLL_SUBS2_ZAP" value="0x65" />
+        <member name="NVS_ID_ENROLL_SUBS2_STATUS" value="0x66" />
+        <member name="NVS_ID_ENROLL_SUBS2_UAK	" value="0x67" />
+        <member name="NVS_ID_ENROLL_SUBS3_RFPI" value="0x68" />
+        <member name="NVS_ID_ENROLL_SUBS3_SERVICE_CLASS" value="0x69" />
+        <member name="NVS_ID_ENROLL_SUBS3_LAL" value="0x6A" />
+        <member name="NVS_ID_ENROLL_SUBS3_IPUI_LENGHT" value="0x6B" />
+        <member name="NVS_ID_ENROLL_SUBS3_IPUI" value="0x6C" />
+        <member name="NVS_ID_ENROLL_SUBS3_ZAP" value="0x6D" />
+        <member name="NVS_ID_ENROLL_SUBS3_STATUS" value="0x6E" />
+        <member name="NVS_ID_ENROLL_SUBS3_UAK	" value="0x6F" />
+        <member name="NVS_ID_ENROLL_SUBS4_RFPI" value="0x70" />
+        <member name="NVS_ID_ENROLL_SUBS4_SERVICE_CLASS" value="0x71" />
+        <member name="NVS_ID_ENROLL_SUBS4_LAL" value="0x72" />
+        <member name="NVS_ID_ENROLL_SUBS4_IPUI_LENGHT" value="0x73" />
+        <member name="NVS_ID_ENROLL_SUBS4_IPUI" value="0x74" />
+        <member name="NVS_ID_ENROLL_SUBS4_ZAP" value="0x75" />
+        <member name="NVS_ID_ENROLL_SUBS4_STATUS" value="0x76" />
+        <member name="NVS_ID_ENROLL_SUBS4_UAK	" value="0x77" />
+        <member name="NVS_ID_ENROLL_SUBS5_RFPI" value="0x78" />
+        <member name="NVS_ID_ENROLL_SUBS5_SERVICE_CLASS" value="0x79" />
+        <member name="NVS_ID_ENROLL_SUBS5_LAL" value="0x7A" />
+        <member name="NVS_ID_ENROLL_SUBS5_IPUI_LENGHT" value="0x7B" />
+        <member name="NVS_ID_ENROLL_SUBS5_IPUI" value="0x7C" />
+        <member name="NVS_ID_ENROLL_SUBS5_ZAP" value="0x7D" />
+        <member name="NVS_ID_ENROLL_SUBS5_STATUS" value="0x7E" />
+        <member name="NVS_ID_ENROLL_SUBS5_UAK	" value="0x7F" />
+        <member name="NVS_ID_ENROLL_SUBS6_RFPI" value="0x80" />
+        <member name="NVS_ID_ENROLL_SUBS6_SERVICE_CLASS" value="0x81" />
+        <member name="NVS_ID_ENROLL_SUBS6_LAL" value="0x82" />
+        <member name="NVS_ID_ENROLL_SUBS6_IPUI_LENGHT" value="0x83" />
+        <member name="NVS_ID_ENROLL_SUBS6_IPUI" value="0x84" />
+        <member name="NVS_ID_ENROLL_SUBS6_ZAP" value="0x85" />
+        <member name="NVS_ID_ENROLL_SUBS6_STATUS" value="0x86" />
+        <member name="NVS_ID_ENROLL_SUBS6_UAK	" value="0x87" />
+        <member name="NVS_ID_ENROLL_SUBS7_RFPI" value="0x88" />
+        <member name="NVS_ID_ENROLL_SUBS7_SERVICE_CLASS" value="0x89" />
+        <member name="NVS_ID_ENROLL_SUBS7_LAL" value="0x8A" />
+        <member name="NVS_ID_ENROLL_SUBS7_IPUI_LENGHT" value="0x8B" />
+        <member name="NVS_ID_ENROLL_SUBS7_IPUI" value="0x8C" />
+        <member name="NVS_ID_ENROLL_SUBS7_ZAP" value="0x8D" />
+        <member name="NVS_ID_ENROLL_SUBS7_STATUS" value="0x8E" />
+        <member name="NVS_ID_ENROLL_SUBS7_UAK	" value="0x8F" />
+        <member name="NVS_ID_ENROLL_SUBS8_RFPI" value="0x90" />
+        <member name="NVS_ID_ENROLL_SUBS8_SERVICE_CLASS" value="0x91" />
+        <member name="NVS_ID_ENROLL_SUBS8_LAL" value="0x92" />
+        <member name="NVS_ID_ENROLL_SUBS8_IPUI_LENGHT" value="0x93" />
+        <member name="NVS_ID_ENROLL_SUBS8_IPUI" value="0x94" />
+        <member name="NVS_ID_ENROLL_SUBS8_ZAP" value="0x95" />
+        <member name="NVS_ID_ENROLL_SUBS8_STATUS" value="0x96" />
+        <member name="NVS_ID_ENROLL_SUBS8_UAK	" value="0x97" />
+        <member name="NVS_ID_ENROLL_SUBS9_RFPI" value="0x98" />
+        <member name="NVS_ID_ENROLL_SUBS9_SERVICE_CLASS" value="0x99" />
+        <member name="NVS_ID_ENROLL_SUBS9_LAL" value="0x9A" />
+        <member name="NVS_ID_ENROLL_SUBS9_IPUI_LENGHT" value="0x9B" />
+        <member name="NVS_ID_ENROLL_SUBS9_IPUI" value="0x9C" />
+        <member name="NVS_ID_ENROLL_SUBS9_ZAP" value="0x9D" />
+        <member name="NVS_ID_ENROLL_SUBS9_STATUS" value="0x9E" />
+        <member name="NVS_ID_ENROLL_SUBS9_UAK	" value="0x9F" />
+        <member name="NVS_ID_ENROLL_SUBS10_RFPI" value="0xA0" />
+        <member name="NVS_ID_ENROLL_SUBS10_SERVICE_CLASS" value="0xA1" />
+        <member name="NVS_ID_ENROLL_SUBS10_LAL" value="0xA2" />
+        <member name="NVS_ID_ENROLL_SUBS10_IPUI_LENGHT" value="0xA3" />
+        <member name="NVS_ID_ENROLL_SUBS10_IPUI" value="0xA4" />
+        <member name="NVS_ID_ENROLL_SUBS10_ZAP" value="0xA5" />
+        <member name="NVS_ID_ENROLL_SUBS10_STATUS" value="0xA6" />
+        <member name="NVS_ID_ENROLL_SUBS10_UAK	" value="0xA7" />
+        <member name="NVS_ID_ENROLL_SUBS11_RFPI" value="0xA8" />
+        <member name="NVS_ID_ENROLL_SUBS11_SERVICE_CLASS" value="0xA9" />
+        <member name="NVS_ID_ENROLL_SUBS11_LAL" value="0xAA" />
+        <member name="NVS_ID_ENROLL_SUBS11_IPUI_LENGHT" value="0xAB" />
+        <member name="NVS_ID_ENROLL_SUBS11_IPUI" value="0xAC" />
+        <member name="NVS_ID_ENROLL_SUBS11_ZAP" value="0xAD" />
+        <member name="NVS_ID_ENROLL_SUBS11_STATUS" value="0xAE" />
+        <member name="NVS_ID_ENROLL_SUBS11_UAK	" value="0xAF" />
+        <member name="NVS_ID_LOG_FOS" value="0xB0" description="FOS Log" />
+        <member name="NVS_ID_LOG_ROS" value="0xB1" description="ROS Log" />
+        <member name="NVS_ID_LOG_STACK" value="0xB2" description="Stack log" />
+        <member name="NVS_ID_UNEXPECTED_REBOOT" value="0xB3" description="Unexpected reboot" />
+        <member name="NVS_ID_BROADCAST_GROUPS" value="0xB4" description="Broadcast group subscriptions" />
+        <member name="NVS_ID_SILENT_CHARGING" value="0xB5" description="Silent Charging" />
+        <member name="NVS_ID_HANDSET_NAME" value="0xB6" description="Handset Name" />
+        <member name="NVS_ID_PROXY_PASSWORD" value="0xB7" description="Proxy Password" />
+        <member name="NVS_ID_RUGGEDIZED_AUDIO" value="0xB8" description="Ruggedized echo handling" />
+        <member name="NVS_ID_SYSTEM_PROVIDER" value="0xB9" description="System Provider" />
+        <member name="NVS_ID_MMI_PROVIDER" value="0xBA" description="MMI Provider" />
+        <member name="NVS_ID_DEFAULT_LINE" value="0xBB" description="Default line used for outgoing call" />
+        <member name="NVS_ID_IPEI" value="0xBC" description="Handset IPEI" />
+        <member name="NVS_ID_BMC_DEFAULT_FREQUENCY" value="0xBD" description="BMC default frequency" />
+        <member name="NVS_ID_BANDGAP" value="0xBE" description="Bandgap" />
+        <member name="NVS_ID_PROTOCOL_FEATURES" value="0xBF" description="Protocol features 1" />
+        <member name="NVS_ID_PROTOCOL_FEATURES2" value="0xC0" description="Protocol features 2" />
+        <member name="NVS_ID_PROTOCOL_FEATURES3" value="0xC1" description="Protocol features 3" />
+        <member name="NVS_ID_PROTOCOL_FEATURES4" value="0xC2" description="Protocol features 4" />
+        <member name="NVS_ID_DIVERSITY_MODE" value="0xC3" description="Antenna Diversity Mode" />
+        <member name="NVS_ID_LAST_ID" value="0xC4" />
+      </enum>
+      <enum name="ApiNvsRsErrorIdType" type="RSENUM16" description="Copy of RsErrorIdType, Defines an ROS error." >
+        <member name="API_RSE_NONE" value="0x0000" />
+        <member name="API_RSE_BAD_TARGET_FAMILY" value="0x0001" />
+        <member name="API_RSE_BAD_TOOL_ID" value="0x0002" />
+        <member name="API_RSE_BAD_RTOS_ID" value="0x0003" />
+        <member name="API_RSE_BAD_ALIGN_SIZE" value="0x0004" />
+        <member name="API_RSE_ASSERT" value="0x0005" />
+        <member name="API_RSE_UNALIGNED_ADDRESS" value="0x0006" />
+        <member name="API_RSE_DUMMY_ISR" value="0x0007" />
+        <member name="API_RSE_INTERRUPTS_KILLED" value="0x0008" />
+        <member name="API_RSE_INTERRUPTS_HANG" value="0x0009" />
+        <member name="API_RSE_CALL_FROM_ISR" value="0x000A" />
+        <member name="API_RSE_BAD_CONFIG" value="0x000B" />
+        <member name="API_RSE_LICENSE_VIOLATION" value="0x000C" />
+        <member name="API_RSE_EXCEPTION_RES_00" value="0x0010" />
+        <member name="API_RSE_EXCEPTION_NMI_01" value="0x0011" />
+        <member name="API_RSE_EXCEPTION_RES_02" value="0x0012" />
+        <member name="API_RSE_EXCEPTION_RES_03" value="0x0013" />
+        <member name="API_RSE_EXCEPTION_RES_04" value="0x0014" />
+        <member name="API_RSE_EXCEPTION_SVC_05" value="0x0015" />
+        <member name="API_RSE_EXCEPTION_DVZ_06" value="0x0016" />
+        <member name="API_RSE_EXCEPTION_FLG_07" value="0x0017" />
+        <member name="API_RSE_EXCEPTION_BPT_08" value="0x0018" />
+        <member name="API_RSE_EXCEPTION_TRC_09" value="0x0019" />
+        <member name="API_RSE_EXCEPTION_UND_10" value="0x001A" />
+        <member name="API_RSE_EXCEPTION_RES_11" value="0x001B" />
+        <member name="API_RSE_EXCEPTION_IAD_12" value="0x001C" />
+        <member name="API_RSE_EXCEPTION_RES_13" value="0x001D" />
+        <member name="API_RSE_EXCEPTION_DBG_14" value="0x001E" />
+        <member name="API_RSE_EXCEPTION_ISE_15" value="0x001F" />
+        <member name="API_RSE_CM_STACK_00" value="0x0020" />
+        <member name="API_RSE_CM_RESET_01" value="0x0021" />
+        <member name="API_RSE_CM_NMI_02" value="0x0022" />
+        <member name="API_RSE_CM_HARDFAULT_03" value="0x0023" />
+        <member name="API_RSE_CM_MMU_04" value="0x0024" />
+        <member name="API_RSE_CM_BUSFAULT_05" value="0x0025" />
+        <member name="API_RSE_CM_USAGEFAULT_06" value="0x0026" />
+        <member name="API_RSE_CM_RES_07" value="0x0027" />
+        <member name="API_RSE_CM_RES_08" value="0x0028" />
+        <member name="API_RSE_CM_RES_09" value="0x0029" />
+        <member name="API_RSE_CM_RES_10" value="0x002A" />
+        <member name="API_RSE_CM_SVC_11" value="0x002B" />
+        <member name="API_RSE_CM_DEBUGMON_12" value="0x002C" />
+        <member name="API_RSE_CM_RES_13" value="0x002D" />
+        <member name="API_RSE_CM_PENDSV_14" value="0x002E" />
+        <member name="API_RSE_ROS_BAD_MAILQUEUE" value="0x0040" />
+        <member name="API_RSE_ROS_MAIL_QUEUE_FULL" value="0x0041" />
+        <member name="API_RSE_ROS_MAIL_TOO_SMALL" value="0x0042" />
+        <member name="API_RSE_ROS_MAIL_TOO_LARGE" value="0x0043" />
+        <member name="API_RSE_ROS_TAIL_OVERWRITE" value="0x0044" />
+        <member name="API_RSE_ROS_MAIL_DELIVER_MISMATCH" value="0x0045" />
+        <member name="API_RSE_ROS_MAIL_COUNT_MISMATCH" value="0x0046" />
+        <member name="API_RSE_ROS_QUEUE_SIZE_MISMATCH" value="0x0047" />
+        <member name="API_RSE_ROS_QUEUE_STALL_TIMEOUT" value="0x0048" />
+        <member name="API_RSE_ROS_TASK_MAP_NEEDED" value="0x0049" />
+        <member name="API_RSE_ROS_MAIL_WAS_MODIFIED" value="0x004A" />
+        <member name="API_RSE_ROS_TOO_MANY_GROUPS" value="0x004B" />
+        <member name="API_RSE_HEAP_BAD_ADDRESS" value="0x0050" />
+        <member name="API_RSE_HEAP_BAD_SIZE" value="0x0051" />
+        <member name="API_RSE_HEAP_BAD_HEADER" value="0x0052" />
+        <member name="API_RSE_HEAP_FREE_NULL" value="0x0053" />
+        <member name="API_RSE_HEAP_NOT_ALLOCATED" value="0x0054" />
+        <member name="API_RSE_HEAP_TAIL_OVERWRITE" value="0x0055" />
+        <member name="API_RSE_HEAP_EMPTY_OVERWRITE" value="0x0056" />
+        <member name="API_RSE_HEAP_BLOCK_COUNT_MISMATCH" value="0x0057" />
+        <member name="API_RSE_HEAP_SIZE_MISMATCH" value="0x0058" />
+        <member name="API_RSE_HEAP_FULL" value="0x0059" />
+        <member name="API_RSE_FOS_TOO_SMALL_STACK" value="0x0070" />
+        <member name="API_RSE_FOS_STACK_ERROR" value="0x0071" />
+        <member name="API_RSE_FOS_STACK_OVERFLOW" value="0x0072" />
+        <member name="API_RSE_PROJECT_0" value="0x0080" />
+        <member name="API_RSE_PROJECT_1" value="0x0081" />
+        <member name="API_RSE_PROJECT_2" value="0x0082" />
+        <member name="API_RSE_PROJECT_3" value="0x0083" />
+        <member name="API_RSE_PROJECT_4" value="0x0084" />
+        <member name="API_RSE_PROJECT_5" value="0x0085" />
+        <member name="API_RSE_PROJECT_6" value="0x0086" />
+        <member name="API_RSE_PROJECT_7" value="0x0087" />
+        <member name="API_RSE_PROJECT_8" value="0x0088" />
+        <member name="API_RSE_PROJECT_9" value="0x0089" />
+        <member name="API_RSE_INVALID" value="0xFFFF" />
+        <member name="API_RSE_MAX" value="API_RSE_INVALID" />
+      </enum>
+      <struct name="ApiNvsErrorLogType" description="Datatype for Error log data" >
+        <member type="ApiNvsRsErrorIdType" name="Error" />
+        <member type="rsuint16" name="Line" />
+        <member type="rsuint32" name="Info" />
+        <member type="rsuint32" name="Address" />
+        <member type="rsuint32" name="Timestamp" />
+      </struct>
+      <struct name="ApiNvsAssertLogType" description="Datatype for Assert log data" >
+        <member type="rsuint8" name="NextAssertId" />
+        <member type="rsuint32" name="AssertAddress[5]" />
+      </struct>
+      <enum name="ApiNvsSilentChargingType" type="RSENUM8" description="Datatype for Silent Charging" >
+        <member name="API_NVS_SILENT_CHARGING_MODE_OFF" value="0x00" />
+        <member name="API_NVS_SILENT_CHARGING_MODE_SILENCE" value="0x01" />
+        <member name="API_NVS_SILENT_CHARGING_MODE_DISCON" value="0x02" />
+        <member name="API_NVS_SILENT_CHARGING_NUMBER_OF_MODES" value="0x03" />
+      </enum>
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" description="Include of API configuration header." />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" description="Include of generic API types." />
+    </includefiles>
+    <macros>
+    </macros>
+    <mails>
+      <mail primitive="API_NVS_READ_REQ" id="0x43C0" direction="in" description="This command is used to read an area of NVS using an unique Id" >
+        <parameter type="ApiNvsIdType" name="NvsId" description="Unique Id of NVS area" />
+      </mail>
+      <mail primitive="API_NVS_READ_CFM" id="0x43C1" direction="out" description="This command replies to a read command using  unique Id" >
+        <parameter type="ApiNvsIdType" name="NvsId" description="Unique Id of NVS area" />
+        <parameter type="rsuint8" name="Data" vararraysize="rsuint16" vararraylengthname="DataLength" description="Return read NVS values" />
+      </mail>
+      <mail primitive="API_NVS_WRITE_REQ" id="0x43C2" direction="in" description="This command is used to write data to an area of NVS using an unique Id" >
+        <parameter type="ApiNvsIdType" name="NvsId" description="Unique Id of NVS area" />
+        <parameter type="rsuint8" name="Data" vararraysize="rsuint16" vararraylengthname="DataLength" description="Return read NVS values" />
+      </mail>
+      <mail primitive="API_NVS_WRITE_CFM" id="0x43C3" direction="out" description="This command replies to a write command using  unique Id" >
+        <parameter type="ApiNvsIdType" name="NvsId" description="Unique Id of NVS area" />
+        <parameter type="rsbool" name="Status" description="TRUE indicates the command succeeded and FALSE  not succeeded" />
+      </mail>
+      <mail primitive="API_NVS_WRITE_IND" id="0x43C4" direction="out" description="This command indicates a write of data to an area of NVS using an unique Id" >
+        <parameter type="ApiNvsIdType" name="NvsId" description="Unique Id of NVS area" />
+        <parameter type="rsuint8" name="Data" vararraysize="rsuint16" vararraylengthname="DataLength" description="Return read NVS values" />
+      </mail>
+      <mail primitive="API_NVS_WRITE_RES" id="0x43C5" direction="in" description="This command replies to a write indication using  unique Id" >
+        <parameter type="ApiNvsIdType" name="NvsId" description="Unique Id of NVS area" />
+        <parameter type="RsStatusType" name="Status" description="Status on the API_NVS_WRITE_REQ" />
+      </mail>
+      <mail primitive="API_NVS_RESET_TO_DEFAULT_REQ" id="0x43C6" direction="in" description="This command resets the NVS to default" >
+        <parameter type="rsbool" name="FactoryDefault" description="True for FactoryDefault" />
+      </mail>
+      <mail primitive="API_NVS_RESET_TO_DEFAULT_CFM" id="0x43C7" direction="out" description="This confirms that the NVS has been restored to default" >
+        <parameter type="RsStatusType" name="Status" description="Status on the API_NVS_DEFAULT" />
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

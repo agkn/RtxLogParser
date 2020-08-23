@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="Phoenix_API_LDS.doc" wordmacrover="59">
+  <group name="ApiLds">
+    <types>
+      <typedef name="ApiLdsDeviceIdType" type="rsuint8" description="This type is used to hold a device id." />
+      <typedef name="ApiLdsPortNumberType" type="rsuint32" description="This type is used to hold a port number." />
+      <enum name="ApiLdsSduStateType" type="RSENUM8" description="This enum identifies the SDU state for the data stored in a TX/RX buffer." >
+        <member name="ALSS_SDU_COMPLETE" value="0x00" description="The SDU is not fragmented." />
+        <member name="ALSS_SDU_FIRST_FRAGMENT" value="0x01" description="First fragment of the SDU." />
+        <member name="ALSS_SDU_CONTINUATION_FRAGMENT" value="0x02" description="Continuation fragment of the SDU." />
+        <member name="ALSS_SDU_LAST_FRAGMENT" value="0x03" description="Last fragment of the SDU." />
+      </enum>
+      <enum name="ApiLdsDataInterfaceType" type="RSENUM8" description="This enum defines the data interfaces supported by the LDS API." >
+        <member name="ALDI_MAIL_INTERFACE" value="0x00" description="The SDU data is sent in mails between the application and the application. This option should be used if the API and the application are implemented on two different systems (e.g. CVM and MCU)." />
+        <member name="ALDI_MEMORY_INTERFACE" value="0x01" description="The SDU data is passed between the API and the application by direct copy from memory to memory. Functions are used to obtain the buffers for RX and TX data." />
+      </enum>
+      <enum name="ApiLdsEventType" type="RSENUM8" description="This enum identifies the events that can be signaled by the event callback function." >
+        <member name="ALEV_TX_DONE" value="0x00" description="The TX buffer specified has been sent and the application can now free/reuse the buffer." />
+        <member name="ALEV_TX_READY" value="0x01" description="Generated if the LU10 is ready to handle more data and no data is pending for TX in the LDS API." />
+        <member name="ALEV_RX_READY" value="0x02" description="One or more RX buffers are ready for the application." />
+      </enum>
+      <struct name="ApiLdsTxDoneEventParameterType" description="This struct holds the event parameters for the ALEV_TX_DONE event." >
+        <member type="ApiLdsDeviceIdType" name="DeviceId" description="The device id of the remote device." />
+        <member type="ApiLdsPortNumberType" name="Port" description="The port number." />
+        <member type="RsStatusType" name="Status" description="RSS_SUCCESS if the data buffer was sent successfully." />
+        <member type="rsuint8" name="*BufferPtr" description="Pointer to buffer sent." />
+        <member type="rsuint16" name="Size" description="The actual number of bytes sent." />
+      </struct>
+      <struct name="ApiLdsTxReadyEventParameterType" description="This struct holds the event parameters for the ALEV_TX_READY event." >
+        <member type="ApiLdsDeviceIdType" name="DeviceId" description="The device id of the remote device." />
+      </struct>
+      <struct name="ApiLdsRxReadyEventParameterType" description="This struct holds the event parameters for the ALEV_RX_READY event." >
+        <member type="ApiLdsDeviceIdType" name="DeviceId" description="The device id of the remote device." />
+        <member type="ApiLdsPortNumberType" name="Port" description="The port number." />
+        <member type="RsStatusType" name="Status" description="RSS_SUCCESS if the data is received OK
+RSS_BAD_DATA if an error has been detected. The application must discard the entire SDU." />
+      </struct>
+      <union name="ApiLdsEventParameterType" description="This union holds the event parameters." >
+        <member type="ApiLdsTxDoneEventParameterType" name="TxDone" description="Parameter for ALEV_TX_DONE." />
+        <member type="ApiLdsTxReadyEventParameterType" name="TxReady" description="Parameter for ALEV_TX_READY." />
+        <member type="ApiLdsRxReadyEventParameterType" name="RxReady" description="Parameter for ALEV_RX_READY." />
+      </union>
+      <typedef name="(*ApiLdsEventCbType)( ApiLdsEventType Event, ApiLdsEventParameterType *ParameterPtr)" type="rsbool" description="This type is used to hold a pointer to the callback function used to signal RX/TX buffer availability.
+For the ALEV_RX_READY event, the application my return FALSE to suspend receive. Receive can be resumed using ApiLdsResume()." />
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" description="Include of API configuration." />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" description="Include of common API types." />
+    </includefiles>
+    <macros>
+    </macros>
+    <mails>
+      <mail primitive="API_LDS_OPEN_REQ" id="0x4800" direction="in" description="This mail is used from the application to open a data connection to a remote device. A virtual call setup is initiated if this is the first data connection between the two devices, or a new instance is created in case a data connection has been established prior to sending this mail. 
+
+Please note that one instance only can exist on the connection between the two devices if class 3 or 4 is used." >
+        <parameter type="ApiLdsDeviceIdType" name="DeviceId" description="The device id of the remote device.
+Set to 0 if connection is requested by a PP connecting to a FP. 
+Set to handset id if connection is requested from FP to PP." />
+        <parameter type="ApiLdsPortNumberType" name="Port" description="The port number used. Must be 1079 for class 3/4." />
+        <parameter type="ApiCcBasicServiceType" name="BasicService" description="Class 4 only is supported in the current implementation." />
+        <parameter type="ApiLdsDataInterfaceType" name="DataInterface" description="Specifies whether SDU data is exchanged between the API and the application in mails or by direct memory access." />
+        <parameter type="ApiLdsEventCbType" name="Callback" description="Pointer to call back function used when the direct memory based data interface is used. Set to NULL if mail based data interface is used." />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="Reserved for future extension of the API." />
+      </mail>
+      <mail primitive="API_LDS_OPEN_CFM" id="0x4801" direction="out" description="This mail is sent to the application when the data connection has been created or if the data connection has been rejected." >
+        <parameter type="ApiLdsDeviceIdType" name="DeviceId" description="The device id of the remote device." />
+        <parameter type="ApiLdsPortNumberType" name="Port" description="The port number used." />
+        <parameter type="RsStatusType" name="Status" description="Indicates whether the call is accepted or not by the remote device." />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="Reserved for future extension of the API." />
+      </mail>
+      <mail primitive="API_LDS_OPEN_IND" id="0x4802" direction="out" description="This mail is sent to the application when the creation of a data connection has been requested by the remote device. The application can respond with API_LDS_OPEN_RES with either RSS_SUCCESS to accept the data connection or RSS_REJECTED reject the call is accepted." >
+        <parameter type="ApiLdsDeviceIdType" name="DeviceId" description="The id of the remote device. 0 if the remote device is a FP and handset id if the remote device is a PP." />
+        <parameter type="ApiLdsPortNumberType" name="Port" description="The port number used. 1079 for class 3/4." />
+        <parameter type="ApiCcBasicServiceType" name="BasicService" description="Class 4 is supported only." />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="Reserved for future extension of the API." />
+      </mail>
+      <mail primitive="API_LDS_OPEN_RES" id="0x4803" direction="in" description="This mail is used from the application to accept an incoming data connection and connect the U-Plane." >
+        <parameter type="ApiLdsDeviceIdType" name="DeviceId" description="The device id of the remote device." />
+        <parameter type="ApiLdsPortNumberType" name="Port" description="The port number used." />
+        <parameter type="RsStatusType" name="Status" description="Indicates whether the call is accepted or not. RSS_REJECTED is used to indicate that the call is rejected by the user / host and RSS_SUCCESS is used to indicate that the virtual call is accepted." />
+        <parameter type="ApiLdsDataInterfaceType" name="DataInterface" description="Specifies whether SDU data is exchanged between the API and the application in mails or by direct memory access." />
+        <parameter type="ApiLdsEventCbType" name="Callback" description="Pointer to call back function. Can be used when the application and the API are implemented in the same memory space and the mail based data interface is not used. Set to NULL if not used." />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="Reserved for future extension of the API." />
+      </mail>
+      <mail primitive="API_LDS_CLOSE_REQ" id="0x4804" direction="in" description="This mail is used from the application to close the data connection specified. The virtual call is release when all data connection instances have been released. Setting the Instance parameter to 0 will request the API to release all instances and release the virtual call." >
+        <parameter type="ApiLdsDeviceIdType" name="DeviceId" description="The device id of the remote device." />
+        <parameter type="ApiLdsPortNumberType" name="Port" description="The port number used." />
+        <parameter type="ApiCcReleaseReasonType" name="Reason" description="Release reason." />
+      </mail>
+      <mail primitive="API_LDS_CLOSE_CFM" id="0x4805" direction="out" description="This mail is sent to the application when the data connection has been closed." >
+        <parameter type="ApiLdsDeviceIdType" name="DeviceId" description="The device id of the remote device." />
+        <parameter type="ApiLdsPortNumberType" name="Port" description="The port number used." />
+      </mail>
+      <mail primitive="API_LDS_CLOSE_IND" id="0x4806" direction="out" description="This mail is sent to the application when the data connection has been released by the remote device." >
+        <parameter type="ApiLdsDeviceIdType" name="DeviceId" description="The device id of the remote device." />
+        <parameter type="ApiLdsPortNumberType" name="Port" description="The port number used." />
+        <parameter type="ApiCcReleaseReasonType" name="Reason" description="Release reason." />
+      </mail>
+      <mail primitive="API_LDS_REJECT_REQ" id="0x4807" direction="in" description="This mail is used from the application to e.g. reject an incoming data connection." >
+        <parameter type="ApiLdsDeviceIdType" name="DeviceId" description="The device id of the remote device." />
+        <parameter type="ApiLdsPortNumberType" name="Port" description="The port number used." />
+        <parameter type="ApiCcReleaseReasonType" name="Reason" description="Reject reason." />
+      </mail>
+      <mail primitive="API_LDS_REJECT_IND" id="0x4808" direction="out" description="This mail is sent to the application if e.g. the setup has been rejected by the remote device." >
+        <parameter type="ApiLdsDeviceIdType" name="DeviceId" description="The device id of the remote device." />
+        <parameter type="ApiLdsPortNumberType" name="Port" description="The port number used." />
+        <parameter type="ApiCcReleaseReasonType" name="Reason" description="Reject reason.	" />
+      </mail>
+      <mail primitive="API_LDS_TX_READY_IND" id="0x4820" direction="out" description="This mail is used by the LDS API to inform the APP when it is ready to handle TX data. This mail is sent right after data connection setup to inform the application when the API is ready to handle TX data." >
+        <parameter type="ApiLdsDeviceIdType" name="DeviceId" description="The device id of the remote device." />
+      </mail>
+      <mail primitive="API_LDS_TX_DATA_REQ" id="0x4821" direction="in" description="This mail is used by the application to send a SDU or fragment of a SDU to the remote device. Fragmentation of SDU?s are supported to reduce the over all buffer requirements. Fragmentation of SDU?s on this level should be used carefully as it is not possible to send another SDU before all fragments of a SDU has been sent!" >
+        <parameter type="ApiLdsDeviceIdType" name="DeviceId" description="The device id of the remote device." />
+        <parameter type="ApiLdsPortNumberType" name="Port" description="The port number." />
+        <parameter type="ApiLdsSduStateType" name="SduState" description="Indicates if the mail contains:
+A complete SDU.
+First fragment of the SDU.
+Continuation fragment of the SDU.
+Last fragment of the SDU." />
+        <parameter type="rsbool" name="More" description="Used as followed if the chopping option is used:
+FALSE: This is the last segment (or the only one) of an application packet.
+TRUE: The next segment of the same application packet follows in next SDU 
+Should be set to FALSE (0) if chopping is not used." />
+        <parameter type="rsuint8" name="SequenceNumber" description="Set to 0 for the first time this mail is sent and incremented by one for subsequent mails. Used to detect missing TX data fragments due to e.g. TX buffer overrun." />
+        <parameter type="rsuint8" name="Data" vararraysize="rsuint16" vararraylengthname="DataLength" description="The SDU data." />
+      </mail>
+      <mail primitive="API_LDS_TX_DATA_CFM" id="0x4822" direction="out" description="This mail is sent by the API when the TX data has been queued for TX or if the TX buffer is full. The API will send API_LDS_TX_READY_IND once a TX buffer is available again in case a negative CFM is sent back to the application because the TX buffer is full." >
+        <parameter type="ApiLdsDeviceIdType" name="DeviceId" description="The device id of the remote device." />
+        <parameter type="ApiLdsPortNumberType" name="Port" description="The port number." />
+        <parameter type="RsStatusType" name="Status" description="Indicates the result of the request:
+RSS_SUCCESS if the data is queued
+RSS_NO_MEMORY if the TX buffer in the device is full.
+RSS_BAD_DATA if the SequenceNumer parameter of the request is different from the one expected.
+RSS_NOT_SUPPORTED if the mail based data interface is not selected during the connection establishment." />
+        <parameter type="rsuint8" name="SequenceNumber" description="The sequence number from the request that this mails confirms." />
+      </mail>
+      <mail primitive="API_LDS_RX_DATA_IND" id="0x4823" direction="out" description="This mail is used by the API to send data received to the application. The RX data is removed from the RX buffer in the LDS API once this mail is sent. It is the responsibility of the application to insure that the RX data is handled." >
+        <parameter type="ApiLdsDeviceIdType" name="DeviceId" description="The device id of the remote device." />
+        <parameter type="ApiLdsPortNumberType" name="Port" description="The port number." />
+        <parameter type="RsStatusType" name="Status" description="Indicates the whether the RX data is valid:
+RSS_SUCCESS if the data is received OK
+RSS_BAD_DATA if an error has been detected. The application must discard the entire SDU." />
+        <parameter type="ApiLdsSduStateType" name="SduState" description="Indicates if the mail contains:
+A complete SDU.
+First fragment of the SDU.
+Continuation fragment of the SDU.
+Last fragment of the SDU." />
+        <parameter type="rsbool" name="More" description="Used as followed if the chopping option is used:
+FALSE: This is the last segment (or the only one) of an application packet.
+TRUE: The next segment of the same application packet follows in next SDU 
+Set to FALSE (0) if chopping is not used." />
+        <parameter type="rsuint8" name="SequenceNumber" description="Set to 0 for the first time this mail is sent on the connection and incremented by one for subsequent mails." />
+        <parameter type="rsuint8" name="Data" vararraysize="rsuint16" vararraylengthname="DataLength" description="The SDU data." />
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

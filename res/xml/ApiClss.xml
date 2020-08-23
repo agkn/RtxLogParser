@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="Phoenix_API_CLSS.docx" wordmacrover="62">
+  <group name="ApiClss">
+    <types>
+      <typedef name="ApiClssDeviceIdType" type="rsuint8" description="This type is used to hold a device id." />
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" description="The following API files must be included." />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" />
+    </includefiles>
+    <macros>
+    </macros>
+    <mails>
+      <mail primitive="API_CLSS_REQ" id="0x5C40" direction="in" description="This mail is used by the MMI to send a FACILITY message." >
+        <parameter type="ApiClssDeviceIdType" name="DeviceId" description="Id of the destination" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the format:
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task searches through the info data package to search for the requested elements and pick out the info data.
+
+Possible Info elements:
+API_IE_PROPRIETARY
+API_IE_IWU_TO_IWU" />
+      </mail>
+      <mail primitive="API_CLSS_IND" id="0x5C41" direction="out" description="This mail is used to inform the MMI of a FACILITY message." >
+        <parameter type="ApiClssDeviceIdType" name="DeviceId" description="Id of the source." />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Info elements:
+API_IE_PROPRIETARY
+API_IE_IWU_TO_IWU" />
+      </mail>
+      <mail primitive="API_CLSS_SET_IWU_TO_IWU_REQ" id="0x5C42" direction="in" description="This mail is used by the Host to inform the API which API_IE_IWU_TO_IWU it wants to receive. The mail must be sent for each IwuProtocolDiscriminator to be received.
+This setting is common for all handsets." >
+        <parameter type="ApiProtocolDiscriminatorType" name="IwuProtocolDiscriminator" description="IWU protocol discriminator." />
+      </mail>
+      <mail primitive="API_CLSS_SET_IWU_TO_IWU_CFM" id="0x5C43" direction="out" description="This mail is used by the MMI to initiate a CISS connection." >
+        <parameter type="RsStatusType" name="Status" description="Indicates whether the API_CLSS_SET_IWU_TO_IWU_REQ was executed correctly or not.
+RsStatusType is defined in the ROS" />
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

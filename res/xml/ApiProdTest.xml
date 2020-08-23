@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="Phoenix_API_ProdTest.doc" wordmacrover="59">
+  <group name="ApiProdTest">
+    <types>
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" description="The following API files must be included." />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" />
+    </includefiles>
+    <macros>
+    </macros>
+    <mails>
+      <mail primitive="API_PROD_TEST_REQ" id="0x4FFE" direction="in" description="This mail is used by the MCU to send a Production test command to the unit" >
+        <parameter type="rsuint16" name="Opcode" description="Op-code identifying the HW test command." />
+        <parameter type="rsuint8" name="Parameters" vararraysize="rsuint16" vararraylengthname="ParameterLength" description="Optional parameters." />
+      </mail>
+      <mail primitive="API_PROD_TEST_CFM" id="0x4FFF" direction="out" description="This mail is used to confirm the API_PROD_TEST_REQ command and return requested parameters" >
+        <parameter type="rsuint16" name="Opcode" description="Op-code identifying the HW test command." />
+        <parameter type="rsuint8" name="Parameters" vararraysize="rsuint16" vararraylengthname="ParameterLength" description="Optional parameters." />
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

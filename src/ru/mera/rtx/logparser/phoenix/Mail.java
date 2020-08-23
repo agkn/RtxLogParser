@@ -28,9 +28,8 @@ public class Mail {
 
     public void print(Context aContext, ByteBuffer aByteBuffer, int aIndent) {
         PrintStream out = aContext.out();
-        aContext.out().println();
         aContext.outIndent(aIndent);
-        out.printf("# %s\n%s (%s)\n", mDescription, mPrimitive, mId);
+        out.printf("# %s\nMail: %s (%s)", mDescription, mPrimitive, mId);
         for(TypeField f: mMembers) {
             f.print(aContext, aByteBuffer, aIndent + Type.INDENT);
         }

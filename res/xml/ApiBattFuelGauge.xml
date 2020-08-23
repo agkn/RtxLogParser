@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="API_BattFuelGauge.doc" wordmacrover="68">
+  <group name="ApiBattFuelGauge">
+    <types>
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" description="Include of API configuration header." />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" description="Include of generic API types." />
+    </includefiles>
+    <macros>
+      <defines name="API_BAT_NUM_OF_LEVEL_INDICATIONS 3" value="Numbers of the capacity level indications." />
+    </macros>
+    <mails>
+      <mail primitive="API_BATT_FUELGAUGE_READ_REQ" id="0x43F0" direction="in" description="This command is used to read the actual Battery capacity" >
+      </mail>
+      <mail primitive="API_BATT_FUELGAUGE_READ_CFM" id="0x43F1" direction="out" description="This command replies to a read command with actual used capacity." >
+        <parameter type="rsint32" name="BatteryCapacity" description="0 = fully charged. This value counts down from 0. One tick down = 14nAh used capacity. 
+(example: Value of -370000 = 5.18 mAh discharged battery)" />
+        <parameter type="rsint32" name="BatteryVoltage" description="Calculated ideal battery voltage in mV. Set to 0 if calculations cannot be performed ( not enough data while HS startups)" />
+        <parameter type="rsint32" name="BatteryCurrent" description="Average current (in mA) used in the last 5 sec." />
+      </mail>
+      <mail primitive="API_BATT_FULLY_CHARGED_REQ" id="0x43F2" direction="in" description="This command is used to clear the counters to 0 ( fully charged )" >
+      </mail>
+      <mail primitive="API_BATT_INDICATION_SETUP_REQ" id="0x43F3" direction="in" description="This command setup levels, for when the API_BATT_INDICATION_IND should be sent" >
+        <parameter type="rsint32" name="CapacityLevel" constarraysize="API_BAT_NUM_OF_LEVEL_INDICATIONS" description="0 = no indications. 3 levels for capacity can be set. Set level to 0 to clear the level indication. 
+(Capacity example: 10% left indication for a 1100mAH battery = (1100e-3*0.9)/-14e-9 = -70714286)" />
+        <parameter type="rsint32" name="VoltageLevel" description="0 = no indication. Level for voltage can be set in mV. Set level to 0 to clear the level indication." />
+      </mail>
+      <mail primitive="API_BATT_INDICATION_IND" id="0x43F4" direction="out" description="This command indicates a level indication is reached. Only sent when battery is discharged." >
+        <parameter type="rsint32" name="CapacityLevel" description="Last measured battery capacity." />
+        <parameter type="rsint32" name="BattVoltage" description="Calculated ideal battery voltage in mV. Set to 0 if calculations cannot be performed ( not enough data while HS startups)" />
+        <parameter type="rsuint8" name="LevelIndex" description="Index from the setup request message which reached the capacity or voltage level.
+If the voltage level is reached the index is set to the value of API_BAT_NUM_OF_LEVEL_INDICATIONS." />
+      </mail>
+      <mail primitive="API_BATT_FORCE_FUELGAUGE_LEVEL_REQ" id="0x43F5" direction="in" description="This command forces the battery capacity counter to a specific level." >
+        <parameter type="rsint32" name="CapacityLevel" description="Battery capacity to be set." />
+      </mail>
+      <mail primitive="API_BATT_FUELGAUGE_DEBUG_IND" id="0x43F6" direction="out" description="." >
+        <parameter type="rsint32" name="ActualCapacityMeasurement" />
+        <parameter type="rsint32" name="ActualCalcBattVoltage" />
+        <parameter type="rsint32" name="CalcVoltageOffset" />
+        <parameter type="rsint32" name="AvrAdcVoltageDebug" />
+        <parameter type="rsint32" name="MaxAdcVoltageDebug" />
+        <parameter type="rsint32" name="MinAdcVoltageDebug" />
+        <parameter type="rsint32" name="DiffCapacityDebug" />
+        <parameter type="rsint32" name="BatteryCurrent" />
+        <parameter type="rsint32" name="DiffTime" />
+        <parameter type="rsint32" name="suggestedIR_Adjust" />
+        <parameter type="rsint32" name="adjustIR" />
+        <parameter type="rsuint8" name="chargeState" />
+        <parameter type="rsuint8" name="SOC" />
+        <parameter type="rsint32" name="SumBattVolt" />
+        <parameter type="rsuint16" name="SampleCnt" />
+        <parameter type="rsint32" name="TotalTicks" />
+      </mail>
+      <mail primitive="API_BATT_FUELGAUGE_DEBUG_REQ" id="0x43F7" direction="in" description="Starts sending of API_BATT_FUELGAUGE_DEBUG_IND" >
+        <parameter type="rsbool" name="Enable" description="Enable/Disable sending of API_BATT_FUELGAUGE_DEBUG_IND" />
+      </mail>
+      <mail primitive="API_BATT_FUELGAUGE_LEVEL_REQ" id="0x43F8" direction="in" description="Send battery info from Application to ApiBattFuelgauge." >
+        <parameter type="rsuint8" name="EstimatedPercent" description="Estimated battery percent" />
+        <parameter type="rsbool" name="InCradle" description="Whether HS is in cradle" />
+        <parameter type="rsbool" name="ChargerConnected" description="Whether HS is connected to charger" />
+        <parameter type="rsbool" name="PcConnected" description="Wheter HS is connected to a PC" />
+      </mail>
+      <mail primitive="API_BATT_FUELGAUGE_SHUTDOWN_REQ" id="0x43F9" direction="in" description="This command is used to indicate eminent shutdown of the platform." >
+      </mail>
+      <mail primitive="API_BATT_FUELGAUGE_SHUTDOWN_CFM" id="0x43FA" direction="out" description="This command replies to a shutdown request" >
+      </mail>
+      <mail primitive="API_BATT_SOC_READ_REQ" id="0x43FB" direction="in" description="This command is used to read the actual Battery State of Charge" >
+      </mail>
+      <mail primitive="API_BATT_SOC_READ_CFM" id="0x43FC" direction="out" description="This command replies to a read command with actual used capacity." >
+        <parameter type="rsint8" name="SOC" description="State of charge (0-100%)" />
+        <parameter type="rsint32" name="BatteryCapacity" description="0 = fully charged. This value counts down from 0. One tick down = 14nAh used capacity. 
+(example: Value of -370000 = 5.18 mAh discharged battery)" />
+        <parameter type="rsint32" name="BatteryVoltage" description="Calculated ideal battery voltage in mV. Set to 0 if calculations cannot be performed ( not enough data while HS startups)" />
+        <parameter type="rsint32" name="BatteryCurrent" description="Average current (in mA) used in the last 5 sec." />
+        <parameter type="rsint32" name="IR_adjust" description="Internal state which is the current adjustment of voltage offset" />
+        <parameter type="rsint32" name="tickAdjustment" description="Internal state used for adjusting tick count to match calculated SOC" />
+        <parameter type="rsuint16" name="Status" description="Bit 0..7:min block samplecount
+Bit 8: Voltage drop detected
+Bit 9: Discharge slope limited" />
+      </mail>
+      <mail primitive="API_BATT_SOC_CONFIGURE_REQ" id="0x43FD" direction="out" description="This command is used for transferring SOC related configuration data from ARM to SITEL" >
+        <parameter type="rsuint16" name="BatteryCapacity_mAh" description="The battery capacity in mAh" />
+        <parameter type="rsuint16" name="BatteryEmpty_mV" description="Battery empty voltage (0% left) in mV" />
+        <parameter type="rsuint16" name="BatteryLow_mV" description="Battery low voltage level. Tied to BatteryLow_pct below." />
+        <parameter type="rsuint8" name="BatteryLow_pct" description="Battery low % level. An interrupt is issued at this point." />
+        <parameter type="rsuint8" name="BatteryCritical_pct" description="When reaching this level, an interrupt is issued!" />
+      </mail>
+      <mail primitive="API_BATT_DBG_REQ" id="0x43FE" direction="in" description="This command is used for pinging debug information and statistical data" >
+        <parameter type="rsuint16" name="ID" description="If not 0, indicates the explicit ID to read. Otherwise the next available is returned!" />
+      </mail>
+      <mail primitive="API_BATT_DBG_CFM" id="0x43FF" direction="out" description="This command is used for transferring debug information and statistical data" >
+        <parameter type="rsuint16" name="ID" description="ID of data return value. 0 Indicate END OF DATA." />
+        <parameter type="rsint32" name="Data" description="Data." />
+        <parameter type="rsint32" name="ExtData" description="If applicable may contain additional 32 bit data." />
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

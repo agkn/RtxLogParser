@@ -1,0 +1,757 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="SwNwkRp.doc" wordmacrover="75">
+  <group name="ISwNwkRp">
+    <types>
+      <enum name="RpIeEnum" type="RSENUM8" description="RTX Proprietary Information Element Type definition" >
+        <member name="RP_IE_CLIP" value="0x0" description="Internal use." />
+        <member name="RP_IE_DST_CALLER_ID" value="0x1" description="Internal use." />
+        <member name="RP_IE_APP_DATA" value="0x2" description="Internal use.
+Used for Proxy data." />
+        <member name="RP_IE_CHANGE_BASIC_SERVICE" value="0x13" associatedtype="RpChangeBasicServiceType" description="Associated type: RpChangeBasicServiceType" />
+        <member name="RP_IE_BABYMONITOR" value="0x20" associatedtype="RpBabymonitorType" description="Associated type: RpBabymonitorType" />
+        <member name="RP_IE_LOCAL_EDITOR_START" value="0x20" associatedtype="RpLocalEditorStartType" description="Associated type: RpLocalEditorStartType" />
+        <member name="RP_IE_SIP_DISPLAY_NAME" value="0x21" associatedtype="RpSIPDisplayNameType." description="Associated type: RpSIPDisplayNameType." />
+        <member name="RP_IE_LOCAL_EDITOR_ANSWER" value="0x21" associatedtype="RpLocalEditorAnswerType" description="Associated type: RpLocalEditorAnswerType" />
+        <member name="RP_IE_SIP_NUMBER" value="0x22" associatedtype="RpSIPNumberType" description="Associated type: RpSIPNumberType" />
+        <member name="RP_IE_COUNTRY" value="0x23" associatedtype="RpCountryType" description="Associated type: RpCountryType" />
+        <member name="RP_IE_PBX_FEATURES" value="0x24" associatedtype="RpPBXFeatureType" description="Associated type: RpPBXFeatureType" />
+        <member name="RP_IE_PROVIDER" value="0x25" associatedtype="RpProviderType" description="Associated type: RpProviderType" />
+        <member name="RP_IE_TAM" value="0x26" associatedtype="ApiTamCmdType" description="Associated type: ApiTamCmdType" />
+        <member name="RP_IE_FW_VERSION" value="0x27" associatedtype="RpFwVersionType" description="Associated type: RpFwVersionType" />
+        <member name="RP_IE_SYS_PROVIDER" value="0x28" associatedtype="RpProviderType" description="Associated type: RpProviderType" />
+        <member name="RP_IE_FW_BRANCH" value="0x29" associatedtype="RpFwBranchType" description="Associated type: RpFwBranchType" />
+        <member name="RP_IE_ACCOUNT_STATUS_TXT" value="0x2A" associatedtype="RpAccountStatusTxtType" description="Associated type: RpAccountStatusTxtType" />
+        <member name="RP_IE_FEATURE_PACK_STATUS" value="0x2B" associatedtype="RpFeaturePackStatusType" description="Associated type: RpFeaturePackStatusType" />
+        <member name="RP_IE_RSSI_MEASUREMENT" value="0x2C" associatedtype="RpRssiMeasurementType" description="Associated type: RpRssiMeasurementType" />
+        <member name="RP_IE_PP_STATUS" value="0x2D" associatedtype="RpPpStatusType" description="Associated type: RpPpStatusType" />
+        <member name="RP_IE_PP_ERROR_LOG" value="0x2E" associatedtype="RpErrorLogType" description="Associated type: RpErrorLogType" />
+        <member name="RP_IE_REPEATER_FEATURES" value="0x30" associatedtype="RpRepeaterFeatureType" description="Associated type: RpRepeaterFeatureType" />
+        <member name="RP_IE_SYSLOG" value="0x31" associatedtype="RpSysLogFeatureType" description="Associated type: RpSysLogFeatureType" />
+        <member name="RP_IE_GROUP_CALL" value="0x32" associatedtype="RpGroupCallType" description="Associated type: RpGroupCallType" />
+        <member name="RP_IE_FP_MENUS" value="0x3C" associatedtype="RpFpMenusType" description="Associated type: RpFpMenusType" />
+        <member name="RP_IE_NUMBER_INFO" value="0x3D" associatedtype="RpNumberInfoType" description="Associated type: RpNumberInfoType" />
+        <member name="RP_IE_FP_ID" value="0x40" associatedtype="RpFpIdType" description="Associated type: RpFpIdType" />
+        <member name="RP_IE_FP_COMPLETE_ID" value="0x41" associatedtype="RpFpCompleteIdType" description="Associated type: RpFpCompleteIdType" />
+        <member name="RP_IE_FP_CONFIG_DATA" value="0x42" associatedtype="RpFpConfigDataType" description="Associated type: RpFpConfigDataType" />
+        <member name="RP_IE_HW_VERSION" value="0x43" associatedtype="RpHwVersionType" description="Associated type: RpHwVersionType" />
+        <member name="RP_IE_PROP_RELEASE_CAUSE" value="0x44" associatedtype="RpPropReleaseType" description="Associated type: RpPropReleaseType" />
+        <member name="RP_IE_NOTIFY_STATUS" value="0x45" associatedtype="RpStatusNotifyMsgType" description="Associated type: RpStatusNotifyMsgType" />
+        <member name="RP_IE_PHB_READ_REQ" value="0x46" associatedtype="RpPhbReadReqType" description="Associated type: RpPhbReadReqType" />
+        <member name="RP_IE_PHB_READ_CFM" value="0x47" associatedtype="RpPhbReadCfmType" description="Associated type: RpPhbReadCfmType" />
+        <member name="RP_IE_PHB_WRITE_REQ" value="0x48" associatedtype="RpPhbWriteReqType" description="Associated type: RpPhbWriteReqType" />
+        <member name="RP_IE_PHB_WRITE_CFM" value="0x49" associatedtype="RpPhbWriteCfmType" description="Associated type: RpPhbWriteCfmType" />
+        <member name="RP_IE_FWU_INFO" value="0xBA" associatedtype="FwuDeviceInfoType
+See: " description="Associated type: FwuDeviceInfoType
+See: Include/Fwu/FwuProtocol.h" />
+        <member name="RP_IE_CUSTOM_DATA" value="0xBB" associatedtype="RpCustomDataType" description="Associated type: RpCustomDataType" />
+        <member name="RP_IE_CALLSTATS_INFO" value="0xBC" associatedtype="RpPpCallStatsType" description="Associated type: RpPpCallStatsType" />
+        <member name="RP_IE_PUSH_TO_TALK" value="0xBD" associatedtype="RpPushToTalkType" description="Associated type: RpPushToTalkType" />
+        <member name="RP_IE_HS_SCRIPT_CMD" value="0xBE" associatedtype="RpPpScriptCmdType" description="Associated type: RpPpScriptCmdType" />
+        <member name="RP_IE_HS_SCRIPT_LOAD" value="0xBF" associatedtype="RpPpScriptLoadType" description="Associated type: RpPpScriptLoadType" />
+        <member name="RP_IE_SCA_STATUS" value="0xA0" associatedtype="RpScaStatusType" description="Associated type: RpScaStatusType" />
+        <member name="RP_IE_SCA_CMD" value="0xA1" associatedtype="RpScaCmdType" description="Associated type: RpScaCmdType" />
+        <member name="RP_IE_FWU_LINKDATES" value="0xA2" associatedtype="RpFwuLinkdatesType" description="Associated type: RpFwuLinkdatesType" />
+        <member name="RP_IE_BLF_STATUS" value="0xA3" associatedtype="RpBlfStatusType" description="Associated type: RpBlfStatusType" />
+        <member name="RP_IE_PTT_CONFERENCE_CMD" value="0xA4" associatedtype="RpPttConferenceType" description="Associated type: RpPttConferenceType" />
+        <member name="RP_IE_PUSH_TO_TALK_GROUP" value="0xA6" description="Use RpPushToTalkGroupType" />
+        <member name="RP_IE_MESSAGE_CMD" value="0xC0" associatedtype="RpMessageType" description="Associated type: RpMessageType" />
+        <member name="RP_IE_MAX" value="0xFF" />
+      </enum>
+      <typedef name="RpIeType" type="rsuint8" />
+      <struct name="RpInfoElementType" >
+        <member type="RpIeEnum" name="Id" description="Info Element Identification" />
+        <member type="rsuint8" name="IeData" vararraysize="rsuint8" vararraylengthname="IeLength" description="The Info Data (InfoLength number of bytes)." />
+      </struct>
+      <struct name="RpBabymonitorType" >
+        <member type="rsuint8" name="Data" description="Baby monitor data" />
+      </struct>
+      <struct name="RpSIPDisplayNameType" description="Length of SIP display name is given in IeLength" >
+        <member type="rsuint8" name="SIPDisplayName[1]" description="SIP display name" />
+      </struct>
+      <struct name="RpSIPNumberType" description="Length of SIP number is given in IeLength" >
+        <member type="rsuint8" name="SIPNumber[1]" description="SIP number" />
+      </struct>
+      <struct name="RpAccountStatusTxtType" description="Length of account s status is given in IeLength" >
+        <member type="rsuint8" name="AccountStatus[1]" description="Account status" />
+      </struct>
+      <enum name="RpFeatureFwdType" type="RSENUM8" description="Feature Package forward type" >
+        <member name="RP_FEATURE_FWD_NO_FWD" value="0x00" />
+        <member name="RP_FEATURE_FWD_IMMEDIATE" value="0x01" />
+        <member name="RP_FEATURE_FWD_BUSY" value="0x02" />
+        <member name="RP_FEATURE_FWD_NO_ANS" value="0x03" />
+        <member name="RP_FEATURE_FWD_MAX" value="0x04" />
+      </enum>
+      <struct name="RpFeaturePackStatusType" description="Used to inform handset about Broadsoft Feature 
+Package status" >
+        <member type="rsbool" name="FeatPackEnabled" />
+        <member type="rsbool" name="DndOn" />
+        <member type="rsbool" name="FwdOn" />
+        <member type="RpFeatureFwdType" name="FwdType" />
+        <member type="rsuint8" name="RingCnt" />
+        <member type="rsuint8" name="FwdToUri[1]" />
+      </struct>
+      <struct name="RpCountryType" >
+        <member type="rsuint8" name="Country" description="Country variant" />
+      </struct>
+      <struct name="RpProviderType" description="Use to set system and MMI provider of PP" >
+        <member type="rsuint8" name="SystemProvider" description="System Provider" />
+        <member type="rsuint8" name="MMIProvider" description="MMI Provider" />
+      </struct>
+      <struct name="RpFwVersionType" description="Used to inform about Firmware Version" >
+        <member type="rsuint16" name="FwVersion" description="Firmware Version" />
+      </struct>
+      <struct name="RpFwBranchType" description="Used to inform about Firmware Branch Version" >
+        <member type="rsuint16" name="FwBranch" description="Firmware Branch Version" />
+      </struct>
+      <typedef name="RpHwVersionType" type="rsuint16" description="Used to inform about Hardware Version" />
+      <struct name="RpErrorLogType" description="Used to inform about handset errors" >
+        <member type="ErrorLogType" name="LogError" />
+        <member type="AssertLogType" name="LogAssert" />
+      </struct>
+      <struct name="RpRssiMeasurementClassicType" description="Used to inform about visible RPNs (Classic mode: 8 bit per RPN)" >
+        <member type="rsuint8" name="Rpn" />
+        <member type="rsuint8" name="RssiValue" />
+        <member type="rsuint8" name="Reserved" />
+      </struct>
+      <struct name="RpRssiMeasurementVlsType" description="Used to inform about visible RPNs (VLS mode: 12 bit per RPN)" >
+        <member type="rsuint8" name="RpnMsb" />
+        <member type="rsuint8" name="RpnLsb" />
+        <member type="rsuint8" name="RssiValue" />
+        <member type="rsuint8" name="Reserved" />
+      </struct>
+      <union name="RpRssiMeasurementType" description="Used to inform about handset errors" >
+        <member type="RpRssiMeasurementClassicType" name="Classic" />
+        <member type="RpRssiMeasurementVlsType" name="Vls" />
+      </union>
+      <struct name="RpPpStatusType" description="Used to inform about handset status" >
+        <member type="rsuint8" name="Data" vararraysize="rsuint8" vararraylengthname="Length" />
+      </struct>
+      <enum name="RpPBXMessageType" type="RSENUM8" description="Messages available with PBX features" >
+        <member name="RP_MESSAGE_LED" value="0x00" associatedtype="RpLEDType" description="Associated type: RpLEDType" />
+        <member name="RP_MESSAGE_KEY_PRESS" value="0x01" associatedtype="RpKeysType" description="Associated type: RpKeysType" />
+        <member name="RP_MESSAGE_RINGER_TONE" value="0x02" associatedtype="RpRingerToneType" description="Associated type: RpRingerToneType" />
+        <member name="RP_MESSAGE_STIMULUS_MODE" value="0x03" associatedtype="RpStimulusModeType" description="Associated type: RpStimulusModeType" />
+        <member name="RP_MESSAGE_AUTO_HOOK_OFF" value="0x04" associatedtype="RpAutoOffHookType" description="Associated type: RpAutoOffHookType" />
+        <member name="RP_MESSAGE_HOLD_CONF" value="0x05" associatedtype="RpHoldConferenceType" description="Associated type: RpHoldConferenceType" />
+        <member name="RP_MESSAGE_AUTO_HOOK_ON" value="0x06" associatedtype="RpAutoOnHookType" description="Associated type: RpAutoOnHookType" />
+        <member name="RP_MESSAGE_CALL_ON_HOLD" value="0x07" associatedtype="RpCallOnHoldType" description="Associated type: RpCallOnHoldType" />
+        <member name="RP_MESSAGE_ACKNOWLEDGE" value="0x08" associatedtype="RpAcknowledgetype" description="Associated type: RpAcknowledgetype" />
+        <member name="RP_MESSAGE_HOLD_XFER" value="0x09" associatedtype="RpHoldXferType" description="Associated type: RpHoldXferType" />
+        <member name="RP_MESSAGE_LAMP" value="0x0A" associatedtype="RpLampType" description="Associated type: RpLampType" />
+        <member name="RP_MESSAGE_RINGER_STATE" value="0x0B" associatedtype="RpRingerStateType" description="Associated type: RpRingerStateType" />
+        <member name="RP_MESSAGE_INDICATION_TONE" value="0x0C" associatedtype="RpIndicationToneType" description="Associated type: RpIndicationToneType" />
+        <member name="RP_MESSAGE_TERMBACKLITCTRL" value="0x0D" associatedtype="RpTermBacklitCtrlType" description="Associated type: RpTermBacklitCtrlType" />
+        <member name="RP_MESSAGE_DOOR_BELL" value="0x0E" />
+        <member name="RP_MESSAGE_CTI_CALL" value="0x0F" />
+        <member name="RP_MESSAGE_SIP_LOGIN" value="0x10" />
+        <member name="RP_MESSAGE_SIP_LOGOUT" value="0x11" />
+        <member name="RP_MESSAGE_SIP_STATUS" value="0x12" associatedtype="RpSipStatusType" description="Associated type: RpSipStatusType" />
+        <member name="RP_MESSAGE_SRTP_STATUS" value="0x13" associatedtype="RpSrtpStatusType" description="Associated type: RpSrtpStatusType" />
+        <member name="RP_MESSAGE_CONF_STATUS" value="0x14" associatedtype="RpConfStatusType" description="Associated type: RpConfStatusType" />
+        <member name="RP_MESSAGE_MAX" />
+      </enum>
+      <struct name="RpPBXFeatureType" description="Generic PBX feature type." >
+        <member type="RpPBXMessageType" name="Message" description="Denotes message type" />
+        <member type="rsuint8" name="Data[1]" description="The Data (IeLength number of bytes)." />
+      </struct>
+      <enum name="RpLEDNumberType" type="RSENUM8" description="LED number" >
+        <member name="RP_LED_NUMBER_1" value="0x00" />
+        <member name="RP_LED_NUMBER_2" value="0x01" />
+        <member name="RP_LED_NUMBER_3" value="0x02" />
+        <member name="RP_LED_NUMBER_4" value="0x03" />
+        <member name="RP_LED_NUMBER_MAX" />
+      </enum>
+      <enum name="RpLEDStatusType" type="RSENUM8" description="LED status" >
+        <member name="RP_LED_STATUS_OFF" value="0x00" />
+        <member name="RP_LED_STATUS_STEADY" value="0x01" />
+        <member name="RP_LED_STATUS_WINK" value="0x02" />
+        <member name="RP_LED_STATUS_SLOW_FLASH" value="0x03" />
+        <member name="RP_LED_STATUS_RAPIT_WINK" value="0x04" />
+        <member name="RP_LED_STATUS_BURST_WINK" value="0x05" />
+        <member name="RP_LED_STATUS_INTERRUPTED_WINK" value="0x06" />
+        <member name="RP_LED_STATUS_INTERRUPTED_LIT" value="0x07" />
+        <member name="RP_LED_STATUS_MAX" />
+      </enum>
+      <struct name="RpLEDType" >
+        <member type="RpLEDNumberType" name="LEDNumber" description="LED number" />
+        <member type="RpLEDStatusType" name="LEDStatus" description="LED status" />
+      </struct>
+      <enum name="RpKeyNumberType" type="RSENUM8" description="Key pressed" >
+        <member name="RP_KEY_PROG_NUMBER_1" value="0x00" description="The 4 keys at the bottom" />
+        <member name="RP_KEY_PROG_NUMBER_2" value="0x01" />
+        <member name="RP_KEY_PROG_NUMBER_3" value="0x02" />
+        <member name="RP_KEY_PROG_NUMBER_4" value="0x03" />
+        <member name="RP_KEY_DIGIT_NUMBER_0" value="0x04" description="Digit keys" />
+        <member name="RP_KEY_DIGIT_NUMBER_1" value="0x05" />
+        <member name="RP_KEY_DIGIT_NUMBER_2" value="0x06" />
+        <member name="RP_KEY_DIGIT_NUMBER_3" value="0x07" />
+        <member name="RP_KEY_DIGIT_NUMBER_4" value="0x08" />
+        <member name="RP_KEY_DIGIT_NUMBER_5" value="0x09" />
+        <member name="RP_KEY_DIGIT_NUMBER_6" value="0x0A" />
+        <member name="RP_KEY_DIGIT_NUMBER_7" value="0x0B" />
+        <member name="RP_KEY_DIGIT_NUMBER_8" value="0x0C" />
+        <member name="RP_KEY_DIGIT_NUMBER_9" value="0x0D" />
+        <member name="RP_KEY_DIGIT_POUND" value="0x0E" description="Pound" />
+        <member name="RP_KEY_DIGIT_ASTERISK" value="0x0F" description="Asterisk (star)" />
+        <member name="RP_KEY_SKEY_NUMBER_1" value="0x10" description="Soft keys" />
+        <member name="RP_KEY_SKEY_NUMBER_2" value="0x11" />
+        <member name="RP_KEY_SKEY_NUMBER_3" value="0x12" />
+        <member name="RP_KEY_SKEY_NUMBER_4" value="0x13" />
+        <member name="RP_KEY_SKEY_EXIT" value="0x14" />
+        <member name="RP_KEY_HOOK_OFF" value="0x15" />
+        <member name="RP_KEY_HOOK_ON" value="0x16" />
+        <member name="RP_KEY_HOLD" value="0x17" />
+        <member name="RP_KEY_CONF" value="0x18" />
+        <member name="RP_KEY_XFER" value="0x19" />
+        <member name="RP_KEY_NUMBER_MAX" />
+      </enum>
+      <struct name="RpKeysType" >
+        <member type="RpKeyNumberType" name="KeyNumber" vararraysize="rsuint8" vararraylengthname="Length" description="Key numbers" />
+      </struct>
+      <enum name="RpRingerToneNumberType" type="RSENUM8" description="Ringer tone number" >
+        <member name="RP_RINGER_TONE_NUMBER_0" value="0x00" />
+        <member name="RP_RINGER_TONE_NUMBER_1" value="0x01" />
+        <member name="RP_RINGER_TONE_NUMBER_2" value="0x02" />
+        <member name="RP_RINGER_TONE_NUMBER_3" value="0x03" />
+        <member name="RP_RINGER_TONE_NUMBER_4" value="0x04" />
+        <member name="RP_RINGER_TONE_NUMBER_5" value="0x05" />
+        <member name="RP_RINGER_TONE_NUMBER_6" value="0x06" />
+        <member name="RP_RINGER_TONE_NUMBER_7" value="0x07" />
+        <member name="RP_RINGER_TONE_NUMBER_MAX" />
+      </enum>
+      <struct name="RpRingerToneType" >
+        <member type="RpRingerToneNumberType" name="RingerTone" description="Select ringer tone" />
+      </struct>
+      <enum name="RpRingerControlStateType" type="RSENUM8" description="Ringer state" >
+        <member name="RP_RINGER_STATE_OFF" value="0x00" />
+        <member name="RP_RINGER_STATE_ON" value="0x01" />
+        <member name="RP_RINGER_STATE_MAX" />
+      </enum>
+      <struct name="RpRingerControlType" description="Controls the ringer state of the PP" >
+        <member type="RpRingerControlStateType" name="RingerState" description="Select ringer State" />
+      </struct>
+      <enum name="RpEnterStimulusModeType" type="RSENUM8" >
+        <member name="RP_STIMULUS_MODE_LEAVED" value="0x00" />
+        <member name="RP_STIMULUS_MODE_ENTERED" value="0x01" />
+        <member name="RP_STIMULUS_MODE_MAX" />
+      </enum>
+      <struct name="RpStimulusModeType" >
+        <member type="RpEnterStimulusModeType" name="Mode" description="Stimulus mode changed" />
+      </struct>
+      <enum name="RpAutoOffHookModeType" type="RSENUM8" >
+        <member name="RP_AUTO_OFF_HOOK_INCOMING_CALL" value="0x00" />
+        <member name="RP_AUTO_OFF_HOOK_OUTGOING_CALL" value="0x01" />
+        <member name="RP_AUTO_OFF_HOOK_MAX" />
+      </enum>
+      <struct name="RpAutoOffHookType" >
+        <member type="RpAutoOffHookModeType" name="Mode" description="Auto Off-hook mode" />
+        <member type="rsuint8" name="DialNumber" vararraysize="rsuint8" vararraylengthname="DialNumberLength" description="Number to dial" />
+      </struct>
+      <enum name="RpPbxHoldModeType" type="RSENUM8" >
+        <member name="RP_PBX_HOLD_INITIATED" value="0x00" />
+        <member name="RP_PBX_HOLD_CANCELLED" value="0x01" />
+        <member name="RP_PBX_HOLD_MAX" />
+      </enum>
+      <struct name="RpPbxHoldType" >
+        <member type="RpPbxHoldModeType" name="Mode" />
+      </struct>
+      <enum name="RpAutoOnHookModeType" type="RSENUM8" >
+        <member name="RP_AUTO_ON_HOOK_NORMAL" value="0x00" />
+        <member name="RP_AUTO_ON_HOOK_MAX" />
+      </enum>
+      <struct name="RpAutoOnHookType" >
+        <member type="RpAutoOnHookModeType" name="Mode" description="Auto On-hook mode" />
+      </struct>
+      <enum name="RpCallOnHoldModeType" type="RSENUM8" >
+        <member name="RP_CALL_ON_HOLD_INITIATED" value="0x00" />
+        <member name="RP_CALL_ON_HOLD_RETRIEVED" value="0x01" />
+        <member name="RP_CALL_ON_HOLD_MAX" />
+      </enum>
+      <struct name="RpCallOnHoldType" >
+        <member type="RpCallOnHoldModeType" name="Mode" description="Call on hold mode" />
+      </struct>
+      <enum name="RpAcknowledgeAnswerType" type="RSENUM8" >
+        <member name="RP_ACKNOWLEDGE_NOT_OK" value="0x00" />
+        <member name="RP_ACKNOWLEDGE_OK" value="0x01" />
+        <member name="RP_ACKNOWLEDGE_UNKNOWN_MESSAGE" value="0x02" />
+        <member name="RP_ACKNOWLEDGE_MAX" />
+      </enum>
+      <struct name="RpAcknowledgeType" >
+        <member type="RpPBXMessageType" name="Message" description="The message type to acknowledge" />
+        <member type="RpAcknowledgeAnswerType" name="Answer" />
+      </struct>
+      <enum name="RpMultidisplayCodingType" type="RSENUM8" description="Coding types of multidisplay, defining lines and softkeys" >
+        <member name="RP_MD_DISPLAYLINE1" value="0xA0" description="Displayline 1" />
+        <member name="RP_MD_DISPLAYLINE2" value="0xA1" description="Displayline 2" />
+        <member name="RP_MD_DISPLAYLINE3" value="0xA2" description="Displayline 3" />
+        <member name="RP_MD_DISPLAYLINE4" value="0xA3" description="Displayline 4" />
+        <member name="RP_MD_SKEY1" value="0xA4" description="Softkey 1" />
+        <member name="RP_MD_SKEY2" value="0xA5" description="Softkey 2" />
+        <member name="RP_MD_SKEY3" value="0xA6" description="Softkey 3" />
+        <member name="RP_MD_SKEY4" value="0xA7" description="Softkey 4" />
+        <member name="RP_MD_SKEY_EXIT" value="0xA8" description="Softkey exit" />
+        <member name="RP_MD_MAX" />
+      </enum>
+      <enum name="RpIndicationToneStateType" type="RSENUM8" description="Tone to play" >
+        <member name="RP_IND_TONE_NONE" value="0x00" description="No tone" />
+        <member name="RP_IND_TONE_DIAL" value="0x01" />
+        <member name="RP_IND_TONE_RINGBACK" value="0x02" />
+        <member name="RP_IND_TONE_BUSY" value="0x03" />
+        <member name="RP_IND_TONE_CALL_WAITING" value="0x04" />
+        <member name="RP_IND_TONE_ON_HOLD" value="0x05" />
+        <member name="RP_IND_TONE_CONFERENCE" value="0x06" />
+        <member name="RP_IND_TONE_MSG_WAITING" value="0x07" />
+        <member name="RP_IND_TONE_INTERCEPT" value="0x08" />
+        <member name="RP_IND_TONE_BUSY_RING" value="0x09" />
+        <member name="RP_IND_TONE_MAX" />
+      </enum>
+      <struct name="RpIndicationToneType" description="Used for controlling handset indication tone" >
+        <member type="RpIndicationToneStateType" name="State" description="Status of the Tone" />
+      </struct>
+      <struct name="RpTermBacklitCtrlType" description="Used for controlling backlight" >
+        <member type="rsbool" name="Backlit" description="Status of the Backlight" />
+        <member type="rsbool" name="Instantly" description="Change Rate" />
+      </struct>
+      <enum name="RpLampStateType" type="RSENUM8" description="Lamp status (Handset Top LED)" >
+        <member name="RP_LAMP_OFF" value="0x00" description="Status of the Lamp" />
+        <member name="RP_LAMP_SLOW_FLASH" value="0x01" />
+        <member name="RP_LAMP_WINK" value="0x02" />
+        <member name="RP_LAMP_RAPID_WINK" value="0x03" />
+        <member name="RP_LAMP_BURST_WINK" value="0x04" />
+        <member name="RP_LAMP_INTERRUPTED_LIT" value="0x05" />
+        <member name="RP_LAMP_INTERRUPTED_WINK" value="0x06" />
+        <member name="RP_LAMP_STEADY" value="0x07" />
+        <member name="RP_LAMP_MAX" />
+      </enum>
+      <struct name="RpLampType" description="Used for controlling handset top led" >
+        <member type="RpLampStateType" name="Status" description="Status of the Lamp" />
+      </struct>
+      <enum name="RpSipStateType" type="RSENUM8" description="Possible SIP state values for handset" >
+        <member name="RP_SIP_STATUS_LOGGED_OUT" value="0x00" />
+        <member name="RP_SIP_STATUS_LOGGED_IN" value="0x01" />
+        <member name="RP_SIP_STATUS_MAX" />
+      </enum>
+      <struct name="RpSipStatusType" description="Used for requesting the state of the handset from the base (either logged in or logged out)" >
+        <member type="RpSipStateType" name="Status" description="Status of the handset" />
+      </struct>
+      <struct name="RpSrtpStatusType" description="Used for reporting the state of the VOIP Audio connection (RTP/SRTP) from the base" >
+        <member type="rsbool" name="SecureRTP" description="Status of the RTP negotiation" />
+      </struct>
+      <enum name="RpFpMenuIdType" type="RSENUM8" description="Enumeration for available FP (remote) menus" >
+        <member name="RP_FP_MENU_ID_CENTRAL_DIR" value="0x31" />
+      </enum>
+      <struct name="RpFpMenusType" description="Inform PP about which FP (remote) menus are available" >
+        <member type="RpFpMenuIdType" name="Menus[1]" description="List of available FP (remote) menus" />
+      </struct>
+      <enum name="RpLocalEditorType" type="RSENUM8" description="Editor types" >
+        <member name="RP_LOCAL_EDITOR_TEXT" value="0x01" />
+      </enum>
+      <struct name="RpLocalEditorStartType" description="Type for starting local (PP) editor from FP" >
+        <member type="RpLocalEditorType" name="Editor" description="Editor type" />
+        <member type="rsuint8" name="MaxLength" description="Max length of answer string" />
+        <member type="rsuint8" name="Headline" vararraysize="rsuint8" vararraylengthname="HeadlineLength" description="String containing editor headline" />
+      </struct>
+      <struct name="RpLocalEditorAnswerType" description="Type for sending local (PP) editor response/answer" >
+        <member type="rsuint8" name="String[1]" description="String containing local editor answer" />
+      </struct>
+      <enum name="RpBasicServiceType" type="RSENUM8" description="Possible basic services" >
+        <member name="RP_BASIC_SERVICE_NORMAL_CALL" value="0x80" />
+      </enum>
+      <struct name="RpChangeBasicServiceType" description="Type for changing Basic Service for active connection" >
+        <member type="RpBasicServiceType" name="BasicService" />
+      </struct>
+      <struct name="RpNumberInfoType" description="Type for additional number information" >
+        <member type="rsuint8" name="Reserved" description="Is 0x00" />
+        <member type="rsuint8" name="DestAction" description="Bit 0-3: Destination
+Bit 4-6: Action
+Bit 7: Reserved" />
+        <member type="rsuint8" name="Data[1]" description="&lt;Number&gt;&lt;Space&gt;&lt;Name&gt;" />
+      </struct>
+      <typedef name="BaseIdType" type="rsuint8" description="Type for FP Identification: Base number" />
+      <struct name="RpFpCompleteIdType" description="Type for a complete FP identification: Base number and IP address" >
+        <member type="BaseIdType" name="BaseNo" />
+        <member type="rsuint8" name="IpAddr[12]" />
+      </struct>
+      <struct name="RpFpConfigDataType" description="Type for a configuration data from FP." >
+        <member type="rsuint16" name="DataVersion" />
+        <member type="rsuint8" name="DataLen" />
+        <member type="rsuint8" name="Data[1]" />
+      </struct>
+      <enum name="RpRepeaterMessageType" type="RSENUM8" description="Messages available with Repeater features" >
+        <member name="RP_REP_MES_SYNC_MODE" value="0x00" associatedtype="RpSyncModeType" description="Associated type: RpSyncModeType" />
+        <member name="RP_REP_MES_SYNC_UPDATE" value="0x01" associatedtype="RpSyncUpdateType" description="Associated type: RpSyncUpdateType" />
+        <member name="RP_REP_MES_RSSI_REPORT" value="0x02" associatedtype="RpRssiReportType" description="Associated type: RpRssiReportType" />
+        <member name="RP_REP_MES_RSSI_PART_REPORT" value="0x03" associatedtype="RpRssiPartReportType" description="Associated type: RpRssiPartReportType" />
+        <member name="RP_REP_MES_RPN_REQ" value="0x04" associatedtype="RpRpnFreeReqType" description="Associated type: RpRpnFreeReqType" />
+        <member name="RP_REP_MES_RPN_IND" value="0x05" associatedtype="RpRpnFreeIndType" description="Associated type: RpRpnFreeIndType" />
+        <member name="RP_REP_MES_WRS_STATS" value="0x06" associatedtype="RpWrsStatsType" description="Associated type: RpWrsStatsType" />
+        <member name="RP_REP_MES_ACKNOWLEDGE" value="0x10" associatedtype="RpRepeaterAcknowledgeType" description="Associated type: RpRepeaterAcknowledgeType" />
+        <member name="RP_REP_MES_MAX" />
+      </enum>
+      <struct name="RpRepeaterFeatureType" description="Generic Repeater feature type." >
+        <member type="RpRepeaterMessageType" name="Message" description="Denotes message type" />
+        <member type="rsuint8" name="Data[1]" description="The Data (IeLength number of bytes)." />
+      </struct>
+      <struct name="RpRepeaterAcknowledgeType" >
+        <member type="RpRepeaterMessageType" name="Message" description="The message type to acknowledge" />
+        <member type="RpAcknowledgeAnswerType" name="Answer" />
+      </struct>
+      <enum name="RpMessageMessageType" type="RSENUM8" description="Messages available with Sms features" >
+        <member name="RP_SMS_RES_TYPE" value="0x00" description="Use" />
+        <member name="RP_SMS_REQ_TYPE" value="0x01" description="Use" />
+        <member name="RP_SMS_IND_TYPE" value="0x02" description="Use" />
+        <member name="RP_SMS_CFM_TYPE" value="0x03" description="Use" />
+        <member name="RP_SMS_ALARM_REQ_TYPE" value="0x04" description="Use" />
+        <member name="RP_SMS_ALARM_CFM_TYPE" value="0x05" description="Use" />
+        <member name="RP_CMS_MESSAGE_REQ_TYPE" value="0x06" associatedtype="RpCmsMessageType" description="Associated type: RpCmsMessageType" />
+        <member name="RP_CMS_MESSAGE_CFM_TYPE" value="0x07" associatedtype="RpCmsMessageType" description="Associated type: RpCmsMessageType" />
+        <member name="RP_SMS_MESSAGE_MAX" description="Use" />
+      </enum>
+      <struct name="RpMessageType" >
+        <member type="RpMessageMessageType" name="MessageId" description="The message type to acknowledge" />
+        <member type="rsuint8" name="Data[1]" />
+      </struct>
+      <struct name="RpCmsMessageType" >
+        <member type="rsuint16" name="MessageId" description="Message Identification" />
+        <member type="rsbool" name="Last" description="Last Packet" />
+        <member type="rsbool" name="Response" description="Response required" />
+        <member type="rsuint8" name="Data[1]" description="Base64 encoded data" />
+      </struct>
+      <enum name="RpSyncModeEnumType" type="RSENUM8" description="Repeater Sync Mode" >
+        <member name="RP_SYNC_MODE_MANUALLY" value="0x00" />
+        <member name="RP_SYNC_MODE_LOCAL_AUTO" value="0x01" />
+        <member name="RP_SYNC_MODE_CHAINING_AUTO" value="0x02" />
+        <member name="RP_SYNC_MODE_MAX" />
+      </enum>
+      <struct name="RpSyncModeType" >
+        <member type="RpSyncModeEnumType" name="SyncMode" description="Sync Mode" />
+        <member type="rsuint8" name="SyncSrcRpn" description="Sync Source RPN value" />
+        <member type="rsuint8" name="Rpn" description="RPN value" />
+      </struct>
+      <struct name="RpSyncUpdateType" >
+        <member type="RpSyncModeEnumType" name="SyncMode" description="Sync Mode" />
+        <member type="rsuint8" name="SyncSrcRpn" description="Sync Source RPN value" />
+        <member type="rsuint8" name="Rpn" description="RPN value" />
+      </struct>
+      <struct name="RpDectRpnRssiType" >
+        <member type="rsuint8" name="Rpn" description="RPN of the heard Base/Repeater" />
+        <member type="rsuint8" name="Rssi" description="RSSI value of the RPN" />
+        <member type="rsuint8" name="ReceivePhase" />
+      </struct>
+      <struct name="RpRssiReportType" >
+        <member type="rsuint8" name="SyncSrcRpn" description="Sync Source RPN value" />
+        <member type="rsuint8" name="SlotType[2]" description="Slot Type per Slot" />
+        <member type="RpDectRpnRssiType" name="RpnRssi[12]" description="RPN Value and RSSI value of the 12 strongest heard bases/repeaters" />
+      </struct>
+      <struct name="RpRssiPartReportType" >
+        <member type="rsuint8" name="SyncSrcRpn" description="Sync Source RPN value" />
+        <member type="rsuint8" name="SlotType[2]" description="Slot Type per Slot" />
+        <member type="rsuint8" name="RpnRssiCnt" description="Number of Seen RPN?s with RSSI. RpnRssiCnt &gt;= 12 use RpRssiReportType" />
+        <member type="RpDectRpnRssiType" name="RpnRssi[1]" description="RPN Value and RSSI value of the RpnRssiCnt  strongest heard bases/repeaters" />
+      </struct>
+      <struct name="RpRpnFreeReqType" >
+        <member type="rsuint8" name="Rpn" description="The RPN value of the base station which should be inquired for free RPNs" />
+      </struct>
+      <struct name="RpRpnFreeIndType" >
+        <member type="rsuint8" name="Rpn" description="Sync Source RPN value" />
+        <member type="rsuint8" name="FreeRpn" description="Zero if no RPNs are free, non-zero otherwise" />
+      </struct>
+      <struct name="RpWrsStatsType" description="Contains various statistics from a repeater." >
+        <member type="rsuint8" name="Version" description="Message version. Future versions might add more fields." />
+        <member type="rsuint32" name="UptimeSeconds" description="Repeater uptime in seconds" />
+        <member type="rsuint16" name="UnlockCnt" description="Number of times the repeater has gone out of lock" />
+        <member type="rsuint16" name="RecoveryCnt" description="Number of times recovery mode were entered." />
+        <member type="rsuint16" name="SyncSourceChangeCnt" description="Number of times the sync source has changed." />
+        <member type="rsuint16" name="ConnectionCnt" description="Total number of connections, including repeater connections." />
+        <member type="rsuint8" name="MaxSlotUsageCnt" description="Max number of concurrent slots in use. A value of 0 equals idle. For blind slot repeater, a value of 8 equals busy and for zero blind slot a value of 10 equals busy." />
+        <member type="rsuint32" name="BusySecondsFull" description="Number of seconds the repeater has been busy for handset setup in full slot." />
+        <member type="rsuint32" name="BusySecondsLong" description="Number of seconds the repeater has been busy for handset setup in long slot." />
+        <member type="rsuint16" name="BusyFullCnt" description="Number of times the repeater has been busy for handset setup in full slot." />
+        <member type="rsuint16" name="BusyLongCnt" description="Number of times the repeater has been busy for handset setup in long slot." />
+        <member type="rsuint32" name="PpTrafficTotalFrames" description="Total number of traffic frames on PP side of repeater." />
+        <member type="rsuint32" name="PpRxOkFrames" description="Total number of traffic frames on PP side with correct CRC." />
+        <member type="rsuint32" name="PpTxOkFrames" description="Total number of traffic frames on PP side ack?ed by Q2 from FP." />
+        <member type="rsuint16" name="PpBearerRequestCnt" description="Number of bearer requests sent by PP side of repeater." />
+        <member type="rsuint16" name="PpBearerHoRequestCnt" description="Number of bearer handover requests sent by PP side of repeater." />
+        <member type="rsuint16" name="PpConnectionHoRequestCnt" description="Number of connection handover requests sent by PP side of repeater." />
+        <member type="rsuint16" name="PpBearerEstablishedCnt" description="Number of bearers successfully established on PP side of repeater." />
+        <member type="rsuint16" name="PpBearersDroppedCnt" description="Number of dropped bearers on PP side of repeater." />
+        <member type="rsuint32" name="FpTrafficTotalFrames" description="Total number of traffic frames on FP side of repeater." />
+        <member type="rsuint32" name="FpRxOkFrames" description="Total number of traffic frames on FP side with correct CRC." />
+        <member type="rsuint32" name="FpTxOkFrames" description="Total number of traffic frames on FP side ack?ed by Q2 from FP." />
+        <member type="rsuint16" name="FpBearerRequestCnt" description="Number of bearer requests sent by FP side of repeater." />
+        <member type="rsuint16" name="FpBearerHoRequestCnt" description="Number of bearer handover requests sent by FP side of repeater." />
+        <member type="rsuint16" name="FpConnectionHoRequestCnt" description="Number of connection handover requests sent by FP side of repeater." />
+        <member type="rsuint16" name="FpBearerEstablishedCnt" description="Number of bearers successfully established on FP side of repeater." />
+        <member type="rsuint16" name="FpBearerEstablishedFullCnt" description="Number of relayed connections in full slot." />
+        <member type="rsuint16" name="FpBearerEstablishedLongCnt" description="Number of relayed connections in long slot." />
+        <member type="rsuint16" name="FpBearersDroppedCnt" description="Number of dropped bearers on FP side of repeater." />
+        <member type="rsuint16" name="FpFastReleaseCnt" description="Number of fast releases sent by FP side of repeater." />
+      </struct>
+      <enum name="RpStatusNotifyType" type="RSENUM8" >
+        <member name="RP_STATUS_NOTIFY_IN_CRADLE" value="0x00" />
+        <member name="RP_STATUS_NOTIFY_OUT_OF_CRADLE" value="0x01" />
+        <member name="RP_STATUS_NOTIFY_HOOK_OFF" value="0x02" />
+        <member name="RP_STATUS_NOTIFY_OPEN_DOOR" value="0x03" />
+        <member name="RP_STATUS_DEFAULT_LINE_CHANGED" value="0x04" />
+        <member name="RP_STATUS_NOTIFY_MAX" />
+      </enum>
+      <struct name="RpStatusNotifyMsgType" >
+        <member type="RpStatusNotifyType" name="StatusEvent" />
+        <member type="rsuint8" name="Data[1]" description="The Data (IeLength number of bytes)." />
+      </struct>
+      <enum name="RpPhbContactNrType" type="RSENUM8" description="Phonebook contact number type" >
+        <member name="RP_PHB_CONTACT_HOME" value="0x00" />
+        <member name="RP_PHB_CONTACT_MOBILE" value="0x01" />
+        <member name="RP_PHB_CONTACT_WORK" value="0x02" />
+        <member name="RP_PHB_CONECT_OTHER" value="0x03" />
+      </enum>
+      <struct name="RpPhbNumberEntryType" description="Phonebook number entry type" >
+        <member type="RpPhbContactNrType" name="Type" />
+        <member type="rsuint8" name="Len" />
+        <member type="rsuint8" name="Speeddial" />
+        <member type="rsuint8" name="Fkey" />
+        <member type="rsuint8" name="Number[22]" />
+      </struct>
+      <struct name="RpPhbContactEntryType" description="Phonebook contact entry type" >
+        <member type="rsuint16" name="Group" />
+        <member type="rsuint8" name="DefaultNr" />
+        <member type="rsuint8" name="RingerMelody" />
+        <member type="rsuint8" name="Name[32]" />
+        <member type="RpPhbNumberEntryType" name="Number[3]" />
+      </struct>
+      <enum name="RpPhbReadCtrlType" type="RSENUM8" description="Phonebook read control type" >
+        <member name="RP_PHB_READ_CTRL_FIRST" value="0x00" />
+        <member name="RP_PHB_READ_CTRL_NEXT" value="0x01" />
+        <member name="RP_PHB_READ_CTRL_PREVIOUS" value="0x02" />
+        <member name="RP_PHB_READ_CTRL_MAX" value="0x03" />
+      </enum>
+      <struct name="RpPhbReadReqType" >
+        <member type="RpPhbReadCtrlType" name="ReadCtrl" />
+      </struct>
+      <struct name="RpPhbReadCfmType" >
+        <member type="rsbool" name="Status" />
+        <member type="rsuint8" name="Index" />
+        <member type="rsuint8" name="Total" />
+        <member type="RpPhbContactEntryType" name="Entry" />
+      </struct>
+      <struct name="RpPhbWriteReqType" >
+        <member type="RpPhbContactEntryType" name="Entry" />
+      </struct>
+      <struct name="RpPhbWriteCfmType" >
+        <member type="rsbool" name="Status" />
+      </struct>
+      <enum name="RpSysLogMessageType" type="RSENUM8" description="Messages available for Syslog" >
+        <member name="RP_SYSLOG_MES_NONE" value="0x00" description="Reserved" />
+        <member name="RP_SYSLOG_MES_ENTRY" value="0x01" description="Use RpSysLogRawEntryType" />
+        <member name="RP_SYSLOG_MES_CONFIG" value="0x02" description="Use RpSysLogConfigType" />
+        <member name="RP_SYSLOG_MES_FLUSH_REQ" value="0x03" description="Use RpSysLogFlushReqType" />
+        <member name="RP_SYSLOG_MES_ACKNOWLEDGE" value="0x10" description="Use RpSysLogAcknowledgeType" />
+        <member name="RP_SYSLOG_MES_MAX" />
+      </enum>
+      <struct name="RpSysLogFeatureType" description="Generic Repeater feature type." >
+        <member type="RpSysLogMessageType" name="Message" description="Denotes message type" />
+        <member type="rsuint8" name="Data[1]" description="The Data (IeLength number of bytes)." />
+      </struct>
+      <struct name="RpSysLogAcknowledgeType" >
+        <member type="RpSysLogMessageType" name="Message" description="The message type to acknowledge" />
+        <member type="RpAcknowledgeAnswerType" name="Answer" />
+      </struct>
+      <struct name="RpSysLogRawEntryType" >
+        <member type="rsuint32" name="Time" description="Source timestamp." />
+        <member type="RosTaskIdType" name="TaskId" description="Source task id." />
+        <member type="rsuint8" name="Facility" description="Facility for message" />
+        <member type="rsuint8" name="Severity" description="Severity for entry" />
+        <member type="rsuint16" name="TextLen" description="Length of the text string" />
+        <member type="char" name="Text[1]" description="Log text" />
+      </struct>
+      <struct name="RpSysLogConfigType" >
+        <member type="rsuint8" name="Version" description="Version of this message. More fields may be added in the future." />
+        <member type="rsuint8" name="SysLogLevel" description="0 ? 3, zero being no logging." />
+        <member type="rsuint16" name="FlushInterval" description="Longest interval between flushing the syslog buffer, in minutes. 0 means default." />
+        <member type="rsuint8" name="FlushLevel" description="The fill level in per cent between 0 and 100 before flushing syslog buffer. 0 means default." />
+      </struct>
+      <struct name="RpSysLogFlushReqType" >
+        <member type="rsuint8" name="Parameter" description="Reserved for future. Default is 0." />
+      </struct>
+      <enum name="RpPropReleaseCauseType" type="RSENUM8" description="Release reasons used to display more meaningful info when call is teminated." >
+        <member name="RP_Q850_PERMISSION_DENIED" value="0x00" />
+        <member name="RP_Q850_UNKNOWN_NUMBER" value="0x01" />
+        <member name="RP_Q850_CALL_IGNORED" value="0x02" />
+        <member name="RP_Q850_NUMBER_CHANGED" value="0x03" />
+        <member name="RP_Q850_UNREACHABLE" value="0x04" />
+        <member name="RP_Q850_BUSY" value="0x05" />
+        <member name="RP_Q850_INCOMPATIBLE_DESTINATION" value="0x06" />
+        <member name="RP_Q850_SECURITY_NEGOTIATION_FAILED" value="0x07" />
+        <member name="RP_Q850_CALL_DISCONNECTED" value="0x08" />
+        <member name="RP_Q850_FAILURE" value="0x09" />
+        <member name="RP_Q850_NETWORK_CONGESTION" value="0x0A" />
+        <member name="RP_Q850_NO_ANSWER" value="0x0B" />
+        <member name="RP_Q850_NO_CHANNEL_AVAILABLE" value="0x0C" />
+        <member name="RP_Q850_REJECT" value="0x0D" />
+        <member name="RP_Q850_SUBSTITUTE_NUMBER_DENIED" value="0x0E" />
+        <member name="RP_Q850_BAD_FORMAT_ADDRESS" value="0x0F" />
+        <member name="RP_Q850_CALL_RSP_MAX" />
+      </enum>
+      <struct name="RpPropReleaseType" >
+        <member type="RpPropReleaseCauseType" name="Cause" />
+      </struct>
+      <struct name="RpCustomDataType" >
+        <member type="rsuint8" name="Data[1]" />
+      </struct>
+      <struct name="RpPpCallStatsType" >
+        <member type="rsbool" name="AudioDetected" />
+      </struct>
+      <struct name="RpPpScriptLoadType" >
+        <member type="rsuint16" name="FileOffset" description="=0 in 1st packet." />
+        <member type="rsuint16" name="FileSize" />
+        <member type="rsuint8" name="PacketSize" />
+        <member type="rsuint8" name="Data[1]" />
+      </struct>
+      <struct name="RpPpScriptCmdType" >
+        <member type="rsuint8" name="Command" description="= 0 : Start
+= 1 : Stop
+= 2 : Confirm" />
+      </struct>
+      <struct name="RpGroupCallType" >
+        <member type="rsuint8" name="GroupIdArr[2]" />
+      </struct>
+      <enum name="RpPushToTalkCmdType" type="RSENUM8" description="Commands to signal Push To Talk status." >
+        <member name="RP_PUSH_TO_TALK_START" value="0x00" />
+        <member name="RP_PUSH_TO_TALK_STOP" value="0x01" />
+        <member name="RP_PUSH_TO_TALK_ENABLED" value="0x02" />
+        <member name="RP_PUSH_TO_TALK_DISABLED" value="0x03" />
+        <member name="RP_PUSH_TO_TALK_MAX" />
+      </enum>
+      <struct name="RpPushToTalkType" >
+        <member type="RpPushToTalkCmdType" name="Cmd" />
+      </struct>
+      <enum name="RpPushToTalkGroupCmdType" type="RSENUM8" description="Commands to signal Push To Talk status." >
+        <member name="RP_PUSH_TO_TALK_START_GROUP" value="0x00" />
+        <member name="RP_PUSH_TO_TALK_STOP_GROUP" value="0x01" />
+        <member name="RP_PUSH_TO_TALK_GROUP_ENABLED" value="0x02" />
+        <member name="RP_PUSH_TO_TALK_GROUP_DISABLED" value="0x03" />
+        <member name="RP_PUSH_TO_TALK_GROUP_MAX" />
+      </enum>
+      <struct name="RpPushToTalkGroupType" >
+        <member type="RpPushToTalkGroupCmdType" name="Cmd" />
+        <member type="rsuint8" name="GroupId" />
+      </struct>
+      <enum name="RpBlfStateType" type="RSENUM8" description="Busy Lamp Field States" >
+        <member name="RP_BLF_STATE_TERMINATED" value="0x00" />
+        <member name="RP_BLF_STATE_PROGRESSING" value="0x01" />
+        <member name="RP_BLF_STATE_CONFIRMED" value="0x02" />
+        <member name="RP_BLF_STATE_MAX" />
+      </enum>
+      <struct name="RpBlfStatusType" >
+        <member type="rsuint8" name="Index" description="Index in BLF resource list" />
+        <member type="RpBlfStateType" name="State" />
+        <member type="rsuint8" name="NameLength" description="Length of name including \0" />
+        <member type="rsuint8" name="NameNumber" vararraysize="rsuint8" vararraylengthname="NumberLength" />
+      </struct>
+      <enum name="RpScaStateType" type="RSENUM8" description="Shared Call Appearance States" >
+        <member name="RP_SCA_STATE_IDLE" value="0x00" />
+        <member name="RP_SCA_STATE_SEIZED" value="0x01" />
+        <member name="RP_SCA_STATE_PROGRESSING" value="0x02" />
+        <member name="RP_SCA_STATE_ALERTING" value="0x03" />
+        <member name="RP_SCA_STATE_ACTIVE" value="0x04" />
+        <member name="RP_SCA_STATE_HELD" value="0x05" />
+        <member name="RP_SCA_STATE_HELD_PRIVATE" value="0x06" />
+        <member name="RP_SCA_STATE_BRIDGE_ACTIVE" value="0x07" />
+        <member name="RP_SCA_STATE_BRIDGE_HELD" value="0x08" />
+        <member name="RP_SCA_STATE_MAX" />
+      </enum>
+      <struct name="RpScaStatusType" >
+        <member type="rsuint8" name="IconId" />
+        <member type="rsuint8" name="LineId" />
+        <member type="rsbool" name="IsParticipant" description="True, if participant in given call" />
+        <member type="rsuint8" name="AppearanceIdx" />
+        <member type="RpScaStateType" name="State" />
+        <member type="rsuint8" name="NameLength" description="Length of name including \0" />
+        <member type="rsuint8" name="NameNumber" vararraysize="rsuint8" vararraylengthname="NumberLength" />
+      </struct>
+      <enum name="RpScaCmdActionType" type="RSENUM8" description="SCA actions to ask base to perform on calls the handset is not participating in." >
+        <member name="RP_SCA_CMD_BARGE_IN" value="0x00" />
+        <member name="RP_SCA_CMD_CALL_RETRIEVE" value="0x01" />
+        <member name="RP_SCA_CMD_SILENT_MONITOR" value="0x02" />
+        <member name="RP_SCA_CMD_MAX" />
+      </enum>
+      <struct name="RpScaCmdType" >
+        <member type="RpScaCmdActionType" name="Action" />
+        <member type="rsuint8" name="AppearanceIdx" description="(LineId is included in call request)" />
+      </struct>
+      <enum name="RpFwuLinkDatesMaskType" type="RSENUM8" >
+        <member name="RP_FWU_STARTUP_IMAGE" value="0x01" />
+        <member name="RP_FWU_BACKGROUND_IMAGE" value="0x02" />
+      </enum>
+      <struct name="RpFwuLinkdatesType" >
+        <member type="RpFwuLinkDatesMaskType" name="LinkDatesMask" />
+        <member type="LinkDatesType" name="LinkDates[1]" description="Number of elements in this list is equal to the number of set bits in LinkDatesMask." />
+      </struct>
+      <struct name="RpConfStatusType" description="Used for notifying the handset if conference is currently possible" >
+        <member type="rsbool" name="ConfAllowed" description="Is Conference allowed" />
+      </struct>
+      <enum name="RpPttConferenceMsgType" type="RSENUM8" description="Possible messages for PTT Conference" >
+        <member name="RP_PTTCONF_INIT" value="0x00" description="Use RpPttConfInitType" />
+        <member name="RP_PTTCONF_JOIN_REQ" value="0x01" description="Use RpPttConfReqType" />
+        <member name="RP_PTTCONF_JOIN_CFM" value="0x02" description="Use RpPttConfCfmType" />
+        <member name="RP_PTTCONF_LEAVE_REQ" value="0x03" description="Use RpPttConfReqType" />
+        <member name="RP_PTTCONF_LEAVE_CFM" value="0x04" description="Use RpPttConfCfmType" />
+        <member name="RP_PTTCONF_LIST_REQ" value="0x05" description="Use RpPttConfListItemReqType" />
+        <member name="RP_PTTCONF_LIST_CFM" value="0x06" description="Use RpPttConfListItemCfmType" />
+        <member name="RP_PTTCONF_CALLBACK" value="0x07" description="Use RpPttConfCallbackStatusType" />
+        <member name="RP_PTTCONF_MAX" />
+      </enum>
+      <struct name="RpPttConferenceType" description="PTT Conference specific communication." >
+        <member type="RpPttConferenceMsgType" name="Message" description="The message to deliver" />
+        <member type="rsuint8" name="Data[1]" description="The data (IeLength number of bytes)." />
+      </struct>
+      <struct name="RpPttConfInitType" description="Used for initial setup of PttConferenceApp" >
+        <member type="rsuint8" name="TalkModeTimeout" description="Delay before TALK connection will be released (in seconds)" />
+        <member type="rsuint8" name="PttLatchTimeout" description="Timeout for PTT latch (in seconds)" />
+        <member type="rsuint8" name="NumberOfConferences" description="The total number of conferences in the system" />
+        <member type="rsuint8" name="DefaultId" description="Id of the default selected conference" />
+        <member type="rsuint8" name="Name" vararraysize="rsuint8" vararraylengthname="NameLength" description="Name of default selected conference" />
+      </struct>
+      <struct name="RpPttConfReqType" description="Used for simple requests that only require the id of the conference." >
+        <member type="rsuint8" name="Id" description="Id of the requested conference" />
+      </struct>
+      <struct name="RpPttConfCfmType" description="Used for simple confirm messages." >
+        <member type="rsbool" name="Status" description="Did the request succeed or not" />
+        <member type="rsuint8" name="Id" description="Id of the resulting conference" />
+        <member type="rsuint8" name="TalkModeTimeout" description="Delay before TALK connection will be released (in seconds). (For resulting conference)" />
+        <member type="rsuint8" name="PttLatchTimeout" description="Timeout for PTT latch (in seconds). (For resulting conference)" />
+        <member type="rsuint8" name="Name" vararraysize="rsuint8" vararraylengthname="NameLength" description="Name of the conference" />
+      </struct>
+      <struct name="RpPttConfListItemReqType" description="Used for requesting a conference list item." >
+        <member type="rsuint8" name="Index" description="Index of the conference" />
+      </struct>
+      <struct name="RpPttConfListItemCfmType" description="Used for returning a conference list item." >
+        <member type="rsbool" name="Status" description="Did the request succeed or not" />
+        <member type="rsuint8" name="Index" description="Index of the conference" />
+        <member type="rsuint8" name="Id" description="Id of the conference" />
+        <member type="rsuint8" name="Name" vararraysize="rsuint8" vararraylengthname="NameLength" description="Name of the conference" />
+      </struct>
+      <enum name="RpPttConfCallbackStateType" type="RSENUM8" description="PTT Conference callback States" >
+        <member name="RP_PTT_CALLBACK_STATE_PENDING" value="0x00" />
+        <member name="RP_PTT_CALLBACK_STATE_HANDLED" value="0x01" />
+        <member name="RP_PTT_CALLBACK_STATE_MAX" />
+      </enum>
+      <struct name="RpPttConfCallbackStatusType" description="PTT Conference callback status information" >
+        <member type="rsuint8" name="Id" description="Internal id of callback in conference (stored on base)" />
+        <member type="RpPttConfCallbackStateType" name="State" />
+        <member type="rsuint8" name="LabelLength" description="Length of label including \0" />
+        <member type="rsuint8" name="LabelNumber" vararraysize="rsuint8" vararraylengthname="NumberLength" />
+      </struct>
+    </types>
+    <includefiles>
+      <includefile name="NwkSwitch/DB/ISwNwkDb.h" />
+      <includefile name="Phoenix/Common/iPxCommon.h" />
+    </includefiles>
+    <macros>
+    </macros>
+    <mails>
+    </mails>
+  </group>
+</rtxinterface>
+

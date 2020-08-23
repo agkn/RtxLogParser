@@ -1,0 +1,947 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="Phoenix_API_LAS.doc" wordmacrover="68">
+  <group name="ApiLas">
+    <types>
+      <enum name="ApiLasListIdType" type="RSENUM8" description="This enum defines the different list identifier." >
+        <member name="API_LAS_SUPPORTED_LISTS" value="0x00" description="List of supported lists" />
+        <member name="API_LAS_MISSED_CALLS" value="0x01" description="List with missed calls" />
+        <member name="API_LAS_OUTGOING_CALLS" value="0x02" description="List with outgoing calls" />
+        <member name="API_LAS_INCOMING_ACCEPTED_CALLS" value="0x03" description="List with incoming accepted calls" />
+        <member name="API_LAS_ALL_CALLS" value="0x04" description="List with all calls" />
+        <member name="API_LAS_CONTACTS" value="0x05" description="List with contacts" />
+        <member name="API_LAS_INTERNAL_NAMES" value="0x06" description="List with internal PP names" />
+        <member name="API_LAS_DECT_SYSTEM_SETTINGS" value="0x07" description="List with DECT system settings" />
+        <member name="API_LAS_LINE_SETTINGS" value="0x08" description="List with line settings" />
+        <member name="API_LAS_ALL_INCOMING_CALLS" value="0x09" description="List with all incoming calls(includes all missed and incoming accepted calls)" />
+      </enum>
+      <enum name="ApiLasDiscriminatorType" type="RSENUM8" description="Discriminator." >
+        <member name="API_LAS_DISCRIMINATOR_UNDEFINED" value="0x00" description="Undefined." />
+        <member name="API_LAS_DISCRIMINATOR_EMC" value="0x01" description="EMC." />
+      </enum>
+      <enum name="ApiLasRejectReasonType" type="RSENUM8" description="This enum defines start session reject types to the MMI" >
+        <member name="API_LAS_REJECT_NOT_ENOUGH_RESOURCES" value="0x00" description="Not enough resources" />
+        <member name="API_LAS_REJECT_LIST_ALREADY_IN_USE" value="0x01" description="List already used by another session." />
+        <member name="API_LAS_REJECT_LIST_NOT_SUPPORTED" value="0x02" description="List not supported" />
+        <member name="API_LAS_REJECT_MAX_NR_OF_SESSIONS_REACHED" value="0x03" description="Maximum number of sessions supported by the FP reached" />
+        <member name="API_LAS_REJECT_NO_ERRORS" value="0xFF" description="No errors" />
+      </enum>
+      <enum name="ApiLasReadDirectionType" type="RSENUM8" description="This enum defines the direction of received list entries. The response contains data packets with list entries in order of ascending list index, regardless of whether counter indicated forward or backwards and always includes the entry with list index=start index. 
+EXAMPLE:  In case 2 entries are requested &apos;backwards&apos; with start index 5, the data packets shall include the entries with indices 4 and 5, with entry 4 transmitted first." >
+        <member name="API_LAS_READDIRECTION_FORWARD" value="0x00" description="Forward (in ascending list index order)" />
+        <member name="API_LAS_READDIRECTION_BACKWARD" value="0x01" description="Backward (in descending list index order)" />
+      </enum>
+      <enum name="ApiLasReadStatusType" type="RSENUM8" description="Enum definition for ApiLasReadStatusType" >
+        <member name="API_LAS_READSTATUS_UNCHANGED" value="0x00" description="All read entries &apos;Read status&apos; field shall be left unchanged" />
+        <member name="API_LAS_READSTATUS_READ" value="0x7F" description="All read entries &apos;Read status&apos; field shall be reset (i.e. marked as read)" />
+        <member name="API_LAS_READSTATUS_UNREAD" value="0xFF" description="All read entries &apos;Read status&apos; field shall be set (i.e. marked as unread)" />
+      </enum>
+      <enum name="ApiLasSearchOptionType" type="RSENUM8" description="This enum defines the various match options for search commands" >
+        <member name="API_LAS_SEARCH_EXACT_MATCH" value="0x00" description="Exact match with whole target field required" />
+        <member name="API_LAS_SEARCH_EXACT_CURRENT_INDEX" value="0x01" description="Exact match as with 00H option tried, current start index returned if exact match fails" />
+        <member name="API_LAS_SEARCH_EXACT_PREVIOUS_INDEX" value="0x02" description="Exact match as with 00H option tried, previous start index returned if exact match fails" />
+      </enum>
+      <enum name="ApiLasSearchCaseOptionType" type="RSENUM8" description="This enum defines the various match options for search commands" >
+        <member name="API_LAS_SEARCH_CASE_INSENSITIVE" value="0x00" description="Case in-sensitive search required" />
+        <member name="API_LAS_SEARCH_CASE_SENSITIVE" value="0x01" description="Case sensitive search required" />
+      </enum>
+      <enum name="ApiLasNegativeAcknowledgeReasonType" type="RSENUM8" description="This enum defines various errors codes received from the host" >
+        <member name="API_LAS_INVALID_RANGE" value="0x00" description="Invalid range" />
+        <member name="API_LAS_ENTRY_NOT_AVAILABLE" value="0x01" description="Entry not available" />
+        <member name="API_LAS_INVALID_SESSION_NO" value="0x02" description="Invalid session number" />
+        <member name="API_LAS_TEMP_NOT_POSSIBLE" value="0x03" description="Temporarily not possible" />
+        <member name="API_LAS_ENTRY_FORMAT_INCORRECT" value="0x04" description="Entry format incorrect" />
+        <member name="API_LAS_INVALID_START_INDEX" value="0x05" description="Invalid start index" />
+        <member name="API_LAS_PROCEDURE_NOT_SUPPORTED" value="0x06" description="Procedure not supported" />
+        <member name="API_LAS_PROCEDURE_NOT_ALLOWED" value="0x07" description="Procedure not allowed" />
+        <member name="API_LAS_CONTENT_NOT_ACCEPTED" value="0x08" description="Content not accepted" />
+        <member name="API_LAS_LIST_FULL" value="0x09" description="List full" />
+        <member name="API_LAS_INCORRECT_PIN" value="0x0A" description="Incorrect PIN" />
+        <member name="API_LAS_PIN_CODE_REQUIRED" value="0x0B" description="PIN code required" />
+      </enum>
+      <enum name="ApiLasStatusType" type="RSENUM8" description="This enum defines various errors codes generated by the API" >
+        <member name="API_LAS_STATUS_INVALID_CONEI" value="0x00" description="No connection available. A connection needs to be established prior to any LAS activity (see ApiCc for further dertails)." />
+        <member name="" />
+        <member name="API_LAS_STATUS_INVALID_AIR_CMD_RECEIVED" value="0x10" description="Invalid command received over the air" />
+        <member name="API_LAS_STATUS_INVALID_AIR_ENTRY_DATA_RECEIVED" value="0x11" description="Invalid entry data received over the air" />
+        <member name="API_LAS_STATUS_UNKNOWN_AIR_SESSIONID" value="0x12" description="Unknown session id was received over the air." />
+        <member name="API_LAS_STATUS_UNEXPECTED_AIR_DATA_RECEIVED" value="0x13" description="Unexpected data received over the air." />
+        <member name="API_LAS_STATUS_AIR_DATA_STORAGE_FULL" value="0x14" description="Too much data received over the air." />
+        <member name="API_LAS_STATUS_INVALID_API_CMD" value="0x20" description="Invalid API  parameter in command" />
+        <member name="API_LAS_STATUS_INVALID_API_ENTRY_DATA" value="0x21" description="Invalid API entry data" />
+        <member name="API_LAS_STATUS_INVALID_API_SESSIONID" value="0x22" description="Invalid session id was used in API command." />
+      </enum>
+      <enum name="ApiLasCallTypeType" type="RSENUM8" description="This enum defines the different Contact number types." >
+        <member name="API_LAS_CALL_TYPE_UNDEFINED" value="0x00" />
+        <member name="API_LAS_CALL_TYPE_MISSED" value="0x01" />
+        <member name="API_LAS_CALL_TYPE_ACCEPTED" value="0x02" />
+        <member name="API_LAS_CALL_TYPE_OUTGOING" value="0x03" />
+      </enum>
+      <enum name="ApiLasContactNumberTypeType" type="RSENUM8" description="This enum defines the different Contact number types." >
+        <member name="API_LAS_CONTACT_NUMBER_UNDEFINED" value="0x00" />
+        <member name="API_LAS_CONTACT_NUMBER_FIXED" value="0x01" />
+        <member name="API_LAS_CONTACT_NUMBER_MOBILE" value="0x02" />
+        <member name="API_LAS_CONTACT_NUMBER_WORK" value="0x03" />
+      </enum>
+      <enum name="ApiLasCallInterceptionTypeType" type="RSENUM8" description="This enum defines the allowed call interception states." >
+        <member name="API_LAS_CALLINTERCEPTION_NOT_ALLOWED" value="0x00" />
+        <member name="API_LAS_CALLINTERCEPTION_ALLOWED" value="0x01" />
+      </enum>
+      <enum name="ApiLasClockMasterTypeType" type="RSENUM8" description="This enum defines the entity which sets date and time for the DECT system (PP or FP)." >
+        <member name="API_LAS_CLOCKMASTER_FP" value="0x00" />
+        <member name="API_LAS_CLOCKMASTER_PP" value="0x01" />
+      </enum>
+      <enum name="ApiLasBaseResetTypeType" type="RSENUM8" description="This enum defines the Base Reset states" >
+        <member name="API_LAS_BASERESET_NO" value="0x00" description="If at least one DECT system setting, or line setting, has been set to a non default value, the &apos;Base reset&apos; field will be equal to API_LAS_BASERESET_NO.
+Any attempt from a Pp to set this parameter to API_LAS_BASERESET_NO will result in a negative acknowledgement, with reject reason &apos;procedure not allowed&apos;." />
+        <member name="API_LAS_BASERESET_YES" value="0x01" description="All DECT system and line settings will be reset to their default value in the FP." />
+      </enum>
+      <enum name="ApiLasIpAdrTypeType" type="RSENUM8" description="This enum defines the IP Address types" >
+        <member name="API_LAS_IPADRTYPE_UNDEFINED" value="0x00" />
+        <member name="API_LAS_IPADRTYPE_DHCP" value="0x01" />
+        <member name="API_LAS_IPADRTYPE_STATIC" value="0x02" />
+      </enum>
+      <enum name="ApiLasIpAdrFormatType" type="RSENUM8" description="This enum defines the IP Address format" >
+        <member name="API_LAS_IPADRFORMAT_IPV4" value="0x00" />
+        <member name="API_LAS_IPADRFORMAT_IPV6" value="0x01" />
+      </enum>
+      <enum name="ApiLasNoEmissionModeType" type="RSENUM8" description="This enum defines the No Emission states" >
+        <member name="API_LAS_NOEMISSIONMODE_DEACTIVATED" value="0x00" description="&apos;No emission mode&apos; deactivated" />
+        <member name="API_LAS_NOEMISSIONMODE_ACTIVATED" value="0x01" description="&apos;No emission mode&apos; activated" />
+      </enum>
+      <enum name="ApiLasMultipleCallModeType" type="RSENUM8" description="This enum defines the Multiple calls modes" >
+        <member name="API_LAS_MULTIPLECALLMODE_SINGLE_CALL" value="0x30" />
+        <member name="API_LAS_MULTIPLECALLMODE_MULTIPLE_CALL" value="0x31" />
+      </enum>
+      <enum name="ApiLasIntrusionCallModeType" type="RSENUM8" description="This enum defines the Intrusion calls modes" >
+        <member name="API_LAS_INTRUSIONCALL_NOT_ALLOWED" value="0x30" />
+        <member name="API_LAS_INTRUSIONCALL_ALLOWED" value="0x31" />
+      </enum>
+      <enum name="ApiLasPermanentClirTypeType" type="RSENUM8" description="This enum defined permanent CLIR types" >
+        <member name="API_LAS_PERMANENTCLIR_OFF" value="0x30" description="CLIR de-activated for all calls" />
+        <member name="API_LAS_PERMANENTCLIR_ON" value="0x31" description="CLIR activated for all calls" />
+      </enum>
+      <enum name="ApiLasCallForwardStateType" type="RSENUM8" description="This enum defined call forwarding types" >
+        <member name="API_LAS_CF_DEACTIVATE" value="0x30" description="Call forward de-activated for all calls" />
+        <member name="API_LAS_CF_ACTIVATE" value="0x31" description="Call forward activated for all calls" />
+      </enum>
+      <enum name="ApiLasCountryCodeTypeType" type="RSENUM16" description="This enum defines the country codes supported by the API. Table is based on [3]" >
+        <member name="API_LAS_COUNTRY_ID_CANADA" value="0x0001" description="1 - Canada" />
+        <member name="API_LAS_COUNTRY_ID_PUERTO_RICO" value="0x0001" description="1 - Puerto Rico" />
+        <member name="API_LAS_COUNTRY_ID_UNITED_STATES" value="0x0001" description="1 - United States" />
+        <member name="API_LAS_COUNTRY_ID_KAZAKHSTAN" value="0x0007" description="7 - Kazakhstan" />
+        <member name="API_LAS_COUNTRY_ID_RUSSIA" value="0x0007" description="7 - Russia" />
+        <member name="API_LAS_COUNTRY_ID_EGYPT" value="0x0014" description="20 - Egypt" />
+        <member name="API_LAS_COUNTRY_ID_SOUTH_AFRICA" value="0x001B" description="27 - South Africa" />
+        <member name="API_LAS_COUNTRY_ID_GREECE" value="0x001E" description="30 - Greece" />
+        <member name="API_LAS_COUNTRY_ID_NETHERLANDS" value="0x001F" description="31 - Netherlands" />
+        <member name="API_LAS_COUNTRY_ID_BELGIUM" value="0x0020" description="32 - Belgium" />
+        <member name="API_LAS_COUNTRY_ID_FRANCE" value="0x0021" description="33 - France" />
+        <member name="API_LAS_COUNTRY_ID_SPAIN" value="0x0022" description="34 - Spain" />
+        <member name="API_LAS_COUNTRY_ID_HUNGARY" value="0x0024" description="36 - Hungary" />
+        <member name="API_LAS_COUNTRY_ID_HOLY_SEE" value="0x0027" description="39 - Holy See (Vatican City)" />
+        <member name="API_LAS_COUNTRY_ID_ITALY" value="0x0027" description="39 - Italy" />
+        <member name="API_LAS_COUNTRY_ID_ROMANIA" value="0x0028" description="40 - Romania" />
+        <member name="API_LAS_COUNTRY_ID_SWITZERLAND" value="0x0029" description="41 - Switzerland" />
+        <member name="API_LAS_COUNTRY_ID_AUSTRIA" value="0x002B" description="43 - Austria" />
+        <member name="API_LAS_COUNTRY_ID_ISLE_OF_MAN" value="0x002C" description="44 - Isle of Man" />
+        <member name="API_LAS_COUNTRY_ID_UNITED_KINGDOM" value="0x002C" description="44 - United Kingdom" />
+        <member name="API_LAS_COUNTRY_ID_DENMARK" value="0x002D" description="45 - Denmark" />
+        <member name="API_LAS_COUNTRY_ID_SWEDEN" value="0x002E" description="46 - Sweden" />
+        <member name="API_LAS_COUNTRY_ID_NORWAY" value="0x002F" description="47 - Norway" />
+        <member name="API_LAS_COUNTRY_ID_POLAND" value="0x0030" description="48 - Poland" />
+        <member name="API_LAS_COUNTRY_ID_GERMANY" value="0x0031" description="49 - Germany" />
+        <member name="API_LAS_COUNTRY_ID_PERU" value="0x0033" description="51 - Peru" />
+        <member name="API_LAS_COUNTRY_ID_MEXICO" value="0x0034" description="52 - Mexico" />
+        <member name="API_LAS_COUNTRY_ID_CUBA" value="0x0035" description="53 - Cuba" />
+        <member name="API_LAS_COUNTRY_ID_ARGENTINA" value="0x0036" description="54 - Argentina" />
+        <member name="API_LAS_COUNTRY_ID_BRAZIL" value="0x0037" description="55 - Brazil" />
+        <member name="API_LAS_COUNTRY_ID_CHILE" value="0x0038" description="56 - Chile" />
+        <member name="API_LAS_COUNTRY_ID_COLOMBIA" value="0x0039" description="57 - Colombia" />
+        <member name="API_LAS_COUNTRY_ID_VENEZUELA" value="0x003A" description="58 - Venezuela" />
+        <member name="API_LAS_COUNTRY_ID_MALAYSIA" value="0x003C" description="60 - Malaysia" />
+        <member name="API_LAS_COUNTRY_ID_AUSTRALIA" value="0x003D" description="61 - Australia" />
+        <member name="API_LAS_COUNTRY_ID_CHRISTMAS_ISLAND" value="0x003D" description="61 - Christmas Island" />
+        <member name="API_LAS_COUNTRY_ID_COCOS_ISLANDS" value="0x003D" description="61 - Cocos (Keeling) Islands" />
+        <member name="API_LAS_COUNTRY_ID_INDONESIA" value="0x003E" description="62 - Indonesia" />
+        <member name="API_LAS_COUNTRY_ID_PHILIPPINES" value="0x003F" description="63 - Philippines" />
+        <member name="API_LAS_COUNTRY_ID_NEW_ZEALAND" value="0x0040" description="64 - New Zealand" />
+        <member name="API_LAS_COUNTRY_ID_SINGAPORE" value="0x0041" description="65 - Singapore" />
+        <member name="API_LAS_COUNTRY_ID_THAILAND" value="0x0042" description="66 - Thailand" />
+        <member name="API_LAS_COUNTRY_ID_JAPAN" value="0x0051" description="81 - Japan" />
+        <member name="API_LAS_COUNTRY_ID_SOUTH_KOREA" value="0x0052" description="82 - South Korea" />
+        <member name="API_LAS_COUNTRY_ID_VIETNAM" value="0x0054" description="84 - Vietnam" />
+        <member name="API_LAS_COUNTRY_ID_CHINA" value="0x0056" description="86 - China" />
+        <member name="API_LAS_COUNTRY_ID_TURKEY" value="0x005A" description="90 - Turkey" />
+        <member name="API_LAS_COUNTRY_ID_INDIA" value="0x005B" description="91 - India" />
+        <member name="API_LAS_COUNTRY_ID_PAKISTAN" value="0x005C" description="92 - Pakistan" />
+        <member name="API_LAS_COUNTRY_ID_AFGHANISTAN" value="0x005D" description="93 - Afghanistan" />
+        <member name="API_LAS_COUNTRY_ID_SRI_LANKA" value="0x005E" description="94 - Sri Lanka" />
+        <member name="API_LAS_COUNTRY_ID_BURMA" value="0x005F" description="95 - Burma (Myanmar)" />
+        <member name="API_LAS_COUNTRY_ID_IRAN" value="0x0062" description="98 - Iran" />
+        <member name="API_LAS_COUNTRY_ID_MOROCCO" value="0x00D4" description="212 - Morocco" />
+        <member name="API_LAS_COUNTRY_ID_ALGERIA" value="0x00D5" description="213 - Algeria" />
+        <member name="API_LAS_COUNTRY_ID_TUNISIA" value="0x00D8" description="216 - Tunisia" />
+        <member name="API_LAS_COUNTRY_ID_LIBYA" value="0x00DA" description="218 - Libya" />
+        <member name="API_LAS_COUNTRY_ID_GAMBIA" value="0x00DC" description="220 - Gambia" />
+        <member name="API_LAS_COUNTRY_ID_SENEGAL" value="0x00DD" description="221 - Senegal" />
+        <member name="API_LAS_COUNTRY_ID_MAURITANIA" value="0x00DE" description="222 - Mauritania" />
+        <member name="API_LAS_COUNTRY_ID_MALI" value="0x00DF" description="223 - Mali" />
+        <member name="API_LAS_COUNTRY_ID_GUINEA" value="0x00E0" description="224 - Guinea" />
+        <member name="API_LAS_COUNTRY_ID_IVORY_COAST" value="0x00E1" description="225 - Ivory Coast" />
+        <member name="API_LAS_COUNTRY_ID_BURKINA_FASO" value="0x00E2" description="226 - Burkina Faso" />
+        <member name="API_LAS_COUNTRY_ID_NIGER" value="0x00E3" description="227 - Niger" />
+        <member name="API_LAS_COUNTRY_ID_TOGO" value="0x00E4" description="228 - Togo" />
+        <member name="API_LAS_COUNTRY_ID_BENIN" value="0x00E5" description="229 - Benin" />
+        <member name="API_LAS_COUNTRY_ID_MAURITIUS" value="0x00E6" description="230 - Mauritius" />
+        <member name="API_LAS_COUNTRY_ID_LIBERIA" value="0x00E7" description="231 - Liberia" />
+        <member name="API_LAS_COUNTRY_ID_SIERRA_LEONE" value="0x00E8" description="232 - Sierra Leone" />
+        <member name="API_LAS_COUNTRY_ID_GHANA" value="0x00E9" description="233 - Ghana" />
+        <member name="API_LAS_COUNTRY_ID_NIGERIA" value="0x00EA" description="234 - Nigeria" />
+        <member name="API_LAS_COUNTRY_ID_CHAD" value="0x00EB" description="235 - Chad" />
+        <member name="API_LAS_COUNTRY_ID_CENTRAL_AFRICAN_REPUBLIC" value="0x00EC" description="236 - Central African Republic" />
+        <member name="API_LAS_COUNTRY_ID_CAMEROON" value="0x00ED" description="237 - Cameroon" />
+        <member name="API_LAS_COUNTRY_ID_CAPE_VERDE" value="0x00EE" description="238 - Cape Verde" />
+        <member name="API_LAS_COUNTRY_ID_SAO_TOME_AND_PRINCIPE" value="0x00EF" description="239 - Sao Tome and Principe" />
+        <member name="API_LAS_COUNTRY_ID_EQUATORIAL_GUINEA" value="0x00F0" description="240 - Equatorial Guinea" />
+        <member name="API_LAS_COUNTRY_ID_GABON" value="0x00F1" description="241 - Gabon" />
+        <member name="API_LAS_COUNTRY_ID_REPUBLIC_OF_THE_CONGO" value="0x00F2" description="242 - Republic of the Congo" />
+        <member name="API_LAS_COUNTRY_ID_DEMOCRATIC_REPUBLIC_OF_THE_CONGO" value="0x00F3" description="243 - Democratic Republic of the Congo" />
+        <member name="API_LAS_COUNTRY_ID_ANGOLA" value="0x00F4" description="244 - Angola" />
+        <member name="API_LAS_COUNTRY_ID_GUINEA_BISSAU" value="0x00F5" description="245 - Guinea-Bissau" />
+        <member name="API_LAS_COUNTRY_ID_SEYCHELLES" value="0x00F8" description="248 - Seychelles" />
+        <member name="API_LAS_COUNTRY_ID_SUDAN" value="0x00F9" description="249 - Sudan" />
+        <member name="API_LAS_COUNTRY_ID_RWANDA" value="0x00FA" description="250 - Rwanda" />
+        <member name="API_LAS_COUNTRY_ID_ETHIOPIA" value="0x00FB" description="251 - Ethiopia" />
+        <member name="API_LAS_COUNTRY_ID_SOMALIA" value="0x00FC" description="252 - Somalia" />
+        <member name="API_LAS_COUNTRY_ID_DJIBOUTI" value="0x00FD" description="253 - Djibouti" />
+        <member name="API_LAS_COUNTRY_ID_KENYA" value="0x00FE" description="254 - Kenya" />
+        <member name="API_LAS_COUNTRY_ID_TANZANIA" value="0x00FF" description="255 - Tanzania" />
+        <member name="API_LAS_COUNTRY_ID_UGANDA" value="0x0100" description="256 - Uganda" />
+        <member name="API_LAS_COUNTRY_ID_BURUNDI" value="0x0101" description="257 - Burundi" />
+        <member name="API_LAS_COUNTRY_ID_MOZAMBIQUE" value="0x0102" description="258 - Mozambique" />
+        <member name="API_LAS_COUNTRY_ID_ZAMBIA" value="0x0104" description="260 - Zambia" />
+        <member name="API_LAS_COUNTRY_ID_MADAGASCAR" value="0x0105" description="261 - Madagascar" />
+        <member name="API_LAS_COUNTRY_ID_MAYOTTE" value="0x0106" description="262 - Mayotte" />
+        <member name="API_LAS_COUNTRY_ID_ZIMBABWE" value="0x0107" description="263 - Zimbabwe" />
+        <member name="API_LAS_COUNTRY_ID_NAMIBIA" value="0x0108" description="264 - Namibia" />
+        <member name="API_LAS_COUNTRY_ID_MALAWI" value="0x0109" description="265 - Malawi" />
+        <member name="API_LAS_COUNTRY_ID_LESOTHO" value="0x010A" description="266 - Lesotho" />
+        <member name="API_LAS_COUNTRY_ID_BOTSWANA" value="0x010B" description="267 - Botswana" />
+        <member name="API_LAS_COUNTRY_ID_SWAZILAND" value="0x010C" description="268 - Swaziland" />
+        <member name="API_LAS_COUNTRY_ID_COMOROS" value="0x010D" description="269 - Comoros" />
+        <member name="API_LAS_COUNTRY_ID_SAINT_HELENA" value="0x0122" description="290 - Saint Helena" />
+        <member name="API_LAS_COUNTRY_ID_ERITREA" value="0x0123" description="291 - Eritrea" />
+        <member name="API_LAS_COUNTRY_ID_ARUBA" value="0x0129" description="297 - Aruba" />
+        <member name="API_LAS_COUNTRY_ID_FAROE_ISLANDS" value="0x012A" description="298 - Faroe Islands" />
+        <member name="API_LAS_COUNTRY_ID_GREENLAND" value="0x012B" description="299 - Greenland" />
+        <member name="API_LAS_COUNTRY_ID_GIBRALTAR" value="0x015E" description="350 - Gibraltar" />
+        <member name="API_LAS_COUNTRY_ID_PORTUGAL" value="0x015F" description="351 - Portugal" />
+        <member name="API_LAS_COUNTRY_ID_LUXEMBOURG" value="0x0160" description="352 - Luxembourg" />
+        <member name="API_LAS_COUNTRY_ID_IRELAND" value="0x0161" description="353 - Ireland" />
+        <member name="API_LAS_COUNTRY_ID_ICELAND" value="0x0162" description="354 - Iceland" />
+        <member name="API_LAS_COUNTRY_ID_ALBANIA" value="0x0163" description="355 - Albania" />
+        <member name="API_LAS_COUNTRY_ID_MALTA" value="0x0164" description="356 - Malta" />
+        <member name="API_LAS_COUNTRY_ID_CYPRUS" value="0x0165" description="357 - Cyprus" />
+        <member name="API_LAS_COUNTRY_ID_FINLAND" value="0x0166" description="358 - Finland" />
+        <member name="API_LAS_COUNTRY_ID_BULGARIA" value="0x0167" description="359 - Bulgaria" />
+        <member name="API_LAS_COUNTRY_ID_LITHUANIA" value="0x0172" description="370 - Lithuania" />
+        <member name="API_LAS_COUNTRY_ID_LATVIA" value="0x0173" description="371 - Latvia" />
+        <member name="API_LAS_COUNTRY_ID_ESTONIA" value="0x0174" description="372 - Estonia" />
+        <member name="API_LAS_COUNTRY_ID_MOLDOVA" value="0x0175" description="373 - Moldova" />
+        <member name="API_LAS_COUNTRY_ID_ARMENIA" value="0x0176" description="374 - Armenia" />
+        <member name="API_LAS_COUNTRY_ID_BELARUS" value="0x0177" description="375 - Belarus" />
+        <member name="API_LAS_COUNTRY_ID_ANDORRA" value="0x0178" description="376 - Andorra" />
+        <member name="API_LAS_COUNTRY_ID_MONACO" value="0x0179" description="377 - Monaco" />
+        <member name="API_LAS_COUNTRY_ID_SAN_MARINO" value="0x017A" description="378 - San Marino" />
+        <member name="API_LAS_COUNTRY_ID_UKRAINE" value="0x017C" description="380 - Ukraine" />
+        <member name="API_LAS_COUNTRY_ID_KOSOVO" value="0x017D" description="381 - Kosovo" />
+        <member name="API_LAS_COUNTRY_ID_SERBIA" value="0x017D" description="381 - Serbia" />
+        <member name="API_LAS_COUNTRY_ID_MONTENEGRO" value="0x017E" description="382 - Montenegro" />
+        <member name="API_LAS_COUNTRY_ID_CROATIA" value="0x0181" description="385 - Croatia" />
+        <member name="API_LAS_COUNTRY_ID_SLOVENIA" value="0x0182" description="386 - Slovenia" />
+        <member name="API_LAS_COUNTRY_ID_BOSNIA_AND_HERZEGOVINA" value="0x0183" description="387 - Bosnia and Herzegovina" />
+        <member name="API_LAS_COUNTRY_ID_MACEDONIA" value="0x0185" description="389 - Macedonia" />
+        <member name="API_LAS_COUNTRY_ID_CZECH_REPUBLIC" value="0x01A4" description="420 - Czech Republic" />
+        <member name="API_LAS_COUNTRY_ID_SLOVAKIA" value="0x01A5" description="421 - Slovakia" />
+        <member name="API_LAS_COUNTRY_ID_LIECHTENSTEIN" value="0x01A7" description="423 - Liechtenstein" />
+        <member name="API_LAS_COUNTRY_ID_FALKLAND_ISLANDS" value="0x01F4" description="500 - Falkland Islands" />
+        <member name="API_LAS_COUNTRY_ID_BELIZE" value="0x01F5" description="501 - Belize" />
+        <member name="API_LAS_COUNTRY_ID_GUATEMALA" value="0x01F6" description="502 - Guatemala" />
+        <member name="API_LAS_COUNTRY_ID_EL_SALVADOR" value="0x01F7" description="503 - El Salvador" />
+        <member name="API_LAS_COUNTRY_ID_HONDURAS" value="0x01F8" description="504 - Honduras" />
+        <member name="API_LAS_COUNTRY_ID_NICARAGUA" value="0x01F9" description="505 - Nicaragua" />
+        <member name="API_LAS_COUNTRY_ID_COSTA_RICA" value="0x01FA" description="506 - Costa Rica" />
+        <member name="API_LAS_COUNTRY_ID_PANAMA" value="0x01FB" description="507 - Panama" />
+        <member name="API_LAS_COUNTRY_ID_SAINT_PIERRE_AND_MIQUELON" value="0x01FC" description="508 - Saint Pierre and Miquelon" />
+        <member name="API_LAS_COUNTRY_ID_HAITI" value="0x01FD" description="509 - Haiti" />
+        <member name="API_LAS_COUNTRY_ID_SAINT_BARTHELEMY" value="0x024E" description="590 - Saint Barthelemy" />
+        <member name="API_LAS_COUNTRY_ID_BOLIVIA" value="0x024F" description="591 - Bolivia" />
+        <member name="API_LAS_COUNTRY_ID_GUYANA" value="0x0250" description="592 - Guyana" />
+        <member name="API_LAS_COUNTRY_ID_ECUADOR" value="0x0251" description="593 - Ecuador" />
+        <member name="API_LAS_COUNTRY_ID_PARAGUAY" value="0x0253" description="595 - Paraguay" />
+        <member name="API_LAS_COUNTRY_ID_SURINAME" value="0x0255" description="597 - Suriname" />
+        <member name="API_LAS_COUNTRY_ID_URUGUAY" value="0x0256" description="598 - Uruguay" />
+        <member name="API_LAS_COUNTRY_ID_NETHERLANDS_ANTILLES" value="0x0257" description="599 - Netherlands Antilles" />
+        <member name="API_LAS_COUNTRY_ID_TIMOR_LESTE" value="0x029E" description="670 - Timor-Leste" />
+        <member name="API_LAS_COUNTRY_ID_ANTARCTICA" value="0x02A0" description="672 - Antarctica" />
+        <member name="API_LAS_COUNTRY_ID_NORFOLK_ISLAND" value="0x02A0" description="672 - Norfolk Island" />
+        <member name="API_LAS_COUNTRY_ID_BRUNEI" value="0x02A1" description="673 - Brunei" />
+        <member name="API_LAS_COUNTRY_ID_NAURU" value="0x02A2" description="674 - Nauru" />
+        <member name="API_LAS_COUNTRY_ID_PAPUA_NEW_GUINEA" value="0x02A3" description="675 - Papua New Guinea" />
+        <member name="API_LAS_COUNTRY_ID_TONGA" value="0x02A4" description="676 - Tonga" />
+        <member name="API_LAS_COUNTRY_ID_SOLOMON_ISLANDS" value="0x02A5" description="677 - Solomon Islands" />
+        <member name="API_LAS_COUNTRY_ID_VANUATU" value="0x02A6" description="678 - Vanuatu" />
+        <member name="API_LAS_COUNTRY_ID_FIJI" value="0x02A7" description="679 - Fiji" />
+        <member name="API_LAS_COUNTRY_ID_PALAU" value="0x02A8" description="680 - Palau" />
+        <member name="API_LAS_COUNTRY_ID_WALLIS_AND_FUTUNA" value="0x02A9" description="681 - Wallis and Futuna" />
+        <member name="API_LAS_COUNTRY_ID_COOK_ISLANDS" value="0x02AA" description="682 - Cook Islands" />
+        <member name="API_LAS_COUNTRY_ID_NIUE" value="0x02AB" description="683 - Niue" />
+        <member name="API_LAS_COUNTRY_ID_SAMOA" value="0x02AD" description="685 - Samoa" />
+        <member name="API_LAS_COUNTRY_ID_KIRIBATI" value="0x02AE" description="686 - Kiribati" />
+        <member name="API_LAS_COUNTRY_ID_NEW_CALEDONIA" value="0x02AF" description="687 - New Caledonia" />
+        <member name="API_LAS_COUNTRY_ID_TUVALU" value="0x02B0" description="688 - Tuvalu" />
+        <member name="API_LAS_COUNTRY_ID_FRENCH_POLYNESIA" value="0x02B1" description="689 - French Polynesia" />
+        <member name="API_LAS_COUNTRY_ID_TOKELAU" value="0x02B2" description="690 - Tokelau" />
+        <member name="API_LAS_COUNTRY_ID_MICRONESIA" value="0x02B3" description="691 - Micronesia" />
+        <member name="API_LAS_COUNTRY_ID_MARSHALL_ISLANDS" value="0x02B4" description="692 - Marshall Islands" />
+        <member name="API_LAS_COUNTRY_ID_NORTH_KOREA" value="0x0352" description="850 - North Korea" />
+        <member name="API_LAS_COUNTRY_ID_HONG_KONG" value="0x0354" description="852 - Hong Kong" />
+        <member name="API_LAS_COUNTRY_ID_MACAU" value="0x0355" description="853 - Macau" />
+        <member name="API_LAS_COUNTRY_ID_CAMBODIA" value="0x0357" description="855 - Cambodia" />
+        <member name="API_LAS_COUNTRY_ID_LAOS" value="0x0358" description="856 - Laos" />
+        <member name="API_LAS_COUNTRY_ID_PITCAIRN_ISLANDS" value="0x0366" description="870 - Pitcairn Islands" />
+        <member name="API_LAS_COUNTRY_ID_BANGLADESH" value="0x0370" description="880 - Bangladesh" />
+        <member name="API_LAS_COUNTRY_ID_TAIWAN" value="0x0376" description="886 - Taiwan" />
+        <member name="API_LAS_COUNTRY_ID_MALDIVES" value="0x03C0" description="960 - Maldives" />
+        <member name="API_LAS_COUNTRY_ID_LEBANON" value="0x03C1" description="961 - Lebanon" />
+        <member name="API_LAS_COUNTRY_ID_JORDAN" value="0x03C2" description="962 - Jordan" />
+        <member name="API_LAS_COUNTRY_ID_SYRIA" value="0x03C3" description="963 - Syria" />
+        <member name="API_LAS_COUNTRY_ID_IRAQ" value="0x03C4" description="964 - Iraq" />
+        <member name="API_LAS_COUNTRY_ID_KUWAIT" value="0x03C5" description="965 - Kuwait" />
+        <member name="API_LAS_COUNTRY_ID_SAUDI_ARABIA" value="0x03C6" description="966 - Saudi Arabia" />
+        <member name="API_LAS_COUNTRY_ID_YEMEN" value="0x03C7" description="967 - Yemen" />
+        <member name="API_LAS_COUNTRY_ID_OMAN" value="0x03C8" description="968 - Oman" />
+        <member name="API_LAS_COUNTRY_ID_GAZA_STRIP" value="0x03CA" description="970 - Gaza Strip" />
+        <member name="API_LAS_COUNTRY_ID_WEST_BANK" value="0x03CA" description="970 - West Bank" />
+        <member name="API_LAS_COUNTRY_ID_UNITED_ARAB_EMIRATES" value="0x03CB" description="971 - United Arab Emirates" />
+        <member name="API_LAS_COUNTRY_ID_ISRAEL" value="0x03CC" description="972 - Israel" />
+        <member name="API_LAS_COUNTRY_ID_BAHRAIN" value="0x03CD" description="973 - Bahrain" />
+        <member name="API_LAS_COUNTRY_ID_QATAR" value="0x03CE" description="974 - Qatar" />
+        <member name="API_LAS_COUNTRY_ID_BHUTAN" value="0x03CF" description="975 - Bhutan" />
+        <member name="API_LAS_COUNTRY_ID_MONGOLIA" value="0x03D0" description="976 - Mongolia" />
+        <member name="API_LAS_COUNTRY_ID_NEPAL" value="0x03D1" description="977 - Nepal" />
+        <member name="API_LAS_COUNTRY_ID_TAJIKISTAN" value="0x03E0" description="992 - Tajikistan" />
+        <member name="API_LAS_COUNTRY_ID_TURKMENISTAN" value="0x03E1" description="993 - Turkmenistan" />
+        <member name="API_LAS_COUNTRY_ID_AZERBAIJAN" value="0x03E2" description="994 - Azerbaijan" />
+        <member name="API_LAS_COUNTRY_ID_GEORGIA" value="0x03E3" description="995 - Georgia" />
+        <member name="API_LAS_COUNTRY_ID_KYRGYZSTAN" value="0x03E4" description="996 - Kyrgyzstan" />
+        <member name="API_LAS_COUNTRY_ID_UZBEKISTAN" value="0x03E6" description="998 - Uzbekistan" />
+        <member name="API_LAS_COUNTRY_ID_BAHAMAS" value="0x04DA" description="1242 - Bahamas" />
+        <member name="API_LAS_COUNTRY_ID_BARBADOS" value="0x04DE" description="1246 - Barbados" />
+        <member name="API_LAS_COUNTRY_ID_ANGUILLA" value="0x04F0" description="1264 - Anguilla" />
+        <member name="API_LAS_COUNTRY_ID_ANTIGUA_AND_BARBUDA" value="0x04F4" description="1268 - Antigua and Barbuda" />
+        <member name="API_LAS_COUNTRY_ID_BRITISH_VIRGIN_ISLANDS" value="0x0504" description="1284 - British Virgin Islands" />
+        <member name="API_LAS_COUNTRY_ID_US_VIRGIN_ISLANDS" value="0x053C" description="1340 - US Virgin Islands" />
+        <member name="API_LAS_COUNTRY_ID_CAYMAN_ISLANDS" value="0x0541" description="1345 - Cayman Islands" />
+        <member name="API_LAS_COUNTRY_ID_BERMUDA" value="0x05A1" description="1441 - Bermuda" />
+        <member name="API_LAS_COUNTRY_ID_GRENADA" value="0x05C1" description="1473 - Grenada" />
+        <member name="API_LAS_COUNTRY_ID_SAINT_MARTIN" value="0x063F" description="1599 - Saint Martin" />
+        <member name="API_LAS_COUNTRY_ID_TURKS_AND_CAICOS_ISLANDS" value="0x0671" description="1649 - Turks and Caicos Islands" />
+        <member name="API_LAS_COUNTRY_ID_MONTSERRAT" value="0x0680" description="1664 - Montserrat" />
+        <member name="API_LAS_COUNTRY_ID_NORTHERN_MARIANA_ISLANDS" value="0x0686" description="1670 - Northern Mariana Islands" />
+        <member name="API_LAS_COUNTRY_ID_GUAM" value="0x0687" description="1671 - Guam" />
+        <member name="API_LAS_COUNTRY_ID_AMERICAN_SAMOA" value="0x0694" description="1684 - American Samoa" />
+        <member name="API_LAS_COUNTRY_ID_SAINT_LUCIA" value="0x06DE" description="1758 - Saint Lucia" />
+        <member name="API_LAS_COUNTRY_ID_DOMINICA" value="0x06E7" description="1767 - Dominica" />
+        <member name="API_LAS_COUNTRY_ID_SAINT_VINCENT_AND_THE_GRENADINES" value="0x06F8" description="1784 - Saint Vincent and the Grenadines" />
+        <member name="API_LAS_COUNTRY_ID_DOMINICAN_REPUBLIC" value="0x0711" description="1809 - Dominican Republic" />
+        <member name="API_LAS_COUNTRY_ID_TRINIDAD_AND_TOBAGO" value="0x074C" description="1868 - Trinidad and Tobago" />
+        <member name="API_LAS_COUNTRY_ID_SAINT_KITTS_AND_NEVIS" value="0x074D" description="1869 - Saint Kitts and Nevis" />
+        <member name="API_LAS_COUNTRY_ID_JAMAICA" value="0x0754" description="1876 - Jamaica" />
+        <member name="API_LAS_COUNTRY_ID_UNKNOWN" value="0xFFFF" />
+      </enum>
+      <typedef name="ApiLasSessionIdType" type="rsuint16" description="Unique Id of a session" />
+      <typedef name="ApiLasEntryIdType" type="rsuint16" description="Unique Id of a list entry" />
+      <typedef name="ApiLasEntryIndexType" type="rsuint16" description="The index number on an entry in the a sorted list" />
+      <typedef name="ApiLasNumberAttributesType" type="rsuint8" description="Number attributes. The value can be combined of one or more of the defined values below (ored together). All other values not described below are not valid and will be disregarded by the API." />
+      <typedef name="ApiLasContactNumberAttributesType" type="rsuint8" description="Contact number attributes. The value can be combined of one or more of the defined values below (ored together). All other values not described below are not valid and will be disregarded by the API." />
+      <struct name="ApiLasContactNumberItemType" description="Contact number item." >
+        <member type="ApiLasContactNumberAttributesType" name="Attributes" description="Number attributes." />
+        <member type="rsuint8" name="Number" vararraysize="rsuint8" vararraylengthname="LengthOfNumber" description="First digit in array" />
+      </struct>
+      <struct name="ApiLasBlockedNumberItemType" description="Blocked number item." >
+        <member type="rsuint8" name="Number" vararraysize="rsuint8" vararraylengthname="LengthOfNumber" description="First digit in array" />
+      </struct>
+      <struct name="ApiLasLockedEntryItemType" description="Locked Entry item" >
+        <member type="ApiLasListIdType" name="ListIdentifier" description="List Identifier" />
+        <member type="ApiLasEntryIdType" name="EntryIdentifier" description="Locked Entry Identifier." />
+        <member type="rsuint16" name="HandsetId" description="Id of the handset that currently have locked the entry." />
+      </struct>
+      <struct name="ApiLasSortingFieldsType" description="This type is used for API_IE_LAS_SORTING_FIELD_IDENTIFIERS infoElement" >
+        <member type="ApiIeType" name="FieldIdentifiers" vararraysize="rsuint8" vararraylengthname="Length" description="Array of field identifiers. Depended on the list used. See section 4 for available field identifiers" />
+      </struct>
+      <struct name="ApiLasEditableFieldsType" description="This type is used for API_IE_LAS_EDITABLE_FIELDS infoElement" >
+        <member type="ApiIeType" name="FieldIdentifiers" vararraysize="rsuint8" vararraylengthname="Length" description="Array of field identifiers. Depended on the list used. See section 4 for available field identifiers" />
+      </struct>
+      <struct name="ApiLasNonEditableFieldsType" description="This type is used for API_IE_LAS_NON_EDITABLE_FIELDS infoElement" >
+        <member type="ApiIeType" name="FieldIdentifiers" vararraysize="rsuint8" vararraylengthname="Length" description="Array of field identifiers. Depended on the list used. See section 4 for available field identifiers" />
+      </struct>
+      <struct name="ApiLasReqFldIdentifiersType" description="This type is used for API_IE_LAS_REQUESTED_FIELD_IDENTIFIERS infoElement" >
+        <member type="ApiIeType" name="FieldIdentifiers" vararraysize="rsuint8" vararraylengthname="Length" description="Array of field identifiers. Depended on the list used. See section 4 for available field identifiers" />
+      </struct>
+      <struct name="ApiLasSearchTextType" description="This type is used for API_IE_LAS_SEARCH_TEXT infoElement" >
+        <member type="rsuint8" name="Characters" vararraysize="rsuint8" vararraylengthname="Length" description="Array of UTF8 characters coded search text." />
+      </struct>
+      <struct name="ApiLasListIdentifierType" description="This type is used for API_IE_LAS_LIST_IDENTIFIERS infoElement" >
+        <member type="ApiLasListIdType" name="ListIdentifier" vararraysize="rsuint8" vararraylengthname="Length" description="First list identifier in array" />
+      </struct>
+      <struct name="ApiLasNumberType" description="This type is used for API_IE_LAS_NUMBER infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="ApiLasNumberAttributesType" name="Attributes" description="Number attributes." />
+        <member type="rsuint8" name="Number" vararraysize="rsuint8" vararraylengthname="LengthOfNumber" description="First digit in array" />
+      </struct>
+      <struct name="ApiLasNameType" description="This type is used for API_IE_LAS_ NAME infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsuint8" name="Name" vararraysize="rsuint8" vararraylengthname="Length" description="First character in array (UTF8 encoded)" />
+      </struct>
+      <struct name="ApiLasDateTimeType" description="This type is used for API_IE_LAS_DATE_TIME infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsuint8" name="Year" description="Year  (counted since year 2000)" />
+        <member type="rsuint8" name="Month" description="Month of year [1-12]" />
+        <member type="rsuint8" name="Day" description="Day of month [1-31]" />
+        <member type="rsuint8" name="Hour" description="Hour of day [0-23]" />
+        <member type="rsuint8" name="Min" description="Minute [0-59]" />
+        <member type="rsuint8" name="Sec" description="Second [0-59]" />
+        <member type="rsuint8" name="TimeZone" description="The Time Zone indicates the difference, expressed in quarters of an hour, between the local time and GMT. In the first of the two semi-octets, the first bit represents the algebraic sign of this difference (0: positive; 1: negative).
+The Time Zone code enables the receiver to calculate the equivalent time in GMT from the other semi-octets in the element, or indicate the time zone (GMT, GMT+1H, etc.), or perform other similar calculations as required by the
+implementation." />
+      </struct>
+      <struct name="ApiLasEntryReadStatusType" description="This type is used for API_IE_LAS_ENTRY_READSTATUS infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="ApiLasReadStatusType" name="ReadStatus" description="Entry read status." />
+      </struct>
+      <struct name="ApiLasLineNameType" description="This type is used for API_IE_LAS_ LINE_NAME infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="rsuint8" name="LineName" vararraysize="rsuint8" vararraylengthname="Length" description="First character in array (UTF8 encoded)" />
+      </struct>
+      <struct name="ApiLasLineIdType" description="This type is used for API_IE_LAS_ LINE_ID infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="ApiLineIdentifierSubType" name="LineIdSubtype" description="Line identifier subtype. 
+The following rules should be followed:
+For all call-related lists, the subtype shall be set to &apos;Line identifier for external call&apos; (call is external).
+For the &apos;Contact list&apos;, subtype shall be set to &apos;Relating to&apos; or &apos;All lines&apos;, depending on the contact.
+For the &apos;Line settings&apos; list, and for any other list, the subtype shall be set to &apos;Relating to&apos;." />
+        <member type="rsuint8" name="LineId" vararraysize="rsuint8" vararraylengthname="Length" description="First byte in LineId array" />
+      </struct>
+      <struct name="ApiLasNumberOfCallsType" description="This type is used for API_IE_LAS_FIELD_NUMBER_OF_CALLS infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsuint8" name="Value" description="First identifier value in array" />
+      </struct>
+      <struct name="ApiLasCallType" description="This type is used for API_IE_LAS_NUMBER_OF_CALLS infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="ApiLasCallTypeType" name="CallType" description="Call type" />
+      </struct>
+      <struct name="ApiLasFirstNameType" description="This type is used for API_IE_LAS_ FIRST_NAME infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsuint8" name="FirstName" vararraysize="rsuint8" vararraylengthname="Length" description="First character in array (UTF8 encoded)" />
+      </struct>
+      <struct name="ApiLasContactNumberType" description="This type is used for API_IE_LAS_CONTACT_NUMBER infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsuint8" name="NumberOfNumbers" description="This value gives the number of Contact numbers." />
+        <member type="rsuint8" name="Data" vararraysize="rsuint16" vararraylengthname="LengthOfNumbers" description="Array with all contact numbers." />
+      </struct>
+      <struct name="ApiLasAssMelodyType" description="This type is used for API_IE_LAS_ ASS_MELODY infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="rsuint8" name="MelodyId" description="Melody id" />
+      </struct>
+      <struct name="ApiLasCallInterceptionType" description="This type is used for API_IE_LAS_CALL_INTERCEPTION infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="ApiLasCallInterceptionTypeType" name="CallInterception" description="This field is related to the &apos;call interception&apos;. When not allowed, it is forbidden for other PPs to intercept a call initiated by this PP." />
+      </struct>
+      <struct name="ApiLasPinCodeType" description="This type is used for API_IE_LAS_PIN_CODE infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsuint8" name="PinCode[API_LAS_LENGTH_OF_PINCODE]" description="Each decimal digit shall be translated into one nibble (4 bits, BCD coded). If the entered pin is less than API_LAS_LENGTH_OF_PINCODE bytes long the leading nibbles should be padded with 0xF" />
+      </struct>
+      <struct name="ApiLasNewPinCodeType" description="This type is used for API_IE_LAS_ NEW_PIN_CODE infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="rsuint8" name="PinCode[API_LAS_LENGTH_OF_PINCODE]" description="Each decimal digit shall be translated into one nibble (4 bits, BCD coded). If the entered pin is less than API_LAS_LENGTH_OF_PINCODE bytes long the leading nibbles should be padded with 0xF" />
+      </struct>
+      <struct name="ApiLasClockMasterType" description="This type is used for API_IE_LAS_ CLOCK_MASTER infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="ApiLasClockMasterTypeType" name="ClockMaster" description="Defines the entity which sets date and time for the DECT system (PP or FP)." />
+      </struct>
+      <struct name="ApiLasBaseResetType" description="This type is used for API_IE_LAS_ BASE_RESET infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="ApiLasBaseResetTypeType" name="Reset" description="The Base reset field respect the following rules: 
+If at least one DECT system setting, or line setting, has been set to a non default value, the Base reset field will be equal to False when a PP performs a read command. 
+If a registered PP sets the value to True, all DECT system and line settings will be reset to their default value. The setting remains set to True until any DECT system or line setting is changed. 
+Any attempt from to set this parameter to False will result in a negative acknowledgement." />
+      </struct>
+      <struct name="ApiLasIpAdrType" description="This type is used for API_IE_LAS_IP_ADDRESS_TYPE infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="ApiLasIpAdrTypeType" name="IpAddressType" description="The IP address of the FP may be assigned dynamically using DHCP or manually using a static address entered by the user." />
+      </struct>
+      <struct name="ApiLasIpAdrValueType" description="This type is used for API_IE_LAS_IP_ADDRESS infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="ApiLasIpAdrFormatType" name="IpAddressFormat" description="if set to API_LAS_IPADRFORMAT_IPV4, the format is IPv4 (4 bytes long); if set to API_LAS_IPADRFORMAT_IPV6, the format is IPv6 (16 bytes long)." />
+        <member type="rsuint8" name="Digit[1]" description="Digits in address" />
+      </struct>
+      <struct name="ApiLasIpSubnetMaskType" description="This type is used for API_IE_LAS_IP_SUBNET_MASK infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="ApiLasIpAdrFormatType" name="IpAddressFormat" description="if set to API_LAS_IPADRFORMAT_IPV4, the format is IPv4 (4 bytes long); if set to API_LAS_IPADRFORMAT_IPV6, the format is IPv6 (16 bytes long)." />
+        <member type="rsuint8" name="Digit[1]" description="Digits in address" />
+      </struct>
+      <struct name="ApiLasIpGatewayType" description="This type is used for API_IE_LAS_IP_GATEWAY infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="ApiLasIpAdrFormatType" name="IpAddressFormat" description="if set to API_LAS_IPADRFORMAT_IPV4, the format is IPv4 (4 bytes long); if set to API_LAS_IPADRFORMAT_IPV6, the format is IPv6 (16 bytes long)." />
+        <member type="rsuint8" name="Digit[1]" description="Digits in address" />
+      </struct>
+      <struct name="ApiLasIpDnsType" description="This type is used for API_IE_LAS_IP_DNS infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="ApiLasIpAdrFormatType" name="IpAddressFormat" description="if set to API_LAS_IPADRFORMAT_IPV4, the format is IPv4 (4 bytes long); if set to API_LAS_IPADRFORMAT_IPV6, the format is IPv6 (16 bytes long)." />
+        <member type="rsuint8" name="Digit[1]" description="Digits in address" />
+      </struct>
+      <struct name="ApiLasVerFirmwareType" description="This type is used for API_IE_LAS_FIRMWARE_VERSION infoElement" >
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="rsuint8" name="Character" vararraysize="rsuint8" vararraylengthname="Length" description="First character in array (UTF8 encoded)" />
+      </struct>
+      <struct name="ApiLasVerEePromType" description="This type is used for API_IE_LAS_EEPROM_VERSION infoElement" >
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="rsuint8" name="Character" vararraysize="rsuint8" vararraylengthname="Length" description="First character in array (UTF8 encoded)" />
+      </struct>
+      <struct name="ApiLasVerHardwareType" description="This type is used for API_IE_LAS_HARDWARE_VERSION infoElement" >
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="rsuint8" name="Character" vararraysize="rsuint8" vararraylengthname="Length" description="First character in array (UTF8 encoded)" />
+      </struct>
+      <struct name="ApiLasEmissionModeType" description="This type is used for API_IE_LAS_EMISSION_MODE infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="ApiLasNoEmissionModeType" name="NoEmissionMode" description="Setting for activating/deactivating the &apos;No Emission mode&apos;" />
+      </struct>
+      <struct name="ApiLasAttachedHandsetsType" description="This type is used for API_IE_LAS_ ATTACHED_HANDSETS
+infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="rsuint8" name="NumberOfAttachedHandsets" description="This value tells how many handsets that are attached to this line (Number of bits set in the bitmap field).  
+
+NB. This value is automatically calculated by the API and should there for not be added when sending this InfoElement." />
+        <member type="rsuint8" name="Bitmap" vararraysize="rsuint8" vararraylengthname="Length" description="The Bitmap is showing whish handsets that are connected to each line. Each handset is represented by a bit in this field 
+
+Bits 8 7 6 5 4 3 2 1  Meaning
+x x x x x x x 1  Handset nr 1 is attached
+x x x x x x 1 x  Handset nr 2 is attached
+x x x x x 1 x x  Handset nr 3 is attached
+x x x x 1 x x x  Handset nr 4 is attached
+x x x 1 x x x x  Handset nr 5 is attached
+x x 1 x x x x x  Handset nr 6 is attached
+x 1 x x x x x x  Handset nr 7 is attached
+1 x x x x x x x  Handset nr 8 is attached" />
+      </struct>
+      <struct name="ApiLasDialingPrefixType" description="This type is used for API_IE_LAS_ DIALING_PREFIX infoElement." >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="rsuint8" name="Number" vararraysize="rsuint8" vararraylengthname="LengthOfNumber" description="Dial prefix number" />
+      </struct>
+      <struct name="ApiLasFpMelodyType" description="This type is used for API_IE_LAS_ FP_MELODY infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="rsuint8" name="Value" description="Melody id" />
+      </struct>
+      <struct name="ApiLasFpVolumeType" description="This type is used for API_IE_LAS_ FP_VOLUME infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="rsuint8" name="Volume" description="Volumen value [0-9]" />
+      </struct>
+      <struct name="ApiLasBlockedNumberType" description="This type is used for API_IE_LAS_ BLOCKED_NUMBERS infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="rsuint8" name="NumberOfNumbers" description="This value gives the number of Contact numbers." />
+        <member type="rsuint8" name="Data" vararraysize="rsuint16" vararraylengthname="LengthOfNumbers" description="Array with all contact numbers." />
+      </struct>
+      <struct name="ApiLasMultipleCallType" description="This type is used for API_IE_LAS_ MULTIPLE_CALL infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="ApiLasMultipleCallModeType" name="MultipleCallMode" description="This field allows to configure a multiple call line in single call mode. For non-multiple call lines, the value Single call mode shall always be used.
+" />
+      </struct>
+      <struct name="ApiLasIntrusionCallType" description="This type is used for API_IE_LAS_ INTRUSION_CALL infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="ApiLasIntrusionCallModeType" name="IntrusionCallMode" description="Intrusion call mode" />
+      </struct>
+      <struct name="ApiLasPermanentClirType" description="This type is used for API_IE_LAS_ PERMANENT_CLIR infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="ApiLasPermanentClirTypeType" name="ClirMode" description="CLIR mode" />
+        <member type="rsuint8" name="LengthOfActivationCode" description="Length in bytes of the CLIR activation code" />
+        <member type="rsuint8" name="ClirCodes" vararraysize="rsuint8" vararraylengthname="LengthOfDeactivationCode" description="Each digit shall be out of interval 30H..39H, and values 23H, 2AH, 05H and 15H. 
+The CLIR activation code should be placed first and the deactivation code second." />
+      </struct>
+      <struct name="ApiLasCallForwardingCfuType" description="This type is used for API_IE_LAS _CALL_FORWARDING_CFU infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="ApiLasCallForwardStateType" name="State" description="Call forward state." />
+        <member type="rsuint8" name="LengthOfActivationCode" description="Length in bytes of the activation code" />
+        <member type="rsuint8" name="LengthOfDeactivationCode" description="Length in bytes of the deactivation code" />
+        <member type="rsuint8" name="Data" vararraysize="rsuint8" vararraylengthname="LengthOfCfNumber" description="Each digit shall be out of interval 30H..39H, and values 23H, 2AH, 05H and 15H. 
+The Data should be arranged the following way:
+1) Activation code 
+2) Deactivation code
+3) CfNumber" />
+      </struct>
+      <struct name="ApiLasCallForwardingCfnaType" description="This type is used for API_IE_LAS _CALL_FORWARDING_CFNA infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="ApiLasCallForwardStateType" name="State" description="Call forward state." />
+        <member type="rsuint8" name="DelayTime" description="Number of seconds before call is forwarded.
+Allowable values are 0 to 64. A value of zero indicates that the choice of the 
+number of seconds is left to the FP (use of a default or preferred value configured in the FP)." />
+        <member type="rsuint8" name="LengthOfActivationCode" description="Length in bytes of the activation code" />
+        <member type="rsuint8" name="LengthOfDeactivationCode" description="Length in bytes of the deactivation code" />
+        <member type="rsuint8" name="Data" vararraysize="rsuint8" vararraylengthname="LengthOfCfNumber" description="Each digit shall be out of interval 30H..39H, and values 23H, 2AH, 05H and 15H. 
+The Data should be arranged the following way:
+1) Activation code 
+2) Deactivation code
+3) CfNumber" />
+      </struct>
+      <struct name="ApiLasCallForwardingCfbType" description="This type is used for API_IE_LAS _CALL_FORWARDING_CFB infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="ApiLasCallForwardStateType" name="State" description="Call forward state." />
+        <member type="rsuint8" name="LengthOfActivationCode" description="Length in bytes of the activation code" />
+        <member type="rsuint8" name="LengthOfDeactivationCode" description="Length in bytes of the deactivation code" />
+        <member type="rsuint8" name="Data" vararraysize="rsuint8" vararraylengthname="LengthOfCfNumber" description="Each digit shall be out of interval 30H..39H, and values 23H, 2AH, 05H and 15H. 
+The Data should be arranged the following way:
+1) Activation code 
+2) Deactivation code
+3) CfNumber" />
+      </struct>
+      <struct name="ApiLasCountryCodeType" description="This type is used for API_IE_LAS_COUNTRY_CODE infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="ApiLasCountryCodeTypeType" name="CountryCode" description="System country code" />
+      </struct>
+      <struct name="ApiLasIpMacType" description="This type is used for API_IE_LAS_IPMAC infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="rsuint16" name="LengthOfIpMac" description="Length of IP MAC address in bytes." />
+        <member type="rsuint8" name="IpMac[1]" description="FP IP MAC address." />
+      </struct>
+      <struct name="ApiLasDectModeType" description="This type is used for API_IE_LAS_DECT_MODE infoElement" >
+        <member type="rsbool" name="Editable" description="Read only or editable. Please refer to section 2 for further information on this setting." />
+        <member type="rsbool" name="PinProtected" description="Indicates if the InfoElement is PIN code protected. Please refer to section 2.5 for further information on this setting." />
+        <member type="ApiDectTypeType" name="DectMode" description="FP Dect mode." />
+      </struct>
+      <struct name="ApiLasPinProtectedFieldsType" description="This type is used for API_IE_LAS_PIN_PROTECTED_FIELDS infoElement" >
+        <member type="ApiIeType" name="FieldIdentifiers" vararraysize="rsuint8" vararraylengthname="Length" description="Array of field identifiers. Depended on the list used. See section 4 for available field identifiers" />
+      </struct>
+      <struct name="ApiLasDisabledFieldsType" description="This type is used for API_IE_LAS_DISABLED_FIELDS infoElement" >
+        <member type="ApiIeType" name="FieldIdentifiers" vararraysize="rsuint8" vararraylengthname="Length" description="Array of field identifiers. Depended on the list used. See section 4 for available field identifiers" />
+      </struct>
+      <struct name="ApiLasLockedEntriesListType" description="This type is used for API_IE_LOCKED_ENTRIES_LIST infoElement" >
+        <member type="rsuint8" name="LockedEntriesList" vararraysize="rsuint8" vararraylengthname="Length" description="Array of LockedEntry items." />
+      </struct>
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" />
+    </includefiles>
+    <macros>
+      <defines name="API_LAS_LENGTH_OF_PINCODE 4" value="Length of pincode." />
+    </macros>
+    <mails>
+      <mail primitive="API_LAS_START_SESSION_REQ" id="0x5500" direction="in" description="This mail is used by the MMI to start up a list handling session with a specified list in FP." >
+        <parameter type="ApiLasListIdType" name="ListIdentifier" description="Id of list to start session with" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint8" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElement can hold a number Info Elements placed in the format (ApiInfoElementType):
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Valid Info elements for this command:
+API_IE_LAS_SORTING_FIELD_IDENTIFIERS" />
+      </mail>
+      <mail primitive="API_LAS_START_SESSION_CFM" id="0x5501" direction="out" description="This mail is used by the API to inform the MMI that a session has been started with or without success.
+
+Error cases:
+If a start settion request is sendt with an unsupported ListIdentifier, API_LAS_REJECT_LIST_NOT_SUPPORTED will be returned as reject reason. 
+
+If a start settion request is sendt before LAS has finished initializing, API_LAS_REJECT_NOT_ENOUGH_RESOURCES will be returned as reject reason. 
+" >
+        <parameter type="ApiLasListIdType" name="ListIdentifier" description="Id of list to start session with" />
+        <parameter type="ApiLasSessionIdType" name="SessionIdentifier" description="Allocated session id reserved for the started session. Will be 0 in case of rejection." />
+        <parameter type="rsuint16" name="NoOfEntries" description="Number of entries in list related to session." />
+        <parameter type="ApiLasDiscriminatorType" name="DiscriminatorType" description="API_LIST_DISCRIMINATOR_UNDEFINED or API_LIST_DISCRIMINATOR_EMC. If API_LIST_DISCRIMINATOR_UNDEFINED the following parameter is not used" />
+        <parameter type="rsuint16" name="Discriminator" description="Not used of DiscriminatorType is 0" />
+        <parameter type="ApiLasRejectReasonType" name="RejectReason" description="Reject reason in case of reject" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElement can hold a number Info Elements placed in the format (ApiInfoElementType):
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Valid Info elements for this command: API_IE_LAS_SORTING_FIELD_IDENTIFIERS" />
+      </mail>
+      <mail primitive="API_LAS_END_SESSION_REQ" id="0x5502" direction="in" description="This mail is used by the MMI to end a list handling session with a specified list in FP. Remaining locked entries will be unlocked.
+
+If SessionIdentifier is wrong command is ignored." >
+        <parameter type="ApiLasSessionIdType" name="SessionIdentifier" description="Id of session." />
+      </mail>
+      <mail primitive="API_LAS_END_SESSION_CFM" id="0x5503" direction="out" description="This mail is used by the API to inform the MMI that the session has ended." >
+        <parameter type="ApiLasSessionIdType" name="SessionIdentifier" description="Id of session." />
+      </mail>
+      <mail primitive="API_LAS_QUERY_SUPPORTED_ENTRY_FIELDS_REQ" id="0x5504" direction="in" description="This mail is used by the MMI to query FP about which fields are supported in the entries of a specific list.
+
+If session id is wrong FP will answer back with negative acknowledgement (API_LAS_INVALID_SESSION_NO ) else confirm will be received." >
+        <parameter type="ApiLasSessionIdType" name="SessionIdentifier" description="Id of session." />
+      </mail>
+      <mail primitive="API_LAS_QUERY_SUPPORTED_ENTRY_FIELDS_CFM" id="0x5505" direction="out" description="This mail is used to confirm the API_LAS_END_REQ command." >
+        <parameter type="ApiLasSessionIdType" name="SessionIdentifier" description="Id of session." />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElement can hold a number Info Elements placed in the format (ApiInfoElementType):
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Valid Info elements for this command:
+API_IE_LAS_EDITABLE_FIELDS
+API_IE_LAS_NON_EDITABLE_FIELDS" />
+      </mail>
+      <mail primitive="API_LAS_READ_ENTRIES_REQ" id="0x5506" direction="in" description="This mail is used by the MMI to request one or more list entries in FP. The received list corresponds to the sorting and setup done by the start session command. 
+
+If StartIndex  + NumberOfEntries is larget than the number of entries stored, FP will return the existing elements in the range in the confirm command.
+
+If an unknown list entry field is requested the FP will ignore this field and continue with the next field.
+
+If no errors:
+API will return API_LAS_READ_ENTRIES_CFM
+
+If error:
+API will return API_LAS_NEGATIVE_ACKNOWLEDGE_IND with the following RejectReason:
+[API_LAS_INVALID_SESSION_NO] If SessionIdentifier is wrong.
+[API_LAS_INVALID_START_INDEX] If StartIndex is wrong.
+[API_LAS_INVALID_RANGE] If NumberOfEntries is larger than 0x7F.
+" >
+        <parameter type="ApiLasSessionIdType" name="SessionIdentifier" description="Id of session." />
+        <parameter type="ApiLasEntryIndexType" name="StartIndex" description="Start number [0-0x3FFF] where:
+0: Last entry in list
+0x1 - 0x3FFF: Entry number in list" />
+        <parameter type="rsuint8" name="NumberOfEntries" description="Number of requested entries [0x1-0x7F]" />
+        <parameter type="ApiLasReadDirectionType" name="ReadDirection" description="This enum defines the direction of received list entries." />
+        <parameter type="ApiLasReadStatusType" name="ReadStatus" description="Flag for requesting setting/resetting of the &apos;Read status&apos; field for all read entrie. This field only applies to a list having a &apos;Read status&apos; field, and is otherwise ignored." />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElement can hold a number Info Elements placed in the format (ApiInfoElementType):
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Valid Info elements for this command:
+API_IE_LAS_REQUESTED_FIELD_IDENTIFIERS" />
+      </mail>
+      <mail primitive="API_LAS_READ_ENTRIES_CFM" id="0x5507" direction="out" description="This mail is used by the API to tell the MMI about the received list entries. Content of list entry is transmitted in data packets.
+Content of list entry is transmitted in data packets." >
+        <parameter type="ApiLasSessionIdType" name="SessionIdentifier" description="Id of session." />
+        <parameter type="ApiLasEntryIndexType" name="StartIndex" description="Smallest index value of list response [0x1 - 0x3FFF]" />
+        <parameter type="rsuint8" name="NumberOfEntries" description="Number of delivered entries [0-0xFF]" />
+      </mail>
+      <mail primitive="API_LAS_EDIT_ENTRY_REQ" id="0x5508" direction="in" description="This mail is used by the MMI to edit and lock one entry. FP prevent other PP&apos;s from changing the requested list entry until PP has sent the save entry command or the session is terminated. 
+If session id is wrong FP will answer back with negative acknowledgement (API_LAS_INVALID_SESSION_NO ) else confirm will be received.
+
+If an unknown entry identifier is requested FP will answer back with negative acknowledgement (API_LAS_ENTRY_NOT_AVAILABLE) else confirm will be received.
+
+If an unknown list field identifier is requested FP will ignore this filed and continue." >
+        <parameter type="ApiLasSessionIdType" name="SessionIdentifier" description="Id of session." />
+        <parameter type="ApiLasEntryIdType" name="EntryIdentifier" description="Id of entry." />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElemen can hold a number Info Elements placed in the format (ApiInfoElementType):
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Valid Info elements for this command:
+API_IE_LAS_REQUESTED_FIELD_IDENTIFIERS" />
+      </mail>
+      <mail primitive="API_LAS_EDIT_ENTRY_CFM" id="0x5509" direction="out" description="This mail is used by the API to tell the MMI that the entry has been locked and are ready for edit. 
+Content of list entry is transmitted in data packets." >
+        <parameter type="ApiLasSessionIdType" name="SessionIdentifier" description="Id of session." />
+      </mail>
+      <mail primitive="API_LAS_SAVE_ENTRY_REQ" id="0x550A" direction="in" description="This mail is used by the MMI to request to save a new or existing list entry identified by the entry identifier. Corresponding entry is sent in data packets.
+
+If the previously started edit procedure has to be terminated without changing the entry, PP shall perform the the save entry procedure with only one empty last data packet following after the save entry.
+
+Fields which shall be deleted shall be sent back to FP with length 0.
+
+List entries which are updated must have been locked using the edit command (except for new entries).
+
+If session id is wrong FP will answer back with negative acknowledgement (API_LAS_INVALID_SESSION_NO ) else confirm will be received.
+
+If entry identifier id is unknown FP will answer back with negative acknowledgement (API_LAS_ENTRY_NOT_AVAILABLE) else confirm will be received.
+
+If a field content cannot be accepted FP will answer back with negative acknowledgement (API_LAS_CONTENT_NOT_ACCEPTED) else confirm will be received.
+
+If an entry cannot be added to a list which cannot accept an additional entry, FP will answer back with negative acknowledgement (API_LAS_FULL) else confirm will be received.
+" >
+        <parameter type="ApiLasSessionIdType" name="SessionIdentifier" description="Id of session." />
+        <parameter type="ApiLasEntryIdType" name="EntryIdentifier" description="Id of entry. If 0 entry is new and no identifier has been assigned yet." />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElemen can hold a number Info Elements placed in the format (ApiInfoElementType):
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Valid Info elements:
+See section 4 for available info elements." />
+      </mail>
+      <mail primitive="API_LAS_SAVE_ENTRY_CFM" id="0x550B" direction="out" description="This mail is used by the API to tell the MMI that an entry has been saved." >
+        <parameter type="ApiLasSessionIdType" name="SessionIdentifier" description="Id of session." />
+        <parameter type="ApiLasEntryIdType" name="EntryIdentifier" description="Id of entry." />
+        <parameter type="ApiLasEntryIndexType" name="PositionNumber" description="Indicates the (possible new) index number of the entry in the list." />
+        <parameter type="rsuint16" name="NoOfEntries" description="Total number of available entries in the list." />
+      </mail>
+      <mail primitive="API_LAS_DELETE_ENTRY_REQ" id="0x550C" direction="in" description="This mail is used by the MMI to request to delete one existing list entry.
+
+If session id is wrong FP will answer back with negative acknowledgement (API_LAS_INVALID_SESSION_NO ) else confirm will be received.
+
+If entry identifier id is unknown FP will answer back with negative acknowledgement (API_LAS_ENTRY_NOT_AVAILABLE) else confirm will be received.
+
+It is not allowed to delete entries in List of supported lists and DECT system settings list. When doing this FP will answer back with negative acknowledgement (API_LAS_PROCEDURE_NOT_ALLOWED) else confirm will be received..
+" >
+        <parameter type="ApiLasSessionIdType" name="SessionIdentifier" description="Id of session." />
+        <parameter type="ApiLasEntryIdType" name="EntryIdentifier" description="Id of entry.[0x1 - 0x3FFF]" />
+      </mail>
+      <mail primitive="API_LAS_DELETE_ENTRY_CFM" id="0x550D" direction="out" description="This mail is used by the API to tell the MMI that an entry has been deleted." >
+        <parameter type="ApiLasSessionIdType" name="SessionIdentifier" description="Id of session." />
+        <parameter type="rsuint16" name="NumberOfEntriesLeft" description="Number of entries left in the list after deletion" />
+      </mail>
+      <mail primitive="API_LAS_DELETE_LIST_REQ" id="0x550E" direction="in" description="This mail is used by the MMI to request a deletion of all entries in a list. The list itself will still remain.
+
+If session id is wrong FP will answer back with negative acknowledgement (API_LAS_INVALID_SESSION_NO) else confirm will be received.
+
+If an unknown list identifier is requested FP will answer back with negative acknowledgement (API_LAS_PROCEDURE_NOT_ALLOWED) else confirm will be received.
+
+If FP reject the delete list command it will answer back with negative acknowledgement (API_LAS_PROCEDURE_NOT_ALLOWED) else confirm will be received.
+
+It is not allowed to delete List of supported lists, Line settings List and DECT system settings list. When doing this FP will answer back with negative acknowledgement (API_LAS_PROCEDURE_NOT_ALLOWED) else confirm will be received.
+" >
+        <parameter type="ApiLasSessionIdType" name="SessionIdentifier" description="Id of session." />
+      </mail>
+      <mail primitive="API_LAS_DELETE_LIST_CFM" id="0x550F" direction="out" description="This mail is used by the API to tell the MMI that all entries in a list have been deleted." >
+        <parameter type="ApiLasSessionIdType" name="SessionIdentifier" description="Id of session." />
+      </mail>
+      <mail primitive="API_LAS_SEARCH_ENTRIES_REQ" id="0x5510" direction="in" description="This mail is used by the MMI to request a range of entries in the list which satisfy the search criteria. The search is performed on the primary sorting field (returned as the first fieldidentifier in the API_LAS_START_SESSION_CFM message)
+
+If session id is wrong FP will answer back with negative acknowledgement (API_LAS_INVALID_SESSION_NO) else confirm will be received.
+
+If an unknown list entry filed identifier is requested FP will ignore field and continue." >
+        <parameter type="ApiLasSessionIdType" name="SessionIdentifier" description="Id of session." />
+        <parameter type="ApiLasSearchOptionType" name="SearchOption" description="Option that should be used in search" />
+        <parameter type="ApiLasSearchCaseOptionType" name="SearchCaseOption" description="Case option that should be used in search" />
+        <parameter type="rsuint8" name="NumberOfEntries" description="Number of requested entries [0x1 - 0x7F]" />
+        <parameter type="ApiLasReadDirectionType" name="ReadDirection" description="This enum defines the direction of received list entries." />
+        <parameter type="ApiLasReadStatusType" name="ReadStatus" description="Flag for requesting setting/resetting of the &apos;Read status&apos; field for all read entrie. This field only applies to a list having a &apos;Read status&apos; field, and is otherwise ignored." />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElement can hold a number Info Elements placed in the format (ApiInfoElementType):
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Valid Info elements for this command:
+API_IE_LAS_SEARCH_TEXT
+API_IE_LAS_REQUESTED_FIELD_IDENTIFIERS" />
+      </mail>
+      <mail primitive="API_LAS_SEARCH_ENTRIES_CFM" id="0x5511" direction="out" description="This mail is used by the API to tell MMI about the found entries in the search.
+
+Content of list/entries is transmitted in data packets, except if no entries found." >
+        <parameter type="ApiLasSessionIdType" name="SessionIdentifier" description="Id of session." />
+        <parameter type="ApiLasEntryIndexType" name="StartIndex" description="Index number of first returned list entry." />
+        <parameter type="rsuint8" name="NumberOfEntries" description="Number of returned entries." />
+      </mail>
+      <mail primitive="API_LAS_NEGATIVE_ACKNOWLEDGE_IND" id="0x5512" direction="out" description="This mail is used by the API to tell MMI that the previous command was rejected. 
+
+If the reject reason was an invalid session number the SessionIdentifier will contain the invalid number." >
+        <parameter type="ApiLasSessionIdType" name="SessionIdentifier" description="Id of session." />
+        <parameter type="ApiLasNegativeAcknowledgeReasonType" name="RejectReason" description="Reject reason" />
+      </mail>
+      <mail primitive="API_LAS_DATA_PACKET_IND" id="0x5513" direction="out" description="This mail is used by the API to send data to the MMI.
+The data content is distributed over several data packet messages. One entry field might be distributed over more than one data packet." >
+        <parameter type="ApiLasSessionIdType" name="SessionIdentifier" description="Id of session." />
+        <parameter type="ApiLasEntryIdType" name="EntryIdentifier" description="Id of entry." />
+        <parameter type="rsbool" name="Last" description="Indicate if packet is the last one." />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElement can hold a number Info Elements placed in the format (ApiInfoElementType):
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Valid Info elements for this command:
+See section 4 for available info elements." />
+      </mail>
+      <mail primitive="API_LAS_BASE_RESET_IND" id="0x5580" direction="out" description="This mail is used by the API to tell MMI that a BaseReset have been requested. 
+" >
+        <parameter type="ApiLasSessionIdType" name="SessionIdentifier" description="Id of session." />
+      </mail>
+      <mail primitive="API_LAS_STATUS_IND" id="0x5581" direction="out" description="This mail is used by the API to tell MMI that an internal error has occurred in the API." >
+        <parameter type="ApiLasSessionIdType" name="SessionIdentifier" description="Id of session." />
+        <parameter type="ApiLasStatusType" name="Status" description="Status." />
+      </mail>
+      <mail primitive="API_LAS_GET_FIELD_PROTECTION_REQ" id="0x5582" direction="in" description="This mail is used by the MMI to query FP about the protection of fields for a list (disabled, read-only, writeable or writeable with PIN protection)." >
+        <parameter type="ApiLasListIdType" name="ListIdentifier" description="Id of list." />
+      </mail>
+      <mail primitive="API_LAS_GET_FIELD_PROTECTION_CFM" id="0x5583" direction="out" description="Field protection information." >
+        <parameter type="ApiLasListIdType" name="ListIdentifier" description="Id of list." />
+        <parameter type="RsStatusType" name="Status" description="Command status, either RSS_SUCCESS or RSS_NOT_SUPPORTED." />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElement can hold a number Info Elements placed in the format (ApiInfoElementType):
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Valid Info elements for this command:
+API_IE_LAS_DISABLED_FIELDS
+API_IE_LAS_EDITABLE_FIELDS
+API_IE_LAS_NON_EDITABLE_FIELDS
+API_IE_LAS_PIN_PROTECTED_FIELDS" />
+      </mail>
+      <mail primitive="API_LAS_SET_FIELD_PROTECTION_REQ" id="0x5584" direction="in" description="This mail is used by the MMI to modify the protection of fields for a list (disabled, read-only, writeable or writeable with PIN protection)." >
+        <parameter type="ApiLasListIdType" name="ListIdentifier" description="Id of list." />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElement can hold a number Info Elements placed in the format (ApiInfoElementType):
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Valid Info elements for this command:
+API_IE_LAS_DISABLED_FIELDS
+API_IE_LAS_EDITABLE_FIELDS
+API_IE_LAS_NON_EDITABLE_FIELDS
+API_IE_LAS_PIN_PROTECTED_FIELDS" />
+      </mail>
+      <mail primitive="API_LAS_SET_FIELD_PROTECTION_CFM" id="0x5585" direction="out" description="Field protection information." >
+        <parameter type="ApiLasListIdType" name="ListIdentifier" description="Id of list." />
+        <parameter type="RsStatusType" name="Status" description="Command status, either RSS_SUCCESS or RSS_NOT_SUPPORTED." />
+      </mail>
+      <mail primitive="API_LAS_GET_LOCKED_ENTRIES_LIST_REQ" id="0x5586" direction="in" description="This mail is used by the MMI to query FP about the editing status of specific lists." />
+      <mail primitive="API_LAS_GET_LOCKED_ENTRIES_LIST_CFM" id="0x5587" direction="out" description="Field protection information." >
+        <parameter type="RsStatusType" name="Status" description="Command status, either RSS_SUCCESS or RSS_NOT_SUPPORTED." />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElement can hold a number Info Elements placed in the format (ApiInfoElementType):
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Valid Info elements for this command:
+API_IE_LAS_LOCK_ENTRIES_LIST" />
+      </mail>
+      <mail primitive="API_LAS_SET_FIELD_DEFAULT_REQ" id="0x5588" direction="in" description="This mail is used by the MMI to save a default value to be used upon a default request." >
+        <parameter type="ApiLasListIdType" name="ListIdentifier" description="Id of list." />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElement can hold a number Info Elements placed in the format (ApiInfoElementType)." />
+      </mail>
+      <mail primitive="API_LAS_SET_FIELD_DEFAULT_CFM" id="0x5589" direction="out" description="Field default value information." >
+        <parameter type="ApiLasListIdType" name="ListIdentifier" description="Id of list." />
+        <parameter type="RsStatusType" name="Status" description="Command status, either RSS_SUCCESS or RSS_NOT_SUPPORTED." />
+      </mail>
+      <mail primitive="API_LAS_DB_CLEAR_REQ" id="0x55C0" direction="in" description="This mail is used by the MMI to clear a specified list in FP. 
+This command can only be used with a Phoenix based FPs which support LAS and should only be used for debug/test purpose and not for application use." >
+        <parameter type="ApiLasSessionIdType" name="SessionIdentifier" description="Id of session." />
+        <parameter type="ApiLasListIdType" name="ListIdentifier" description="Id of list to clear. Any list can be cleared from any session.  
+If API_LAS_SUPPORTED_LISTS is selected all lists are cleared" />
+      </mail>
+      <mail primitive="API_LAS_DB_CLEAR_CFM" id="0x55C1" direction="out" description="This mail is used by the API to inform the MMI that the list has been cleared.
+This command can only be used with a Phoenix based FPs which support LAS and should only be used for debug/test purpose and not for application use." >
+        <parameter type="ApiLasSessionIdType" name="SessionIdentifier" description="Id of session." />
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

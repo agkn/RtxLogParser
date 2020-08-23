@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="API_BroadcastAudio.doc" wordmacrover="74">
+  <group name="ApiBroadcastAudio">
+    <types>
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" description="Include of API configuration header." />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" description="Include of generic API types." />
+    </includefiles>
+    <macros>
+    </macros>
+    <mails>
+      <mail primitive="API_BROADCAST_AUDIO_HOST_START_REQ" id="0x4340" direction="out" description="Enters broadcast mode on the host device: Start dummy bearer transmission, but with no audio attached." >
+        <parameter type="rsuint16" name="wGroupId" description="The GroupId is a random number used to identify the host device. The GroupId shall be in decimal nibble coded format, so that entering via the keypad is possible, (range: 001 to 999). Should be different for all host devices in the same area. The last bits of the IPEI could be used as value." />
+        <parameter type="rsuint8" name="bHandsetId" description="Reserved for future use. Set to zero." />
+        <parameter type="rsuint8" name="bDectMode" description="DECT mode to use for the broadcast session." />
+      </mail>
+      <mail primitive="API_BROADCAST_AUDIO_HOST_START_CFM" id="0x4341" direction="out" description="This command replies to the API_BROADCAST_AUDIO_HOST_START_REQ." >
+        <parameter type="RsStatusType" name="Status" description="Indicates whether the command succeeded or not." />
+      </mail>
+      <mail primitive="API_BROADCAST_AUDIO_HOST_STOP_REQ" id="0x4342" direction="out" description="Exits broadcast mode on the host device by closing dummy bearer transmissions." >
+      </mail>
+      <mail primitive="API_BROADCAST_AUDIO_HOST_STOP_CFM" id="0x4343" direction="out" description="This command replies to the API_BROADCAST_AUDIO_HOST_STOP_REQ." >
+      </mail>
+      <mail primitive="API_BROADCAST_AUDIO_HOST_SET_FP_NAME_REQ" id="0x4344" direction="out" description="Sets the name used to identify different host devices." >
+        <parameter type="rsuint8" name="Data" vararraysize="rsuint8" vararraylengthname="DataLength" description="IA5 string of characters." />
+      </mail>
+      <mail primitive="API_BROADCAST_AUDIO_HOST_SET_FP_NAME_CFM" id="0x4345" direction="out" description="This command replies to the API_BROADCAST_AUDIO_SET_FP_NAME_REQ." >
+        <parameter type="RsStatusType" name="Status" description="Indicates whether the command succeeded or not." />
+      </mail>
+      <mail primitive="API_BROADCAST_AUDIO_HOST_START_AUDIO_REQ" id="0x4346" direction="out" description="Starts broadcasting audio on a dummy bearer." >
+      </mail>
+      <mail primitive="API_BROADCAST_AUDIO_HOST_START_AUDIO_CFM" id="0x4347" direction="out" description="This command replies to the API_BROADCAST_AUDIO_HOST_START_AUDIO_REQ. Response is not sent until the audio broadcast has actually started." >
+        <parameter type="RsStatusType" name="Status" description="Indicates whether the command succeeded or not." />
+      </mail>
+      <mail primitive="API_BROADCAST_AUDIO_HOST_STOP_AUDIO_REQ" id="0x4348" direction="out" description="Stops transmission of broadcast audio and indicates audio mute to guest. Reduces power consumption, but induces a small delay when unmuting." >
+      </mail>
+      <mail primitive="API_BROADCAST_AUDIO_STOP_AUDIO_CFM" id="0x4349" direction="out" description="This command replies to the API_BROADCAST_AUDIO_HOST_STOP_AUDIO_REQ." >
+        <parameter type="RsStatusType" name="Status" description="Indicates whether the command succeeded or not." />
+      </mail>
+      <mail primitive="API_BROADCAST_AUDIO_HOST_MUTE_REQ" id="0x434A" direction="out" description="Indicates to guest that audio is muted, but keeps transmission running. Allows quick unmuting, but do not save power." >
+      </mail>
+      <mail primitive="API_BROADCAST_AUDIO_HOST_MUTE_CFM" id="0x434B" direction="out" description="This command replies to the API_BROADCAST_AUDIO_HOST_MUTE_REQ." >
+        <parameter type="RsStatusType" name="Status" description="Indicates whether the command succeeded or not." />
+      </mail>
+      <mail primitive="API_BROADCAST_AUDIO_HOST_UNMUTE_REQ" id="0x434C" direction="out" description="Indicates to guest that audio is unmuted and valid. Called after API_BROADCAST_AUDIO_HOST_START_AUDIO_REQ or after audio was muted with API_BROADCAST_AUDIO_HOST_MUTE_REQ." >
+      </mail>
+      <mail primitive="API_BROADCAST_AUDIO_HOST_UNMUTE_CFM" id="0x434D" direction="out" description="This command replies to the API_BROADCAST_AUDIO_HOST_UNMUTE_REQ." >
+        <parameter type="RsStatusType" name="Status" description="Indicates whether the command succeeded or not." />
+      </mail>
+      <mail primitive="API_BROADCAST_AUDIO_BROADCAST_STOPPED_IND" id="0x434E" direction="out" description="Indicates that audio broadbast was stopped because no pings were received from guests or due to congestion on available frequencies." >
+      </mail>
+      <mail primitive="API_BROADCAST_AUDIO_BROADCAST_RESUMED_IND" id="0x434F" direction="out" description="Indicates that audio broadcast was resumed because a ping was received from a guest or congestion is no longer a problem." >
+      </mail>
+      <mail primitive="API_BROADCAST_AUDIO_REGISTRATION_SEARCH_REQ" id="0x4350" direction="out" description="Starts search for host devices. Entries are returned in API_BROADCAST_AUDIO_FP_FOUND_IND." >
+      </mail>
+      <mail primitive="API_BROADCAST_AUDIO_REGISTRATION_SEARCH_CFM" id="0x4351" direction="out" description="This command replies to the API_BROADCAST_AUDIO_REGISTRATION_SEARCH_REQ." >
+      </mail>
+      <mail primitive="API_BROADCAST_AUDIO_FP_FOUND_IND" id="0x4352" direction="out" description="Returns a found host device with RFPI and name." >
+        <parameter type="rsuint8" name="Rfpi" constarraysize="5" description="RFPI of the entry. To be used in API_BROADCAST_AUDIO_LOCK_REQ." />
+        <parameter type="rsuint8" name="Name" vararraysize="rsuint16" vararraylengthname="NameLength" description="IA5 string of characters. Name can be used for presentation to user." />
+      </mail>
+      <mail primitive="API_BROADCAST_AUDIO_LOCK_REQ" id="0x4353" direction="out" description="Returns a found host device with RFPI and name." >
+        <parameter type="rsuint8" name="Rfpi" constarraysize="5" description="RFPI of host to lock to. Value can be copied from API_BROADCAST_AUDIO_FP_FOUND_IND  or saved between sessions." />
+      </mail>
+      <mail primitive="API_BROADCAST_AUDIO_GUEST_MUTE_IND" id="0x4354" direction="out" description="Indicates that audio broadcast was stopped by host. Audio should be muted." >
+      </mail>
+      <mail primitive="API_BROADCAST_AUDIO_GUEST_UNMUTE_IND" id="0x4355" direction="out" description="Indicates that audio broadcast was resumed by host. Audio should be unmuted." >
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

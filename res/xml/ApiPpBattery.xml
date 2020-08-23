@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="Phoenix_API_PP_Battery.doc" wordmacrover="61">
+  <group name="ApiPpBattery">
+    <types>
+      <enum name="ApiPpBatPowerOnReasonType" type="RSENUM8" description="This enum defines power on reasons to the MMI" >
+        <member name="API_NORMAL_POWER_ON" value="0x00" />
+        <member name="API_SOFTWARE_RESET_POWER_ON" value="0x01" />
+        <member name="API_NEW_BATTERY_POWER_ON" value="0x02" />
+        <member name="API_CRADLE_POWER_ON" value="0x03" />
+        <member name="API_UNKNOWN_POWER_ON" value="0xFF" />
+      </enum>
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" description="The following API files must be included." />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" description="The following API files must be included." />
+    </includefiles>
+    <macros>
+    </macros>
+    <mails>
+      <mail primitive="API_PP_BAT_CAPACITY_REQ" id="0x5400" direction="in" description="This mail is used by the MMI to force the API to reply instantly with the current battery capacity estimate (API_PP_BAT_CAPACITY_IND)." />
+      <mail primitive="API_PP_BAT_CAPACITY_IND" id="0x5401" direction="out" description="This mail is used by the API to indicate the current capacity estimation to the MMI.
+It is automatically send when the capacity change by 1%, or instantly if requested by the API_PP_BAT_CAPACITY_REQ" >
+        <parameter type="rsuint8" name="BatteryCapacity" description="The current battery capacity estimate in %." />
+      </mail>
+      <mail primitive="API_PP_BAT_LOW_IND" id="0x5402" direction="out" description="This mail is used by the API to indicate to the MMI that the battery is low.
+When the MMI receives this mail it should indicate to the user that the battery is low.
+The battery low state is judged by a voltage measurement." />
+      <mail primitive="API_PP_BAT_EMPTY_IND" id="0x5403" direction="out" description="This mail is used by the API to indicate to the MMI that the battery is empty.
+When the MMI receives this mail it should clean up and then power off the PP with the API_PP_POWER_OFF_REQ.
+The battery low state is judged by a voltage measurement." />
+      <mail primitive="API_PP_BAT_POWER_ON_REASON_REQ" id="0x5404" direction="in" description="This mail is used by the MMI to request the API to reply with information for last power on." />
+      <mail primitive="API_PP_BAT_POWER_ON_REASON_IND" id="0x5405" direction="out" description="This mail is used by the API to inform the MMI about the reason for the last power on." >
+        <parameter type="ApiPpBatPowerOnReasonType" name="ApiPowerOnReason" description="Info on the last power on" />
+      </mail>
+      <mail primitive="API_PP_BAT_CHARGE_REQ" id="0x5406" direction="in" description="This mail is used by the MMI to ask if the Pp is being charged,  (API_PP_BAT_CAPACITY_IND)." />
+      <mail primitive="API_PP_BAT_CHARGE_IND" id="0x5407" direction="out" description="This mail is used by the API to indicate if the Pp is being charged to the MMI. 
+" >
+        <parameter type="rsbool" name="ChargeInd" description="True if Pp is being charged" />
+      </mail>
+      <mail primitive="API_PP_BAT_RESET_CHARGING_STATE_REQ" id="0x5408" direction="in" description="This mail is used by the MMI to reset charging state. 
+" />
+      <mail primitive="API_PP_BAT_RESET_CHARGING_STATE_CFM" id="0x5409" direction="out" description="Reset battery charging state confirm mail." >
+        <parameter type="rsbool" name="Result" description="True if charging state was reset. False when not possible to reset state: Not in charge state - handset not in cradle, none chargeable battery, temperature to high. ?" />
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

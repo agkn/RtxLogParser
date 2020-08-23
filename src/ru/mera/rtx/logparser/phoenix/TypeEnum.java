@@ -10,15 +10,16 @@ public class TypeEnum extends BasicType {
 
     static class Member extends BasicType {
         final String mValue;
+        final String mAssociatedType;
 
         Member(Element aElement) {
             super(aElement);
             mValue = aElement.getAttribute("value");
+            mAssociatedType = aElement.getAttribute("associatedtype");
         }
 
         @Override
         void print(Context aContext, ByteBuffer aByteBuffer, int aIndent) {
-
         }
     }
     final DataType mType;
@@ -46,17 +47,17 @@ public class TypeEnum extends BasicType {
 
     @Override
     void print(Context aContext, ByteBuffer aByteBuffer, int aIndent) {
-        aContext.out().printf(" (%s) ", mName);
-
-        StringBuilder out = new StringBuilder("0x");
-        for(int i = 0; i < mType.getSize(); i++) {
-            out.append(String.format("%02X", aByteBuffer.get()));
-        }
-        String strVal = out.toString();
+        String strVal = mType.readHex(aByteBuffer);
         Member val = mMembers.get(strVal);
         if (val != null) {
-            aContext.out().print(val.mName + "(" + strVal + ")");
+            if (val.mAssociatedType.isEmpty()) {
+                aContext.out().print(strVal + " (" + val.mName + ")");
+            } else {
+                aContext.outIndent(aIndent).printf("%s as %s // %s", mName, val.mAssociatedType, mDescription);
+                aContext.resolve(val.mAssociatedType).print(aContext, aByteBuffer, aIndent + INDENT);
+            }
         } else {
+            aContext.out().printf(" (%s) ", mName);
             aContext.out().print(strVal);
         }
     }

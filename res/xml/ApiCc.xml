@@ -1,0 +1,619 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="Phoenix_API_CC.doc" wordmacrover="58">
+  <group name="ApiCc">
+    <types>
+      <enum name="ApiCcCwAcceptType" type="RSENUM8" >
+        <member name="API_CC_CW_REJECT" value="0x00" description="Reject waiting call" />
+        <member name="API_CC_CW_ACCEPT" value="0x01" description="Accept waiting call" />
+        <member name="API_CC_CW_ACCEPT_REL_ACTIVE" value="0x02" description="Accept waiting call and release active call" />
+      </enum>
+      <typedef name="ApiCcConEiType" type="rsuint16" description="This type is used to hold the Connection Instance, identifying the endpoint in the switch control." />
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" description="Include of API configuration header." />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" description="Include of generic API types." />
+    </includefiles>
+    <macros>
+    </macros>
+    <mails>
+      <mail primitive="API_CC_SETUP_REQ" id="0x5000" direction="in" description="This mail is used by the MMI to initiate a call / connection. The call can be:
+external outgoing call
+intercom to another PP
+service connection" >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The connection instance for the connection. The ConEi is supplied by the MMI. A utility function (TBD) is available for the MMI to request an individual ConEi  for this call." />
+        <parameter type="ApiCcBasicServiceType" name="BasicService" description="Narrow/wide band speech encoding" />
+        <parameter type="ApiCcCallClassType" name="CallClass" description="DECT defined call classes." />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the format:
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task searches through the info data package to search for the requested elements and pick out the info data.
+
+Possible Info elements:
+[API_IE_MULTIKEYPAD] 
+[API_IE_CALLING_NUMBER]
+[API_IE_CODEC_LIST] 
+[API_IE_IWU_TO_IWU] 
+[API_IE_PROPRIETARY]
+[API_IE_LINE_ID]" />
+      </mail>
+      <mail primitive="API_CC_SETUP_ACK_IND" id="0x5001" direction="out" description="This mail is used to indicate that the base needs dial info to proceed with the call" >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by the setup_req.
+For this call/connection the selected connection instance should be used for following call handling mails" />
+        <parameter type="ApiCcProgressIndType" name="ProgressInd" description="Inband information" />
+        <parameter type="ApiCcSignalType" name="Signal" description="Alert signal. This is used to request the MMI to start a certain local tone." />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the format:
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_CODEC_LIST] 
+[API_IE_IWU_TO_IWU] 
+[API_IE_PROPRIETARY]" />
+      </mail>
+      <mail primitive="API_CC_CALL_PROC_IND" id="0x5002" direction="out" description="This mail is used to inform the MMI of the call progress.
+No more dialed digits will be accepted." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="ApiCcProgressIndType" name="ProgressInd" description="Inband information" />
+        <parameter type="ApiCcSignalType" name="Signal" description="Alert signal. Can be used to control which
+ringer melody to be used." />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the format:
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_CODEC_LIST]" />
+      </mail>
+      <mail primitive="API_CC_ALERT_IND" id="0x5003" direction="out" description="This mail is used to inform the MMI when the called party has started alerting / ringing. No more dialed digits will be accepted." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="ApiCcProgressIndType" name="ProgressInd" description="Inband information" />
+        <parameter type="ApiCcSignalType" name="Signal" description="Alert signal. Can be used to control which
+ringer melody to be used." />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_CODEC_LIST]" />
+      </mail>
+      <mail primitive="API_CC_CONNECT_IND" id="0x5004" direction="out" description="This mail is used to inform the MMI when the called party has answered the call. The audio shall be unmuted if not already done." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_CODEC_LIST]" />
+      </mail>
+      <mail primitive="API_CC_CONNECT_RES" id="0x5005" direction="in" description="This mail informs the FP that the audio is connected. In many implementations it is not used, and the FP just connects the audio a short time after the connect_ind is sent." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_CODEC_LIST]" />
+      </mail>
+      <mail primitive="API_CC_SETUP_IND" id="0x500A" direction="out" description="This mail is used to inform the MMI of an incoming air link from the protocol. E.g. incoming call from the PSTN, intercom calls, service connections, etc..." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="ApiCcBasicServiceType" name="BasicService" description="Narrow/wide band speech encoding" />
+        <parameter type="ApiCcCallClassType" name="CallClass" description="DECT defined call classes." />
+        <parameter type="ApiCcSignalType" name="Signal" description="Alert signal. Can be used to control which
+ringer melody is used at Called endpoint." />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Info elements:
+[API_IE_CALLING_PARTY_NUMBER] 
+[API_IE_CALLING_PARTY_NAME]
+[API_IE_CODEC_LIST] 
+[API_IE_IWU_TO_IWU] 
+[API_IE_PROPRIETARY]
+[API_IE_LINE_ID]
+[API_IE_SYSTEM_CALL_ID]" />
+      </mail>
+      <mail primitive="API_CC_ALERT_REQ" id="0x500B" direction="in" description="This mail is used by the MMI to inform the protocol that a SetupInd has been received and that MMI has indicated the alert to the user." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The handset id and connection instance." />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_CODEC_LIST]" />
+      </mail>
+      <mail primitive="API_CC_CONNECT_REQ" id="0x500C" direction="in" description="This mail is used by the MMI to request the protocol to answer the call." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The handset id and connection instance." />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_CODEC_LIST]" />
+      </mail>
+      <mail primitive="API_CC_CONNECT_CFM" id="0x500D" direction="out" description="This mail is used by the API to inform the MMI that the connection is established.
+The audio path to the handset is established and shall now be unmuted, if not already done." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The handset id and connection instance." />
+      </mail>
+      <mail primitive="API_CC_INFO_IND" id="0x5031" direction="out" description="This mail is used to send various information from FP to PP." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by the setup_req.
+For this call/connection the selected connection instance should be used for following call handling mails" />
+        <parameter type="ApiCcProgressIndType" name="ProgressInd" description="Inband information" />
+        <parameter type="ApiCcSignalType" name="Signal" description="Alert signal. This is used to request the MMI to start a certain local tone." />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the format:
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_CALLING_PARTY_NUMBER] 
+[API_IE_CALLING_PARTY_NAME]
+[API_IE_CODEC_LIST] 
+[API_IE_IWU_TO_IWU] 
+[API_IE_PROPRIETARY]
+[API_IE_LINE_ID]
+[API_IE_SYSTEM_CALL_ID]
+[API_IE_CALL_STATUS]
+[API_IE_MULTI_DISPLAY]" />
+      </mail>
+      <mail primitive="API_CC_INFO_REQ" id="0x5032" direction="in" description="This mail is used to send various information from PP to FP" >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by the setup_req.
+For this call/connection the selected connection instance should be used for following call handling mails" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the format:
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_MULTIKEYPAD]
+[API_IE_CALLED_NUMBER]
+[API_IE_CODEC_LIST] 
+[API_IE_IWU_TO_IWU] 
+[API_IE_PROPRIETARY]
+[API_IE_LINE_ID]
+[API_IE_SYSTEM_CALL_ID]" />
+      </mail>
+      <mail primitive="API_CC_RELEASE_REQ" id="0x5014" direction="in" description="This mail is used by the MMI to terminate a call." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="ApiCcReleaseReasonType" name="Reason" description="DECT reason code" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_RELEASE_EXT_REASON]
+[API_IE_PROPRIETARY]" />
+      </mail>
+      <mail primitive="API_CC_RELEASE_CFM" id="0x5015" direction="out" description="This mail is used indicate to the MMI a confirmation of the API_FP_RELEASE_REQ command." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_PROPRIETARY]" />
+      </mail>
+      <mail primitive="API_CC_RELEASE_IND" id="0x5016" direction="out" description="This mail is used to inform the MMI when the connected party has terminated the ongoing call or reject an incoming call." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="ApiCcReleaseReasonType" name="Reason" description="DECT reason code" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_RELEASE_EXT_REASON]
+[API_IE_PROPRIETARY]" />
+      </mail>
+      <mail primitive="API_CC_RELEASE_RES" id="0x5017" direction="in" description="This mail is used by the MMI to inform the handset when the call is released, ie. the MMI has muted the audio." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_PROPRIETARY]" />
+      </mail>
+      <mail primitive="API_CC_REJECT_IND" id="0x5018" direction="out" description="This mail is used to inform the MMI when e.g. a connection setup has been rejected" >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="ApiCcReleaseReasonType" name="Reason" description="DECT reason code" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_RELEASE_EXT_REASON]" />
+      </mail>
+      <mail primitive="API_CC_REJECT_REQ" id="0x5019" direction="in" description="This mail is used by the MMI to reject a call." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="ApiCcReleaseReasonType" name="Reason" description="DECT reason code" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[IE_RELEASE_EXT_REASON]" />
+      </mail>
+      <mail primitive="API_CC_IWU_INFO_IND" id="0x5033" direction="out" description="This mail is used by the MMI to receive IWU Info messages during a call. Typically used to receive messages using LRMS." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements: 
+[API_IE_MMS_GEN_HEADER]
+[API_IE_MMS_OBJ_HEADER]
+[API_IE_MMS_EXT_HEADER]
+[API_IE_TIME_DATE]
+[API_IE_SEGMENT_INFO]
+[API_IE_IWU_TO_IWU]
+
+NOTE:
+Some of the Infoelements are only available if SMS support is enabled" />
+      </mail>
+      <mail primitive="API_CC_IWU_INFO_REQ" id="0x5034" direction="in" description="This mail is used by the MMI to send IWU Info messages during a call. Typically used to send messages using LRMS." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements: 
+[API_IE_MMS_GEN_HEADER]
+[API_IE_MMS_OBJ_HEADER]
+[API_IE_MMS_EXT_HEADER]
+[API_IE_TIME_DATE]
+[API_IE_SEGMENT_INFO]
+[API_IE_IWU_TO_IWU]
+
+NOTE:
+Some of the Infoelements are only available if SMS support is enabled" />
+      </mail>
+      <mail primitive="API_CC_GET_CONEI_REQ" id="0x5036" direction="in" description="This command is used to request a connection EI for a new connection." />
+      <mail primitive="API_CC_GET_CONEI_CFM" id="0x5037" direction="out" description="This command is used to confirm the API_CC_GET_CONEI_REQ command." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="Connection endpoint identifier" />
+      </mail>
+      <mail primitive="API_CC_CONEI_CHANGE_IND" id="0x502A" direction="out" description="This mail is used to inform the MMI when the switch control have changed the ConEI of the ongoing call. When the MMI receives this mail, the NewConEi should be used in stead of the original ConeEi as connection reference for the call." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control." />
+        <parameter type="ApiCcConEiType" name="NewConEi" description="The New Instance of the connection re-assigned by switch control. For further signaling the handling of the call/connection the received NewConEi should be used." />
+      </mail>
+      <mail primitive="API_CC_MODIFY_CODEC_REQ" id="0x501A" direction="in" description="This mail is used by the MMI to request a CODEC change for a connection." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Required Infoelements:
+[API_IE_CODEC_LIST]
+The Codec list shall contain one and only one codec." />
+      </mail>
+      <mail primitive="API_CC_MODIFY_CODEC_CFM" id="0x501B" direction="out" description="Used by the MMI to confirm the API_CC_MODIFY_CODEC_REQ. If the change is accepted then the audio must be muted." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="RsStatusType" name="Status" description="Indicates whether the command succeeded or not." />
+      </mail>
+      <mail primitive="API_CC_MODIFY_CODEC_IND" id="0x501C" direction="out" description="This mail is used to inform the MMI when a handset has requested a CODEC change for a connection." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_CODEC_LIST]
+The Codec list shall contain one and only one codec." />
+      </mail>
+      <mail primitive="API_CC_MODIFY_CODEC_RES" id="0x501D" direction="in" description="This mail is used by the MMI to accept or reject a code change requested by a handset. If the change is accepted, then the audio must be muted." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="RsStatusType" name="Status" description="Indicates whether the command succeeded or not." />
+      </mail>
+      <mail primitive="API_CC_IWU_INFO_CODEC_IND" id="0x501E" direction="out" description="This mail is used by the API to inform the MMI when the CODEC has been changed for a connection and the audio shall be unmuted." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the format:
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+ [API_IE_CODEC_LIST]
+The Codec list shall contain one and only one codec." />
+      </mail>
+      <mail primitive="API_CC_CALL_WAITING_RES" id="0x5020" direction="in" description="This mail is used by the MMI to either accept or reject the call waiting.
+When received by the API it will then send a Multi-Keypad info element with {0x1c, 0x35} to the switch control if Accept is TRUE otherwise {0x1c, 0x36}." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="ApiCcCwAcceptType" name="Accept" description="Accept = 1 if the Call Waiting is accepted." />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the format:
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_LINE_ID]
+[API_IE_SYSTEM_CALL_ID]" />
+      </mail>
+      <mail primitive="API_CC_SECOND_CALL_INTERCOM_REQ" id="0x5021" direction="in" description="This mail is sent from MMI to request a second intercom call. (putting the other call party on hold call the selected second party)
+When received by the API it will then send a Multi-Keypad info element with {0x17, keypad} to the switch control.
+
+If the multikeypad is a ?*? then it will be interpreted as a call to all handsets.
+In case there is no ambiguity (i.e. when there are only two registered PPs switched on), the MultikeypadLength can be 0." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_MULTIKEYPAD]" />
+      </mail>
+      <mail primitive="API_CC_SECOND_CALL_EXTERNAL_REQ" id="0x5022" direction="in" description="This mail is sent from MMI to request a second external call. (putting the other call party on hold, then call the selected second party)
+When received by the API it will then send a Multi-Keypad info element with {0x1c, 0x15, keypad} to the switch control." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_MULTIKEYPAD]
+[API_IE_LINE_ID]" />
+      </mail>
+      <mail primitive="API_CC_MULTIPARTY_REQ" id="0x5023" direction="in" description="This mail is sent from MMI to request a multiparty call.
+When received by the API it will then send a Multi-Keypad info element with {0x1c, 0x32} to the switch control.
+The current call and a held call will be joined." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_LINE_ID]
+[API_IE_SYSTEM_CALL_ID]" />
+      </mail>
+      <mail primitive="API_CC_TRANSFER_CALL_REQ" id="0x5024" direction="in" description="This mail is sent from MMI to transfer a call to another party.
+When received by the API it will then send a Multi-Keypad info element with {0x1c, 0x34} to the switch control." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_LINE_ID]
+[API_IE_SYSTEM_CALL_ID]" />
+      </mail>
+      <mail primitive="API_CC_TOGGLE_CALL_REQ" id="0x5025" direction="in" description="This mail is sent from MMI to toggle between two call parties. (e.g. the PSTN line and a handset)
+When received by the API it will then send a Multi-Keypad info element with {0x1c, 0x31} to the switch control." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_SYSTEM_CALL_ID]" />
+      </mail>
+      <mail primitive="API_CC_HOLD_CALL_REQ" id="0x502B" direction="in" description="This mail is used by the MMI to put the active call on hold.
+When received by the API it will then send a Multi-Keypad info element with {0x1c, 0x41} to the switch control." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_LINE_ID]
+[API_IE_SYSTEM_CALL_ID]" />
+      </mail>
+      <mail primitive="API_CC_RETRIEVE_CALL_REQ" id="0x502C" direction="in" description="This mail is used by the MMI to retrieve a held call.
+When received by the API it will then send a Multi-Keypad info element with {0x1c, 0x42} to the switch control." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_LINE_ID]
+[API_IE_SYSTEM_CALL_ID]" />
+      </mail>
+      <mail primitive="API_CC_END_CALL_REQ" id="0x5026" direction="in" description="This mail is used by the MMI to end the call that is indicated by the SystemCallId.
+When received by the API it will then send a Multi-Keypad info element with {0x1c, 0x33} to the switch control." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_LINE_ID]
+[API_IE_SYSTEM_CALL_ID]" />
+      </mail>
+      <mail primitive="API_CC_EXT_CALL_DEFLECTION_REQ" id="0x502D" direction="in" description="This mail is used by the MMI to request redirection of an incoming call to an external party.
+When received by the API it will then send a Multi-Keypad info element with {0x1c, 0x39, 0x15} to the switch control." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_MULTIKEYPAD]" />
+      </mail>
+      <mail primitive="API_CC_INT_CALL_DEFLECTION_REQ" id="0x502E" direction="in" description="This mail is used by the MMI to request redirection of an incoming call to an internal party.
+When received by the API it will then send a Multi-Keypad info element with {0x1c, 0x39, 0x17} to the switch control." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_MULTIKEYPAD]" />
+      </mail>
+      <mail primitive="API_CC_CALL_SCREENING_ACCEPT_REQ" id="0x5038" direction="in" description="This mail is used by the MMI to accept a call screening setup req.
+When received by the API it will then send a Multi-Keypad info element with {0x1c, 0x48} to the switch control." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_SYSTEM_CALL_ID]" />
+      </mail>
+      <mail primitive="API_CC_CALL_SCREENING_INTERCEPT_REQ" id="0x5039" direction="in" description="This mail is used by the MMI to connect to a screened call and stop the TAM.
+When received by the API it will then send a Multi-Keypad info element with {0x1c, 0x49} to the switch control." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_SYSTEM_CALL_ID]" />
+      </mail>
+      <mail primitive="API_CC_CLMS_DATA_IND" id="0x5035" direction="out" description="This mail is used by the API to send incoming CLMS data with infoelements to the MMI." >
+        <parameter type="ApiCcConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_PORTABLE_IDENTITY]
+[API_IE_MMS_GEN_HEADER]
+[API_IE_MMS_OBJ_HEADER]
+[API_IE_MMS_EXT_HEADER]
+[API_IE_TIME_DATE]
+[API_IE_SEGMENT_INFO]
+[API_IE_IWU_TO_IWU]
+
+NOTE:
+Some of the Infoelements are only available if SMS support is enabled" />
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

@@ -22,10 +22,12 @@ public class Context {
         return mOut;
     }
 
-    public void outIndent(int aNum) {
+    public PrintStream outIndent(int aNum) {
+        mOut.println();
         for(int i = 0; i < aNum; i++) {
             mOut.print(' ');
         }
+        return mOut;
     }
 
     public void addType(Type aType) {
@@ -38,11 +40,17 @@ public class Context {
     }
 
     public Type resolve(String aTypeId) {
+
         Type type = mTypes.get(aTypeId.toUpperCase());
         if (type != null) {
             return type;
         }
-        type = new TypeSimple(DataType.valueOf(aTypeId.toUpperCase()));
+        if ("INFOELEMENT".equals(aTypeId.toUpperCase())) {
+            type = new InfoElementType((TypeEnum) mTypes.get("APIIETYPE"));
+        } else {
+            type = new TypeSimple(DataType.valueOf(aTypeId.toUpperCase()));
+        }
+
         addType(type);
         return type;
     }

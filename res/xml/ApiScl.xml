@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="Phoenix_API_SCL.doc" wordmacrover="59">
+  <group name="ApiScl">
+    <types>
+      <enum name="ApiSclModeType" type="RSENUM8" description="This enum id?s the client operation modes supported." >
+        <member name="SCLM_AUTO" value="0x00" description="Automatic mode. The SUOTA client will check for new firmware regularly." />
+        <member name="SCLM_MANUAL" value="0x01" description="Manual mode. The SUOTA client will only check for updates when explicitly requested to do so.
+Pushed updates will be accepted." />
+        <member name="SCLM_DISABLED" value="0x02" description="The SUOTA client will only check for updates when explicitly requested to do so. 
+Pushed updates will be ignored." />
+        <member name="SCLM_MAX" />
+      </enum>
+      <enum name="ApiSclOperationType" type="RSENUM8" description="This enum id?s the client operations supported." >
+        <member name="SCLO_CANCEL" value="0x00" description="Cancel all operations." />
+        <member name="SCLO_CHECK_NOW" value="0x01" description="Perform check for new firmware." />
+        <member name="SCLO_UPDATE" value="0x02" description="Begin update." />
+        <member name="SCLO_MAX" />
+      </enum>
+      <enum name="ApiSclIntervalType" type="RSENUM8" description="This enum id?s the interval between check for new firmware." >
+        <member name="SCLI_NONE" value="0x00" description="Interval not relevant." />
+        <member name="SCLI_DAILY" value="0x01" description="Check each day." />
+        <member name="SCLI_WEEKLY" value="0x02" description="Check each week." />
+        <member name="SCLI_MONTHLY" value="0x03" description="Check each month." />
+        <member name="SCLI_MAX" />
+      </enum>
+      <enum name="ApiSclStatusType" type="RSENUM8" description="This enum id?s the SOUTA client status." >
+        <member name="SCLS_IDLE" value="0x00" description="Client is idle." />
+        <member name="SCLS_NEXT_CHECK" value="0x01" description="Next check for updates will start after delay." />
+        <member name="SCLS_CHECKING" value="0x02" description="Check for updates in progress." />
+        <member name="SCLS_UPDATE_AVAILABLE" value="0x03" description="An update is available. Download will start after delay." />
+        <member name="SCLS_NO_UPDATES" value="0x04" description="No updates available." />
+        <member name="SCLS_DOWNLOADING" value="0x05" description="Download in progress." />
+        <member name="SCLS_RESETTING" value="0x06" description="Device will reset shortly." />
+        <member name="SCLS_COMPLETED" value="0x07" description="Update completed successfully." />
+        <member name="SCLS_TIMEOUT" value="0x08" description="Missing response e.g. from SUOTA FP or management/download server." />
+        <member name="SCLS_GUID_MISMATCH" value="0x09" description="Downloaded file is not for this device." />
+        <member name="SCLS_MAX," description="Reserved for internal use." />
+        <member name="SCLS_DOWNLOAD_FAILED" value="0x20" description="Download of file with indicated file number failed." />
+        <member name="SCLS_APPLICATION_FAILED" value="0x21" description="Application of file with indicated file number failed." />
+        <member name="SCLS_UNABLE_TO_DOWNLOAD_IN_TIME" value="0x22" description="Unable to download in time-New DelayMinutes requested ." />
+        <member name="SCLS_REJECT_REASON" value="0x40" description="Reserved for internal use." />
+        <member name="SCLS_RETRY_LATER_CONNECTION_REFUSED" value="0x41" description="Retry later ? connection refused. Sent from FP to PP." />
+        <member name="SCLS_RETRY_LATER_NO_RESOURCES" value="0x42" description="Retry later ? FP resources overflow. Sent from FP to PP." />
+        <member name="SCLS_FILE_NOT_FOUND" value="0x43" description="The file specified does not exist. Sent from FP to PP" />
+        <member name="SCLS_URL1_INVALID" value="0x44" description="Invalid URL1 format. Sent from FP to PP." />
+        <member name="SCLS_URL1_UNREACHABLE" value="0x45" description="Unreachable URL1 (Server error). Sent from FP to PP." />
+        <member name="SCLS_CMD_FORMAT_ERROR" value="0x46" description="Command format error. Can be sent In both direactions." />
+        <member name="SCLS_SR_MAX" />
+      </enum>
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" description="Include of API configuration." />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" description="Include of common API types" />
+    </includefiles>
+    <macros>
+    </macros>
+    <mails>
+      <mail primitive="API_SCL_GET_MODE_REQ" id="0x4740" direction="in" description="This mail is used from the MMI to read the SUOTA client operation mode." >
+      </mail>
+      <mail primitive="API_SCL_GET_MODE_CFM" id="0x4741" direction="out" description="Current SUOTA client operation mode." >
+        <parameter type="ApiSclModeType" name="Mode" description="Current SUOTA client operation mode." />
+        <parameter type="ApiSclIntervalType" name="Interval" description="Check interval for automatic mode." />
+      </mail>
+      <mail primitive="API_SCL_SET_MODE_REQ" id="0x4742" direction="in" description="This mail is used from the MMI to change the SUOTA client operation mode." >
+        <parameter type="ApiSclModeType" name="Mode" description="New operation mode: Auto, manual." />
+        <parameter type="ApiSclIntervalType" name="Interval" description="Check interval for automatic mode." />
+      </mail>
+      <mail primitive="API_SCL_SET_MODE_CFM" id="0x4743" direction="out" description="Confirmation of operation mode change." >
+        <parameter type="RsStatusType" name="Status" description="Status." />
+      </mail>
+      <mail primitive="API_SCL_GET_URL_REQ" id="0x4744" direction="in" description="This mail is used from the MMI to read the SUOTA client URL." >
+      </mail>
+      <mail primitive="API_SCL_GET_URL_CFM" id="0x4745" direction="out" description="Current SUOTA client URL." >
+        <parameter type="rsuint8" name="Url" vararraysize="rsuint16" vararraylengthname="Length" description="The URL as array of IA5 chars." />
+      </mail>
+      <mail primitive="API_SCL_SET_URL_REQ" id="0x4746" direction="in" description="This mail is used from the MMI to change the SUOTA client URL." >
+        <parameter type="rsuint8" name="Url" vararraysize="rsuint16" vararraylengthname="Length" description="The URL as array of IA5 chars." />
+      </mail>
+      <mail primitive="API_SCL_SET_URL_CFM" id="0x4747" direction="out" description="Confirmation of operation mode change." >
+        <parameter type="RsStatusType" name="Status" description="Status." />
+      </mail>
+      <mail primitive="API_SCL_OPERATION_REQ" id="0x4748" direction="in" description="This mail is used from the MMI to start or cancel SUOTA client operations." >
+        <parameter type="ApiSclOperationType" name="Operation" description="Operation to perform." />
+      </mail>
+      <mail primitive="API_SCL_OPERATION_CFM" id="0x4749" direction="out" description="Confirmation of operation command." >
+        <parameter type="RsStatusType" name="Status" description="Status:
+RSS_NOT_SUPPORTED: Unknown operation.
+RSS_BUSY: E.g. if attempting check now while an operation is already in progress.
+RSS_NOT_READY: E.g. if attempting begin update while no operation is in progress." />
+      </mail>
+      <mail primitive="API_SCL_STATUS_IND" id="0x474A" direction="out" description="This mail is sent from the SUOTA client to the MMI to provide status and progress information." >
+        <parameter type="ApiSclStatusType" name="Status" description="Current status. For the status values SCLS_COMPLETED, SCLS_NO_UPDATES and SCLS_UPDATE_AVAILABLE a API_SCL_VERSIONS_IND will follow this mail:." />
+        <parameter type="rsuint8" name="Progress" description="0..100%." />
+        <parameter type="rsuint32" name="Delay" description="Delay before next attempt, in seconds." />
+      </mail>
+      <mail primitive="API_SCL_VERSIONS_IND" id="0x474B" direction="out" description="This mail is sent from the SUOTA client to the MMI to provide information about current and new SW version, when a new SW version is available." >
+        <parameter type="rsbool" name="WaitingForUser" description="Set true when the souta client is waiting for user confirmation before update is stated. Confirmation or cancellation is done by sending API_SCL_OPERATION_REQ with SCLO_UPDATE or SCLO_CANCEL." />
+        <parameter type="rsuint8" name="CurrentVersionLength" description="The length of the string stored in the following CurrentVersion parameter. Max length is 20." />
+        <parameter type="rsuint8" name="CurrentVersion" constarraysize="20" description="The current SW version identification string as array of  IA5 chars." />
+        <parameter type="rsuint8" name="NewVersionLength" description="The length of the string stored in the following NewVersion parameter. Max length is 20." />
+        <parameter type="rsuint8" name="NewVersion" constarraysize="20" description="The new SW version identification string as array of  IA5 chars." />
+      </mail>
+      <mail primitive="API_SCL_GET_GUID_REQ" id="0x474C" direction="in" description="This mail is used from the MMI to read the SUOTA client GUID." >
+      </mail>
+      <mail primitive="API_SCL_GET_GUID_CFM" id="0x474D" direction="out" description="Current SUOTA client GUID." >
+        <parameter type="RsStatusType" name="Status" description="Status:
+RSS_SUCCES: The GUID returned is the default.
+RSS_UNKNOWN: The GUID returned is not the default." />
+        <parameter type="ApiGuidType" name="Guid" description="Device identifier." />
+      </mail>
+      <mail primitive="API_SCL_SET_GUID_REQ" id="0x474E" direction="in" description="This mail is used from the MMI to change the SUOTA client GUID. If any bytes in the GUID are 0xFF, the SUOTA client resets the GUID to the built-in default value." >
+        <parameter type="ApiGuidType" name="Guid" description="Device identifier." />
+      </mail>
+      <mail primitive="API_SCL_SET_GUID_CFM" id="0x474F" direction="out" description="Confirmation of operation mode change." >
+        <parameter type="RsStatusType" name="Status" description="Status." />
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

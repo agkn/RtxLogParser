@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="API_Rfid.doc" wordmacrover="75">
+  <group name="ApiRfid">
+    <types>
+      <enum name="ApiSensitityType" type="RSENUM8" description="Datatype sensitivity" >
+        <member name="API_RFID_SENSITIVITY_NORMAL" value="0x00" />
+        <member name="API_RFID_SENSITIVITY_EXTENDED" value="0x01" />
+      </enum>
+      <enum name="ApiRfIdBeaconType" type="RSENUM8" description="Datatype rfid beacon type" >
+        <member name="API_RFID_BEACON_125KHZ" value="0x00" />
+        <member name="API_RFID_BEACON_76KHZ_150BAUD" value="0x01" />
+        <member name="API_RFID_BEACON_76KHZ_1200BAUD" value="0x02" />
+      </enum>
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" description="Include of API configuration header." />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" description="Include of generic API types." />
+    </includefiles>
+    <macros>
+    </macros>
+    <mails>
+      <mail primitive="API_RFID_ENABLE_REQ" id="0x4440" direction="in" description="Turn on/off the RFID detection" >
+        <parameter type="rsuint8" name="On_off" description="1 = ON, 0 = OFF." />
+      </mail>
+      <mail primitive="API_RFID_ENABLE_CFM" id="0x4441" direction="out" description="Confirm reception of rfid enable" >
+        <parameter type="rsuint8" name="On_off" description="1 = ON, 0 = OFF." />
+      </mail>
+      <mail primitive="API_RFID_SET_TESTMODE_REQ" id="0x4442" direction="in" description="Enable testmode (promiscousmode) and pass through all packets" >
+        <parameter type="rsuint8" name="On_off" description="1 = ON, 0 = OFF." />
+      </mail>
+      <mail primitive="API_RFID_SET_TESTMODE_CFM" id="0x4443" direction="out" description="Confirm reception of rfid testmode" >
+        <parameter type="rsuint8" name="On_off" description="1 = ON, 0 = OFF." />
+      </mail>
+      <mail primitive="API_RFID_SET_OUT_OF_FIELD_REQ" id="0x4444" direction="in" description="Set out of field timeout (ms)" >
+        <parameter type="rsuint32" name="Timeout" description="Timeout in ms" />
+      </mail>
+      <mail primitive="API_RFID_SET_OUT_OF_FIELD_CFM" id="0x4445" direction="out" description="Confirm reception of out of field" >
+      </mail>
+      <mail primitive="API_RFID_SET_BACKOFF_REQ" id="0x4446" direction="in" description="Set backoff (ms)" >
+        <parameter type="rsuint32" name="Timeout" description="Timeout in ms" />
+      </mail>
+      <mail primitive="API_RFID_SET_BACKOFF_CFM" id="0x4447" direction="out" description="Confirm reception of backoff" >
+      </mail>
+      <mail primitive="API_RFID_SET_CRCPOLY_REQ" id="0x4448" direction="in" description="Set checksum poly" >
+        <parameter type="rsuint8" name="Poly" description="CRC poly seed" />
+      </mail>
+      <mail primitive="API_RFID_SET_CRCPOLY_CFM" id="0x4449" direction="out" description="Confirm reception of crc" >
+      </mail>
+      <mail primitive="API_RFID_SET_SENSITIVITY_REQ" id="0x444A" direction="in" description="Set backoff (ms)" >
+        <parameter type="rsuint8" name="Sensitivity" description="Steps 0, 1, 2, 3" />
+        <parameter type="rsuint8" name="Range" description="0: Normal, 1: Extended, 255: Keep value" />
+      </mail>
+      <mail primitive="API_RFID_SET_SENSITIVITY_CFM" id="0x444B" direction="out" description="Confirm reception of sensitivity" >
+      </mail>
+      <mail primitive="API_RFID_SET_DEFAULT_SENSITIVITY_REQ" id="0x444C" direction="in" description="Set calibrated (default) sensitivity for handset" >
+        <parameter type="rsuint8" name="Sensitivity" description="Steps 0, 1, 2, 3" />
+        <parameter type="rsuint8" name="Range" description="0: Normal, 1: Extended (May not be implemented)" />
+      </mail>
+      <mail primitive="API_RFID_SET_DEFAULT_SENSITIVITY_CFM" id="0x444D" direction="out" description="Confirm reception of default sensitivity" >
+        <parameter type="rsuint8" name="Sensitivity" description="Steps 0, 1, 2, 3" />
+        <parameter type="rsuint8" name="Range" description="0: Normal, 1: Extended (May not be implemented)" />
+      </mail>
+      <mail primitive="API_RFID_SET_ANTENNA_TEST_REQ" id="0x444E" direction="in" description="Set antenna test for channel N" >
+        <parameter type="rsuint8" name="Channel" description="1 or 3 (0 disable DAT OSC output for  frequency)" />
+        <parameter type="rsuint8" name="Damp" description="Internal damp register (0: 1k, 1: 3k, 2: 9k, 3: 27k Ohm)" />
+      </mail>
+      <mail primitive="API_RFID_SET_ANTENNA_TEST_CFM" id="0x444F" direction="out" description="Confirm reception of default sensitivity" >
+      </mail>
+      <mail primitive="API_RFID_TEST_SETREGISTER_REQ" id="0x4450" direction="in" description="Set content of register N" >
+        <parameter type="rsuint8" name="Register" description="Register number" />
+        <parameter type="rsuint8" name="Value" description="Value to modify register" />
+        <parameter type="rsuint8" name="ModifyAs" description="0: Direct, 1: Set (using mask)" />
+        <parameter type="rsuint8" name="Mask" description="Used for ModifyAs=1. Only update these bits!" />
+      </mail>
+      <mail primitive="API_RFID_TEST_SETREGISTER_CFM" id="0x4451" direction="out" description="Confirm reception of default sensitivity" >
+      </mail>
+      <mail primitive="API_RFID_TEST_GETREGISTER_REQ" id="0x4452" direction="in" description="Get content of register N" >
+        <parameter type="rsuint8" name="Register" description="Register number" />
+      </mail>
+      <mail primitive="API_RFID_TEST_GETREGISTER_CFM" id="0x4453" direction="out" description="Get content of register N" >
+        <parameter type="rsuint8" name="Register" description="Register number" />
+        <parameter type="rsuint8" name="Value" description="Content of register" />
+      </mail>
+      <mail primitive="API_RFID_GET_CONFIG_REQ" id="0x4454" direction="in" description="Get content of register N" >
+      </mail>
+      <mail primitive="API_RFID_GET_CONFIG_CFM" id="0x4455" direction="out" description="Get content of register N" >
+        <parameter type="rsuint8" name="Enable" description="0: Off, 1: On" />
+        <parameter type="rsuint8" name="Testmode" description="0: Off, 1: On" />
+        <parameter type="rsuint32" name="OutOfField_Timeout" description="Timeout in ms" />
+        <parameter type="rsuint32" name="Backoff_Timeout" description="Timeout in ms" />
+        <parameter type="rsuint8" name="CrcPoly" description="CRC poly" />
+        <parameter type="rsuint8" name="Crc_invert" description="Invert checksum, 0: No, 1: yes" />
+        <parameter type="rsuint8" name="Sensitivity" description="Steps 0, 1, 2, 3" />
+        <parameter type="rsuint8" name="Range" description="0: Normal, 1: Extended" />
+        <parameter type="rsuint8" name="DefaultSensitivity" description="Steps 0, 1, 2, 3" />
+        <parameter type="rsuint8" name="DefaultRange" description="0: Normal, 1: Extended" />
+        <parameter type="rsuint8" name="BeaconType" description="0:API_RFID_BEACON_125KHZ, 
+1:API_RFID_BEACON_76KHZ_150BAUD,
+2:API_RFID_BEACON_76KHZ_1200BAUD" />
+        <parameter type="rsuint16" name="IdleTimeout" description="Timeout in ms for the current BeaconType" />
+      </mail>
+      <mail primitive="API_RFID_PACKET_IND" id="0x4456" direction="out" description="Send received packet" >
+        <parameter type="rsuint16" name="RSSI" description="RSSI measurement for packet" />
+        <parameter type="rsuint8" name="Data" vararraysize="rsuint8" vararraylengthname="DataLength" description="Data in rfid packet" />
+      </mail>
+      <mail primitive="API_RFID_PACKET_RES" id="0x4458" direction="out" description="Get content of register N" >
+      </mail>
+      <mail primitive="API_RFID_SET_CRCINVERT_REQ" id="0x445a" direction="in" description="Set checksum invert" >
+        <parameter type="rsuint8" name="On_off" description="1 = ON, 0 = OFF." />
+      </mail>
+      <mail primitive="API_RFID_SET_CRCINVERT_CFM" id="0x445b" direction="out" description="Confirm reception of crc invert" >
+      </mail>
+      <mail primitive="API_RFID_SET_BEACON_TYPE_REQ" id="0x445c" direction="in" description="Set RfId beacon type" >
+        <parameter type="rsuint8" name="beaconType" description="0:API_RFID_BEACON_125KHZ, 
+1:API_RFID_BEACON_76KHZ_150BAUD,
+2:API_RFID_BEACON_76KHZ_1200BAUD" />
+      </mail>
+      <mail primitive="API_RFID_SET_BEACON_TYPE_CFM" id="0x445d" direction="out" description="Confirm reception of beacon type" >
+      </mail>
+      <mail primitive="API_RFID_SET_IDLE_TIMEOUT_REQ" id="0x445e" direction="in" description="Set RfId idle timeout for the current BeaconType" >
+        <parameter type="rsuint16" name="IdleTimeout" description="Timeout in ms" />
+      </mail>
+      <mail primitive="API_RFID_SET_IDLE_TIMEOUT_CFM" id="0x445f" direction="out" description="Confirm reception of idle timeout for the current BeaconType" >
+      </mail>
+      <mail primitive="API_RFID_GET_IDLE_TIMEOUT_REQ" id="0x443e" direction="in" description="Get RfId idle timeout for the current BeaconType" >
+      </mail>
+      <mail primitive="API_RFID_GET_IDLE_TIMEOUT_CFM" id="0x443f" direction="out" description="Get RfId idle timeout for the current BeaconType" >
+        <parameter type="rsuint16" name="IdleTimeout" description="Timeout in ms" />
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

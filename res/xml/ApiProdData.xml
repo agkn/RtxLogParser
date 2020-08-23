@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="Programs/Darma/Include/Api/ProdData/API_ProdData.docx" dextorver="1.15">
+  <group name="ApiProdData">
+    <types>
+      <enum name="FinalTestType" type="RSENUM32" description="The types of FinalTest" >
+        <member name="PRODDATA_UNUSED" value="0x00" description="0b00000000000000000000000000000000" />
+        <member name="PRODDATA_DISPLAY" value="0x01" description="0b0000000000000000000000000000000x" />
+        <member name="PRODDATA_KEYBOARD" value="0x02" description="0b000000000000000000000000000000x0" />
+        <member name="PRODDATA_LED" value="0x04" description="0b00000000000000000000000000000x00" />
+        <member name="PRODDATA_VIBRATOR" value="0x08" description="0b0000000000000000000000000000x000" />
+        <member name="PRODDATA_BATTERY" value="0x10" description="0b000000000000000000000000000x0000" />
+        <member name="PRODDATA_AUDIO_EARPIECE" value="0x20" description="0b00000000000000000000000000x00000" />
+        <member name="PRODDATA_AUDIO_SPEAKERTONE" value="0x40" description="0b0000000000000000000000000x000000" />
+        <member name="PRODDATA_AUDIO_HEADSET" value="0x80" description="0b000000000000000000000000x0000000" />
+        <member name="PRODDATA_AUDIO_LOOPBACK" value="0x100" description="0b00000000000000000000000x00000000" />
+        <member name="PRODDATA_WIDEBAND" value="0x200" description="0b0000000000000000000000x000000000" />
+        <member name="PRODDATA_SD_CARD" value="0x400" description="0b000000000000000000000x0000000000" />
+        <member name="PRODDATA_SW_INFO" value="0x800" description="0b00000000000000000000x00000000000" />
+        <member name="PRODDATA_DECT_MODE" value="0x1000" description="0b0000000000000000000x000000000000" />
+        <member name="PRODDATA_PROVIDER" value="0x2000" description="0b000000000000000000x0000000000000" />
+        <member name="PRODDATA_WIFI" value="0x4000" description="0b00000000000000000x00000000000000" />
+        <member name="PRODDATA_BLUETOOTH" value="0x8000" description="0b0000000000000000x000000000000000" />
+        <member name="PRODDATA_ACCELEROMETER" value="0x10000" description="0b000000000000000x0000000000000000" />
+        <member name="PRODDATA_CAMERA" value="0x20000" description="0b00000000000000x00000000000000000" />
+        <member name="PRODDATA_PROXIMITY" value="0x40000" description="0b0000000000000x000000000000000000" />
+        <member name="PRODDATA_TOUCH" value="0x80000" description="0b000000000000x0000000000000000000" />
+        <member name="PRODDATA_HEADSET_DETECT" value="0x100000" description="0b00000000000x00000000000000000000" />
+        <member name="PRODDATA_USB" value="0x200000" description="0b0000000000x000000000000000000000" />
+        <member name="PRODDATA_OLED" value="0x400000" description="0b000000000x0000000000000000000000" />
+        <member name="PRODDATA_RFID" value="0x800000" description="0b00000000x00000000000000000000000" />
+        <member name="PRODDATA_NFC" value="0x1000000" description="0b0000000x000000000000000000000000" />
+        <member name="PRODDATA_PRODUCTION" value="0x2000000" description="0b000000x0000000000000000000000000" />
+        <member name="PRODDATA_FINAL_TEST_MAX" value="0x4000000" description="Shall always be last item" />
+      </enum>
+      <struct name="FinalTestResultType" description="Contains a FinalTest Type and a result, used to send FinalTestResults in">
+        <member type="FinalTestType" name="Type" description="" />
+        <member type="rsbool" name="Passed" description="" />
+      </struct>
+      <struct name="ProdDataType" description="Contains the Production Data">
+        <member type="rsuint8" name="ProductionDataLayoutRevision" description="" />
+        <member type="rsuint8" name="BB_Status" description="" />
+        <member type="rsuint8" name="RF_Status" description="" />
+        <member type="rsuint8" name="SCAN_Status" description="" />
+        <member type="rsuint8" name="ProductionYear" description="" />
+        <member type="rsuint8" name="ProductionMonth" description="" />
+        <member type="rsuint8" name="ProductionDay" description="" />
+        <member type="rsuint8" name="ModelVariant" description="" />
+        <member type="rsuint8" name="PCB_Version" description="" />
+        <member type="rsuint8" name="SCH_Version" description="" />
+        <member type="rsuint8" name="Mechanical_Version" description="" />
+        <member type="rsuint8" name="Reserved_1" description="" />
+        <member type="rsuint8" name="RF_Module_Major" description="" />
+        <member type="rsuint8" name="RF_Module_Minor" description="" />
+        <member type="rsuint8" name="Display_Major" description="" />
+        <member type="rsuint8" name="Display_Minor" description="" />
+        <member type="rsuint8" name="RAM_Major" description="" />
+        <member type="rsuint8" name="RAM_Minor" description="" />
+        <member type="rsuint8" name="FLASH_Major" description="" />
+        <member type="rsuint8" name="FLASH_Minor" description="" />
+        <member type="rsuint8" name="MIC_Major" description="" />
+        <member type="rsuint8" name="MIC_Minor" description="" />
+        <member type="rsuint8" name="EAR_Major" description="" />
+        <member type="rsuint8" name="EAR_Minor" description="" />
+        <member type="rsuint8" name="SPEAKER_Major" description="" />
+        <member type="rsuint8" name="SPEAKER_Minor" description="" />
+        <member type="rsuint8" name="Reserved_2" description="" />
+        <member type="rsuint8" name="Reserved_3" description="" />
+        <member type="rsuint8" name="Reserved_4" description="" />
+        <member type="rsuint8" name="Reserved_5" description="" />
+        <member type="rsuint8" name="Reserved_6" description="" />
+        <member type="rsuint8" name="Reserved_7" description="" />
+      </struct>
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" description="Include of API configuration header." />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" description="Include of generic API types." />
+    </includefiles>
+    <macros>
+    </macros>
+    <mails>
+      <mail primitive="API_PRODDATA_STORE_FINAL_TEST_RESULT_REQ" id="0x43D0" direction="in" description="Store a ProdData result" >
+        <parameter type="FinalTestResultType" name="Result" description="Type of test" />
+      </mail>
+      <mail primitive="API_PRODDATA_STORE_FINAL_TEST_RESULT_CFM" id="0x43D1" direction="out" description="Confirm on Final Test result is stored" />
+      <mail primitive="API_PRODDATA_GET_FINAL_TEST_RESULT_REQ" id="0x43D2" direction="in" description="Request a Final Test result" >
+        <parameter type="FinalTestType" name="Type" description="Type of test" />
+      </mail>
+      <mail primitive="API_PRODDATA_GET_FINAL_TEST_RESULT_CFM" id="0x43D3" direction="out" description="Return a FinalTestResult" >
+        <parameter type="FinalTestResultType" name="FinalTestResult" description="Whether test is passed" />
+      </mail>
+      <mail primitive="API_PRODDATA_GET_ALL_FINAL_TEST_RESULTS_REQ" id="0x43D4" direction="in" description="Request All stored Final Test Results" />
+      <mail primitive="API_PRODDATA_GET_ALL_FINAL_TEST_RESULTS_CFM" id="0x43D5" direction="out" description="Provides all stored Final Test Results" >
+        <parameter type="FinalTestResultType" name="FinalTestResult" vararraysize="rsuint8" vararraylengthname="FinalTestCount" description="Array of all the FinalTestResultType" />
+      </mail>
+      <mail primitive="API_PRODDATA_GET_PRODDATA_REQ" id="0x43D6" direction="in" description="Request All stored ProdData" />
+      <mail primitive="API_PRODDATA_GET_PRODDATA_CFM" id="0x43D7" direction="out" description="Provides all stored ProdData" >
+        <parameter type="ProdDataType" name="ProdData" description="Production Data" />
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

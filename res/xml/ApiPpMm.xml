@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="Phoenix_API_PP_MM.doc" wordmacrover="73">
+  <group name="ApiPpMm">
+    <types>
+      <enum name="ApiPpMmRejectReasonType" type="RSENUM8" description="This struct is used to specify the reject reasons for a failed registration." >
+        <member name="API_MM_REJ_NO_REASON" value="0x00" />
+        <member name="API_MM_REJ_TPUI_UNKNOWN" value="0x01" />
+        <member name="API_MM_REJ_IPUI_UNKNOWN" value="0x02" />
+        <member name="API_MM_REJ_NETWORK_ASSIGNED_ID_UNKNOWN" value="0x03" />
+        <member name="API_MM_REJ_IPEI_NOT_ACCEPTED" value="0x05" />
+        <member name="API_MM_REJ_IPUI_NOT_ACCEPTED" value="0x06" />
+        <member name="API_MM_REJ_AUTH_FAILED" value="0x10" description="Authentication failed (wrong AcCode)" />
+        <member name="API_MM_REJ_NO_AUTH_ALGORITHM" value="0x11" />
+        <member name="API_MM_REJ_AUTH_ALGORITHM_NOT_SUPPORTED" value="0x12" />
+        <member name="API_MM_REJ_AUTH_KEY_NOT_SUPPORTED" value="0x13" />
+        <member name="API_MM_REJ_UPI_NOT_ENTERED" value="0x14" />
+        <member name="API_MM_REJ_NO_CIPHER_ALGORITHM" value="0x17" />
+        <member name="API_MM_REJ_CIPHER_ALGORITHM_NOT_SUPPORTED" value="0x18" />
+        <member name="API_MM_REJ_CIPHER_KEY_NOT_SUPPORTED" value="0x19" />
+        <member name="API_MM_REJ_INCOMPATIBLE_SERVICE" value="0x20" />
+        <member name="API_MM_REJ_FALSE_LCE_REPLY" value="0x21" />
+        <member name="API_MM_REJ_LATE_LCE_REPLY" value="0x22" />
+        <member name="API_MM_REJ_INVALID_TPUI" value="0x23" />
+        <member name="API_MM_REJ_TPUI_ASSIGN_LIMIT_UNACCEPT" value="0x24" />
+        <member name="API_MM_REJ_UNSUFFICIENT_MEMORY" value="0x2F" description="Fp Registration Database full" />
+        <member name="API_MM_REJ_OVERLOAD" value="0x30" />
+        <member name="API_MM_REJ_TEST_CALL_BACK_NORM_ENBLOC" value="0x40" />
+        <member name="API_MM_REJ_TEST_CALL_BACK_NORM_PIECEWISE" value="0x41" />
+        <member name="API_MM_REJ_TEST_CALL_BACK_EMERG_ENBLOC" value="0x42" />
+        <member name="API_MM_REJ_TEST_CALL_BACK_EMERG_PIECEWISE" value="0x43" />
+        <member name="API_MM_REJ_INVALID_MESSAGE" value="0x5F" />
+        <member name="API_MM_REJ_IE_ERROR" value="0x60" />
+        <member name="API_MM_REJ_INVALID_IE_CONTENTS" value="0x64" />
+        <member name="API_MM_REJ_TIMER_EXPIRY" value="0x70" />
+        <member name="API_MM_REJ_PLMN_NOT_ALLOWD" value="0x76" />
+        <member name="API_MM_REJ_LOCATION_AREA_NOT_ALLOWED" value="0x80" />
+        <member name="API_MM_REJ_NATIONAL_ROAMING_NOT_ALLOWED" value="0x81" />
+        <member name="API_MM_REJ_TERMINAL_IN_ACTIVE_CALL" value="0x90" />
+        <member name="API_MM_REJ_TERMINAL_IN_FWU_CALL" value="0x91" />
+        <member name="API_MM_REJ_MM_TRANSACTION_ONGOING" value="0x92" />
+      </enum>
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" description="The following API files must be included." />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" description="The following API files must be included." />
+    </includefiles>
+    <macros>
+    </macros>
+    <mails>
+      <mail primitive="API_PP_MM_GET_ID_REQ" id="0x5100" direction="in" description="This command is used by the MMI to request the API to return a unique identifier for that particular PP." />
+      <mail primitive="API_PP_MM_GET_ID_CFM" id="0x5101" direction="out" description="This mail is used by the API to return the unique PP id to the MMI." >
+        <parameter type="rsuint8" name="Id" constarraysize="5" description="The id of the PP. The IPEI of the PP is used to identify the PP." />
+      </mail>
+      <mail primitive="API_PP_MM_GET_MODEL_REQ" id="0x5102" direction="in" description="This command is used to request a string indicating the model and manufacture." />
+      <mail primitive="API_PP_MM_GET_MODEL_CFM" id="0x5103" direction="out" description="This mail is used to confirm the API_PP_MM_GET_MODEL_REQ command." >
+        <parameter type="ApiModelIdType" name="ModelId" description="The manufacture (MANIC) and model (MODIC) code of the PP. The EMC code of the PP is used as manufacture code." />
+      </mail>
+      <mail primitive="API_PP_MM_READ_RSSI_REQ" id="0x5104" direction="in" description="This mail is used by the MMI to request the current RSSI (Radio Signal Strength Indication) from the protocol." />
+      <mail primitive="API_PP_MM_READ_RSSI_CFM" id="0x5105" direction="out" description="This mail is used to confirm the API_PP_MM_READ_RSSI_REQ.
+Note: The returned RSSI values are not calibrated on production units, please use for debugging purposes only. 
+Note: the API is only available on some project variants." >
+        <parameter type="rsint8" name="Rssi" description="RSSI (Radio Signal Strength Indication) in dBm" />
+      </mail>
+      <mail primitive="API_PP_MM_LOCK_REQ" id="0x5106" direction="in" description="This mail is used by the MMI to request the protocol to search and synchronized to a selected FP (from the registration database)
+When the PP is locked an synchronized, a API_PP_MM_LOCKED_IND will be returned to the MMI
+*After powering up, the PP will not start searching and synchronize to any FP before receiving the API_PP_MM_LOCK_REQ" >
+        <parameter type="rsuint8" name="SubscriptionNo" description="The subscription number indicated the index in the registration database.
+
+0x00: Auto search, the protocol will search for all subscribed FP&apos;s in the registration database.
+
+0x01: Search  for specific FP #1
+0x02: Search  for specific FP #1
+...
+0x0n: Search  for specific FP #n" />
+      </mail>
+      <mail primitive="API_PP_MM_LOCKED_REQ" id="0x5107" direction="in" description="This mail is used by the MMI to force the API to reply instantly with the locked status (API_PP_MM_LOCKED_IND or API_PP_MM_UNLOCKED_IND)." />
+      <mail primitive="API_PP_MM_LOCKED_IND" id="0x5108" direction="out" description="This mail is used by the API to indicate to the MMI that the requested FP has been found and the that PP is now synchronized, and ready to initiate and receive calls.
+HigherLayerCap2 bits are indicated to the MMI to show capabilities of the sync&apos;ed FP.." >
+        <parameter type="rsuint8" name="SubscriptionNo" description="Indicates the index of the locked FP in the registration database." />
+        <parameter type="rsuint8" name="FpCapBit24_31" description="bit0: a31 Conference
+bit1: a30 Permanent CLIR
+bit2: a29 NG-DECT extended wideband voice
+bit3-6: a25-a28 DPRS
+bit7: a24 NG-DECT wideband voice" />
+        <parameter type="rsuint8" name="FpCapBit32_39" description="bit0: a39 Reserved
+bit1: a38 Reserved
+bit2: a37 Reserved
+bit3: a36 Reserved
+bit4: a35 No emission
+bit5: a34 Multiple lines
+bit6: a33 Call deflection
+bit7: a32 Call intrusion" />
+        <parameter type="rsuint8" name="FpCapBit40_47" description="bit0: a47 Reserved
+bit1: a46 Reserved
+bit2: a45 Light data services
+bit3: a44 Reserved
+bit4: a43 Reserved
+bit5: a42 Early encryption
+bit6: a41 Reserved
+bit7: a40 Reserved" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+CodecList is only included when coming from a Locate Accept.
+Expected Infoelements:
+[IE_CODEC_LIST]" />
+      </mail>
+      <mail primitive="API_PP_MM_UNLOCKED_IND" id="0x5109" direction="out" description="This mail is used by the API to indicate to the MMI that the FP connection has been lost.
+After receiving this mail, the MMI has to trigger a new API_PP_MM_LOCK_REQ and receive a API_PP_MM_LOCLED_IND before further calls can be made
+*The API_PP_MM_UNLOCKED_IND is triggered after the protocol has received invalid DECT packages continuously for 5 secs." />
+      <mail primitive="API_PP_MM_STOP_PROTOCOL_REQ" id="0x510A" direction="in" description="This mail is used by the MMI to request a complete stop of the protocol.
+It can be used to force stop of am ongoing registration or to force the PP out of synchronization with the FP.
+After the API_PP_MM_SETOP_PROTOCOL_REQ, the protocol can be restarted by an API_PP_MM_LOCK_REQ or a new registration request" />
+      <mail primitive="API_PP_MM_REGISTRATION_AUTO_REQ" id="0x510B" direction="in" description="This command is used by the MMI to request the API to perform an automatic unsupervised registration. The PP will search for FP&apos;s with the access rights capability bit set and automatically perform a registration to the first registration enabled RFPI it finds.
+The command will result in a API_PP_MM_REGISTRATION_COMPLETE_IND" >
+        <parameter type="rsuint8" name="SubscriptionNo" description="Selects the index in the PP subscription database where the registrations data should be written.
+[1..4]" />
+        <parameter type="rsuint8" name="AcCode" constarraysize="4" description="The authentication code of the FP. This is the &quot;PIN&quot; code of the FP used to verify the user for registration. The dataformat is BCD and the string is &apos;F&apos; terminated (unused nibbles are set to &apos;F&apos;).
+
+Example.
+  AcCode = 1234
+  AcCode[4] = { 0xFF, 0xFF, 0x12, 0x34 }" />
+      </mail>
+      <mail primitive="API_PP_MM_EASY_PAIRING_SEARCH_REQ" id="0x5121" direction="in" description="This command is used by the MMI to request the API to perform a search for registration enabled Fp with A29_EWB capability bit set.
+The command will result in a API_PP_MM_EASY_PAIRING_SEARCH_CFM
+" />
+      <mail primitive="API_PP_MM_EASY_PAIRING_SEARCH_CFM" id="0x5122" direction="out" description="This mail is used to inform the MMI found registration enabled RFPI&apos;s.
+Parameters hold the selected RFPI and the FP extended higher layer capabilities part2, refer to ETSI EN 300 175-5 V2.2.6 (2009-11) Annex F.3" >
+        <parameter type="rsuint8" name="Rfpi" constarraysize="5" description="The RFPI (Radio Fixed Part Identifier) of the found FP" />
+        <parameter type="rsuint8" name="FpCapBit24_31" description="bit0: a31 Conference
+bit1: a30 Permanent CLIR
+bit2: a29 NG-DECT extended wideband voice
+bit3-6: a25-a28 DPRS
+bit7: a24 NG-DECT wideband voice" />
+        <parameter type="rsuint8" name="FpCapBit32_39" description="bit0: a39 Reserved
+bit1: a38 Reserved
+bit2: a37 Reserved
+bit3: a36 Reserved
+bit4: a35 No emission
+bit5: a34 Multiple lines
+bit6: a33 Call deflection
+bit7: a32 Call intrusion" />
+        <parameter type="rsuint8" name="FpCapBit40_47" description="bit0: a47 Reserved
+bit1: a46 Reserved
+bit2: a45 Light data services
+bit3: a44 Reserved
+bit4: a43 Reserved
+bit5: a42 Early encryption
+bit6: a41 Reserved
+bit7: a40 Reserved" />
+      </mail>
+      <mail primitive="API_PP_MM_REGISTRATION_SEARCH_REQ" id="0x510C" direction="in" description="This command is used by the MMI to request the API to start searching for registration enabled RFPI&apos;s. Found RFPI(s) will be returned in the API_PP_MM_REGISTRATION_SEARCH_IND." >
+        <parameter type="ApiMmSearchModeType" name="SearchMode" description="Defines if search should search continuously finding more FP&apos;s or single which will stop after finding the first registration enabled FP." />
+      </mail>
+      <mail primitive="API_PP_MM_REGISTRATION_SEARCH_IND" id="0x510D" direction="out" description="This mail is used to inform the MMI found registration enabled RFPI&apos;s.
+Parameters hold the selected RFPI and the FP extended higher layer capabilities part2, refer to ETSI EN 300 175-5 V2.2.6 (2009-11) Annex F.3
+FP extended higher layer capabilities part2, refer to ETSI EN 300 175-5 V2.2.6 (2009-11) Annex F.3" >
+        <parameter type="rsuint8" name="Rfpi" constarraysize="5" description="The RFPI (Radio Fixed Part Identifier) of the found FP" />
+        <parameter type="rsuint8" name="FpCapBit24_31" description="bit0: a31 Conference
+bit1: a30 Permanent CLIR
+bit2: a29 NG-DECT extended wideband voice
+bit3-6: a25-a28 DPRS
+bit7: a24 NG-DECT wideband voice" />
+        <parameter type="rsuint8" name="FpCapBit32_39" description="bit0: a39 Reserved
+bit1: a38 Reserved
+bit2: a37 Reserved
+bit3: a36 Reserved
+bit4: a35 No emission
+bit5: a34 Multiple lines
+bit6: a33 Call deflection
+bit7: a32 Call intrusion" />
+        <parameter type="rsuint8" name="FpCapBit40_47" description="bit0: a47 Reserved
+bit1: a46 Reserved
+bit2: a45 Light data services
+bit3: a44 Reserved
+bit4: a43 Reserved
+bit5: a42 Early encryption
+bit6: a41 Reserved
+bit7: a40 Reserved" />
+      </mail>
+      <mail primitive="API_PP_MM_REGISTRATION_SELECTED_REQ" id="0x510E" direction="in" description="This command is used by the MMI to request the API to perform a supervised registration. The PP will register to the selected RFPI.
+The command will result in a API_PP_MM_REGISTRATION_IND" >
+        <parameter type="rsuint8" name="SubscriptionNo" description="Selects the index in the PP subscription database where the registrations data should be written.
+[1..4]" />
+        <parameter type="rsuint8" name="AcCode" constarraysize="4" description="The authentication code of the FP. This is the &quot;PIN&quot; code of the FP used to verify the user for registration. The dataformat is BCD and the string is &apos;F&apos; terminated (unused nibbles are set to &apos;F&apos;).
+
+Example.
+  AcCode = 1234
+  AcCode[4] = { 0xFF, 0xFF, 0x12, 0x34 }" />
+        <parameter type="rsuint8" name="Rfpi" constarraysize="5" description="The RFPI to register to in HEX format." />
+      </mail>
+      <mail primitive="API_PP_MM_REGISTRATION_STOP_REQ" id="0x510F" direction="in" description="This command is used by the MMI to request the API to cancel registration mode (stop searching for RFPI&apos;s)" />
+      <mail primitive="API_PP_MM_REGISTRATION_COMPLETE_IND" id="0x5110" direction="out" description="This mail is used to inform the MCU when a handset has been registered. A CODEC list is included if the handset supports wide band audio (CAT-iq handset)." >
+        <parameter type="rsuint8" name="HandsetId" description="Id of the handset that was registered to the API." />
+        <parameter type="rsbool" name="KnownFp" description="Returns if the unit is a known (same manufactorer). 
+This is useful in the DECT version where you can register the PP to other manufacturer FP&apos;s.
+It is judged on the FixedEMC and returns
+1: Same Manufactorer ID in FP/PP
+0: Different Manufactorer ID in FP/PP" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Expected Infoelements:
+[IE_CODEC_LIST]" />
+      </mail>
+      <mail primitive="API_PP_MM_REGISTRATION_FAILED_IND" id="0x5111" direction="out" description="This mail is used to inform the MMI when the PP has failed the registration." >
+        <parameter type="ApiPpMmRejectReasonType" name="Reason" description="Reason of the failed registration" />
+      </mail>
+      <mail primitive="API_PP_MM_REGISTRATION_SELECTED_WITH_PLI_REQ" id="0x5112" direction="in" description="This command is used by the MMI to request the API to perform a supervised registration. The PP will register to the selected RFPI including PLI.
+The command will result in a API_PP_MM_REGISTRATION_IND" >
+        <parameter type="rsuint8" name="SubscriptionNo" description="Selects the index in the PP subscription database where the registrations data should be written.
+[1..4]" />
+        <parameter type="rsuint8" name="AcCode" constarraysize="4" description="The authentication code of the FP. This is the &quot;PIN&quot; code of the FP used to verify the user for registration. The dataformat is BCD and the string is &apos;F&apos; terminated (unused nibbles are set to &apos;F&apos;).
+
+Example.
+  AcCode = 1234
+  AcCode[4] = { 0xFF, 0xFF, 0x12, 0x34 }" />
+        <parameter type="rsuint8" name="Rfpi" constarraysize="5" description="The RFPI to register to in HEX format." />
+        <parameter type="rsuint8" name="Pli" description="Park bit length" />
+      </mail>
+      <mail primitive="API_PP_MM_DELETE_LOCAL_REGISTRATION_REQ" id="0x5114" direction="in" description="This command is used by the MMI to request the API to delete a registered PP locally.
+This means that the registration entry in the FP will not be deleted!" >
+        <parameter type="rsuint8" name="SubscriptionNo" description="Selects the index in the PP subscription database where the registrations data should be deleted." />
+      </mail>
+      <mail primitive="API_PP_MM_DELETE_LOCAL_REGISTRATION_CFM" id="0x5115" direction="out" description="This mail is used by the API to confirm the API_PP_MM_DELETE_REGISTRATION_REQ command." >
+        <parameter type="RsStatusType" name="Status" description="Indicates whether the command succeeded or not.
+RsStatusType is defined in the ROS" />
+        <parameter type="rsuint8" name="SubscriptionNo" description="Indicates the index in the PP subscription database where the registrations data has been deleted." />
+      </mail>
+      <mail primitive="API_PP_MM_UPI_AUTHENTICATE_IND" id="0x5117" direction="out" description="This command is used by the FP to request the PP MMI to authenticate him self.
+When receiving this, the MMI should prompt the user to manually enter the UPI (User Personal Identifier) code. When the user has entered the code, the MMI should answer with the API_PP_MM_UPI_AUTHENTICATE_RES" />
+      <mail primitive="API_PP_MM_UPI_AUTHENTICATE_RES" id="0x5118" direction="in" description="This mail is used by the MMI  to confirm the API_PP_MM_UPI_AUTHENTICATE_IND
+It holds up to 8 digits entered by the user." >
+        <parameter type="rsuint8" name="Upi" constarraysize="4" description="5 bytes holding the UPI
+
+The UPI authentication code of the FP. This is a &quot;PIN&quot; code of the FP used to verify the user during location and in normal use. The dataformat is BCD and the string is &apos;F&apos; terminated (unused nubbled are set to &apos;F&apos;). 
+
+Example.
+  API = 1234
+  Upi[4] = { 0xFF, 0xFF, 0x12, 0x34 }" />
+      </mail>
+      <mail primitive="API_PP_MM_ACC_RIGHTS_TERM_IND" id="0x511B" direction="out" description="This mail is send to the MMI to indicate that the FP has deleted this Pp registration" />
+      <mail primitive="API_PP_MM_UNITDATA_IND" id="0x5119" direction="out" description="This mail is used by the API to indicate to the MMI that it has received packed of proprietary data, broadcasted from the FP.
+The unitdata broadcast is a connectionless transmission so no answer/confirm is necessary from the PP. It can hold up to 19 bytes in one package.
+*The unitdata can be received both when idle or in a call." >
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the 
+ApiInfoElementType (which is defined in the
+&quot;Phoenix_API_Types.doc&quot;)
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Expected Infoelements:
+[API_IE_UNITDATA]" />
+      </mail>
+      <mail primitive="API_PP_MM_ALERT_BROADCAST_IND" id="0x511A" direction="out" description="This mail is used by the API to indicate to the MMI that it has received and incoming call request in the form of an alert broadcast from the FP.
+The alert broadcast is a connectionless transmission. To answer the alert the PP needs to send an outgoing setup_req to establish the cobnnection." >
+        <parameter type="ApiMmSignalType" name="Signal" description="Alert signal. Can be used to control which
+ringer melody is used at Called endpoint.
+
+The possible signal types are defined in ApiMmSignalType (which is defined in the
+&quot;Phoenix_API_Types.doc&quot;)
+" />
+      </mail>
+      <mail primitive="API_PP_MM_FP_NAME_IND" id="0x511D" direction="out" description="This mail is used by the API to indicate to the MMI that it has received an FpName from the FP. Especially if doing a manual registration with user selection of the FP (the search_req) its convenient to be able to display the name of the Fp to the user instead of only the RFPI.
+The FpName might be received at the PP when synchronizing to the FP in normal mode and while doing registration." >
+        <parameter type="rsuint8" name="FpName" vararraysize="rsuint8" vararraylengthname="FpNameLength" description="The received FP name.
+Can hold from 0 to 17 chars" />
+      </mail>
+      <mail primitive="API_PP_MM_ENCRYPTION_NOT_STARTED_IND" id="0x511E" direction="out" description="This mail is send to the MMI to indicate that the FP has not started the encryption
+Time offset before encryption check can be set in eeprom (EncStartCheckTime)" />
+      <mail primitive="API_PP_MM_GET_EXT_HIGHER_LAYER_CAP2_REQ" id="0x511F" direction="in" description="This mail is used by the MMI to request the extended higher layer capabilities part2 of the FP on which the PP is currently locked." />
+      <mail primitive="API_PP_MM_GET_EXT_HIGHER_LAYER_CAP2_CFM" id="0x5120" direction="out" description="This mail is used by the API to inform the MMI about the FP extended higher layer capabilities part2, refer to ETSI EN 300 175-5 V2.2.6 (2009-11) Annex F.3" >
+        <parameter type="rsuint8" name="FpCapBit24_31" description="bit0: a31 Conference
+bit1: a30 Permanent CLIR
+bit2: a29 NG-DECT extended wideband voice
+bit3-6: a25-a28 DPRS
+bit7: a24 NG-DECT wideband voice" />
+        <parameter type="rsuint8" name="FpCapBit32_39" description="bit0: a39 Reserved
+bit1: a38 Reserved
+bit2: a37 Reserved
+bit3: a36 Reserved
+bit4: a35 No emission
+bit5: a34 Multiple lines
+bit6: a33 Call deflection
+bit7: a32 Call intrusion" />
+        <parameter type="rsuint8" name="FpCapBit40_47" description="bit0: a47 Reserved
+bit1: a46 Reserved
+bit2: a45 Light data services
+bit3: a44 Reserved
+bit4: a43 Reserved
+bit5: a42 Early encryption
+bit6: a41 Reserved
+bit7: a40 Reserved" />
+      </mail>
+      <mail primitive="API_PP_MM_GET_SUBSCRIPTION_RFPI_REQ" id="0x5123" direction="in" description="This mail is used by the MMI to request the RFPI associated with a specific subscription number." >
+        <parameter type="rsuint8" name="SubscriptionNo" description="The subscription number indicated the index in the subscription database. [1..4]" />
+      </mail>
+      <mail primitive="API_PP_MM_GET_SUBSCRIPTION_RFPI_CFM" id="0x5124" direction="out" description="This mail is used to inform the MMI about the RFPI found at the selected subscription number." >
+        <parameter type="rsuint8" name="SubscriptionNo" description="The subscription number indicated the index in the subscription database. [1..4]" />
+        <parameter type="rsuint8" name="Rfpi" constarraysize="5" description="The RFPI (Radio Fixed Part Identifier) of the selected subscription." />
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

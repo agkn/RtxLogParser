@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="API_RfTest.doc" wordmacrover="74">
+  <group name="ApiRfTest">
+    <types>
+      <enum name="ApiRfTestType" type="RSENUM8" description="Defines the type of RfTest." >
+        <member name="TEST_INIT_NONE" value="0x00" />
+        <member name="TEST_INIT_RF_TEST" value="0x01" />
+        <member name="TEST_INIT_TEST_ANTENNA" value="0x02" />
+      </enum>
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" description="Include of API configuration header." />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" description="Include of generic API types." />
+    </includefiles>
+    <macros>
+    </macros>
+    <mails>
+      <mail primitive="API_RFTEST_INIT_TEST_REQ" id="0x43B0" direction="in" description="This mail is used by the MMI to initialize RfTest" >
+        <parameter type="ApiRfTestType" name="Type" description="Type of test" />
+      </mail>
+      <mail primitive="API_RFTEST_INIT_TEST_CFM" id="0x43B1" direction="out" description="This mail is used by the API to confirm the API_RFTEST_INIT_TEST_REQ has been received." >
+      </mail>
+      <mail primitive="API_RFTEST_TX_BURST_REQ" id="0x43B2" direction="in" description="This mail is used by the MMI to initiate Tx burst" >
+        <parameter type="rsuint8" name="Channel" description="Which channel to burst on" />
+        <parameter type="rsuint8" name="Antenna" description="Which antenna to burst on (0 or 1)" />
+        <parameter type="rsuint8" name="Type" description="Types (use 0 for default)" />
+      </mail>
+      <mail primitive="API_RFTEST_TX_BURST_CFM" id="0x43B3" direction="out" description="This mail is used by the API to confirm the API_RFTEST_TX_BURST_REQ has been received." >
+        <parameter type="RsStatusType" name="Status" description="Status for req" />
+      </mail>
+      <mail primitive="API_RFTEST_SET_DIVERSITY_REQ" id="0x43B4" direction="in" description="This mail is used by the MMI to set the Antenna Diversity" >
+        <parameter type="rsuint8" name="Antenna" description="Antenna (0 or 1)" />
+      </mail>
+      <mail primitive="API_RFTEST_SET_DIVERSITY_CFM" id="0x43B5" direction="out" description="This mail is used by the API to confirm the API_RFTEST_SET_DIVERSITY _REQ has been received." >
+        <parameter type="RsStatusType" name="Status" description="Status for req" />
+      </mail>
+      <mail primitive="API_RFTEST_SET_DECTMODE_REQ" id="0x43B6" direction="in" description="This mail is used by the MMI to set DectMode" >
+        <parameter type="ApiDectTypeType" name="DectMode" description="DectMode EU or US" />
+      </mail>
+      <mail primitive="API_RFTEST_SET_DECTMODE_CFM" id="0x43B7" direction="out" description="This mail is used by the API to confirm the API_RFTEST_SET_DECTMODE_REQ has been received." >
+        <parameter type="RsStatusType" name="Status" description="Status for req" />
+      </mail>
+      <mail primitive="API_RFTEST_SET_RXCONT_REQ" id="0x43B8" direction="in" description="This mail is used by the MMI to set Continous rx" >
+        <parameter type="rsuint8" name="Channel" description="Channel" />
+      </mail>
+      <mail primitive="API_RFTEST_SET_RXCONT_CFM" id="0x43B9" direction="out" description="This mail is used by the API to confirm the API_RFTEST_SET_RXCONT_REQ has been received." >
+        <parameter type="RsStatusType" name="Status" description="Status for req" />
+      </mail>
+      <mail primitive="API_RFTEST_GET_DECTMODE_REQ" id="0x43BA" direction="in" description="This mail is used by the MMI to get DectMode" >
+      </mail>
+      <mail primitive="API_RFTEST_GET_DECTMODE_CFM" id="0x43BB" direction="out" description="This mail is used by the API to confirm the API_RFTEST_GET_DECTMODE_REQ has been received." >
+        <parameter type="ApiDectTypeType" name="DectMode" description="DectMode EU or US" />
+      </mail>
+      <mail primitive="API_RFTEST_GET_CURRENT_POWER_LEVEL_REQ" id="0x43BC" direction="in" description="This mail is used by the MMI to get current DECT power level" >
+      </mail>
+      <mail primitive="API_RFTEST_GET_CURRENT_POWER_LEVEL_CFM" id="0x43BD" direction="out" description="This mail is used by the API to confirm the API_RFTEST_GET_CURRENT_POWER_LEVEL_REQ has been received." >
+        <parameter type="rsuint8" name="PowerLevel" description="Current DECT Power Level" />
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

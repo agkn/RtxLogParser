@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="SMS.doc" wordmacrover="52">
+  <group name="Sms">
+    <types>
+      <enum name="SmsUrgencyLvlType" type="RSENUM8" description="This type is used to hold the message urgency level." >
+        <member name="SMS_URGENCY_LVL_NORMAL" value="0x00" description="Normal message" />
+        <member name="SMS_URGENCY_LVL_URGENT" value="0x01" description="Urgent message" />
+        <member name="SMS_URGENCY_LVL_EMERGENCY" value="0x02" description="Emergency message" />
+      </enum>
+      <enum name="SmsTextFormatType" type="RSENUM8" description="This type is used to hold the text format for the message." >
+        <member name="SMS_TEXT_FORMAT_ASCII" value="0x00" description="Ascii format" />
+        <member name="SMS_TEXT_FORMAT_UNICODE" value="0x01" description="Unicode format" />
+        <member name="SMS_TEXT_FORMAT_UTF8" value="0x02" description="UTF-8 format" />
+      </enum>
+      <enum name="SmsRejectReasonType" type="RSENUM8" description="This type is used to hold the reject reason type." >
+        <member name="SMS_RR_USER_REJECT" value="0x00" description="User rejected the message" />
+        <member name="SMS_RR_SYSTEM_ERROR" value="0x01" description="Some kind of system error" />
+        <member name="SMS_RR_STORAGE_FULL" value="0x02" description="Storage full" />
+        <member name="SMS_RR_MESSAGE_TOO_LONG" value="0x03" description="Message too long" />
+        <member name="SMS_RR_TIMEOUT" value="0x04" description="Message timeout" />
+        <member name="SMS_RR_RELEASE_TX" value="0x05" description="Connection is released while sending message" />
+        <member name="SMS_RR_RELEASE_RX" value="0x06" description="Connection is released while receiveing message" />
+      </enum>
+      <enum name="SmsResponseAckType" type="RSENUM8" description="This type is used to hold the response acknowledge type." >
+        <member name="SMS_RA_ERROR" value="0x00" description="Some kind of error" />
+        <member name="SMS_RA_ACKNOWLEDGE" value="0x01" description="Response acknowledge" />
+        <member name="SMS_RA_ALARM_ACKNOWLEDGE" value="0x02" description="Response for alarm acknowledge" />
+        <member name="SMS_RA_ERROR_CMD_NOT_SUPPORTED" value="0x03" description="Command not supported" />
+      </enum>
+      <enum name="SmsDirectionType" type="RSENUM8" description="This type is used to hold direction of message." >
+        <member name="SMS_DIRECTION_INCOMMING" value="0x00" description="Incomming message" />
+        <member name="SMS_DIRECTION_OUTGOING" value="0x01" description="Outgoing message" />
+        <member name="SMS_DIRECTION_ALARM_OUTGOING" value="0x02" description="Outgoing alarm message" />
+        <member name="SMS_DIRECTION_UNKNOWN" value="0xFF" description="Direction unknown" />
+      </enum>
+      <enum name="SmsDestinationType" type="RSENUM8" description="This type defines the type of the message." >
+        <member name="SMS_DESTINATION_TYPE_P2P" value="0x00" description="P2P message" />
+        <member name="SMS_DESTINATION_TYPE_BROADCAST" value="0x01" description="Broadcast message" />
+        <member name="SMS_DESTINATION_TYPE_UNKNOWN" value="0xFF" description="Type unknown" />
+      </enum>
+      <enum name="SwSignalType" type="RSENUM8" >
+        <member name="SW_SIGNAL_DIAL_TONE_ON" value="0x00" />
+        <member name="SW_SIGNAL_RINGBACK_TONE_ON" value="0x01" />
+        <member name="SW_SIGNAL_INTERCEPT_TONE_ON" value="0x02" />
+        <member name="SW_SIGNAL_NETWORK_CONGESTION_TONE_ON" value="0x03" />
+        <member name="SW_SIGNAL_BUSY_TONE_ON" value="0x04" />
+        <member name="SW_SIGNAL_CONFIRM_TONE_ON" value="0x05" />
+        <member name="SW_SIGNAL_ANSWER_TONE_ON" value="0x06" />
+        <member name="SW_SIGNAL_CALL_WAITING_TONE_ON" value="0x07" />
+        <member name="SW_SIGNAL_OFF_HOOK_WARNING_TONE" value="0x08" />
+        <member name="SW_SIGNAL_NEGATIVE_ACKNOWLEDGEMENT" value="0X09" />
+        <member name="SW_SIGNAL_TONES_OFF" value="0x3F" />
+        <member name="SW_SIGNAL_ALERT_ON_PATTERN_0_INT" value="0x40" />
+        <member name="SW_SIGNAL_ALERT_ON_PATTERN_1" value="0x41" />
+        <member name="SW_SIGNAL_ALERT_ON_PATTERN_2" value="0x42" />
+        <member name="SW_SIGNAL_ALERT_ON_PATTERN_3" value="0x43" />
+        <member name="SW_SIGNAL_ALERT_ON_PATTERN_4" value="0x44" />
+        <member name="SW_SIGNAL_ALERT_ON_PATTERN_5" value="0x45" />
+        <member name="SW_SIGNAL_ALERT_ON_PATTERN_6" value="0x46" />
+        <member name="SW_SIGNAL_ALERT_ON_PATTERN_7" value="0x47" description="Used to indicate call back after unattended transfer" />
+        <member name="SW_SIGNAL_ALERT_ON_CONTINUOUS" value="0x48" />
+        <member name="SW_SIGNAL_ALERT_OFF" value="0x4F" />
+        <member name="SW_SIGNAL_CUSTOM_FIRST" value="0x80" />
+        <member name="SW_SIGNAL_CUSTOM_NONE" value="0xFF" />
+      </enum>
+    </types>
+    <includefiles>
+      <includefile name="Sms/SmsCfg.h" description="The following files must be included." />
+    </includefiles>
+    <macros>
+    </macros>
+    <mails>
+	<mail primitive="SMS_SEND_REQ" id="0x4D00" direction="in" description="This mail is used by the application to send a message. The message can be:
+A normal message
+An urgent message
+An emergency message" >
+        <parameter type="SmsUrgencyLvlType" name="SmsUrgencyLvl" description="Normal, urgent, or emergency." />
+        <parameter type="rsuint32" name="TimeDate" description="Time and date for message (UTC POSIX)" />
+        <parameter type="SmsTextFormatType" name="TextFormatType" description="Text format for message" />
+        <parameter type="SmsDestinationType" name="DestinationType" description="Destination type of message" />
+        <parameter type="rsuint8" name="CallingPartyNumberLen" description="The address length of sending unit (own address)." />
+        <parameter type="rsuint8" name="CalledPartyNumberLen" description="The address length of receiving unit." />
+        <parameter type="rsuint8" name="SmsDataLen" description="The length of the Sms data." />
+        <parameter type="rsuint8" name="Data" vararraysize="rsuint8" vararraylengthname="DataLength" description="Data (SenderAddress +  ReceiverAddress + Sms)" />
+      </mail>
+      <mail primitive="SMS_SEND_CFM" id="0x4D01" direction="out" description="This mail is used to indicate that the message is sent" >
+        <parameter type="rsuint8" name="Dummy" description="Dummy variable, only here because of word macro not supporting mails without parameters" />
+      </mail>
+      <mail primitive="SMS_SEND_REJ" id="0x4D02" direction="out" description="This mail is used to inform the application of the call progress.
+No more dialed digits will be accepted." >
+        <parameter type="SmsRejectReasonType" name="RejectReason" description="Reason that the message is rejected." />
+      </mail>
+      <mail primitive="SMS_RECEIVE_IND" id="0x4D03" direction="out" description="This mail is used to inform the application about an incoming message." >
+        <parameter type="SmsUrgencyLvlType" name="SmsUrgencyLvl" description="Normal, urgent, or emergency." />
+        <parameter type="rsuint32" name="TimeDate" description="Time and date for message (UTC POSIX)" />
+        <parameter type="SmsTextFormatType" name="TextFormatType" description="Text format for message" />
+        <parameter type="SmsDestinationType" name="DestinationType" description="Destination type of message" />
+        <parameter type="rsuint32" name="ExternalIdHash" description="Unique id used to update, delete messages from fp" />
+        <parameter type="rsuint32" name="pTextMsgXml" description="pointer needed in the fp" />
+        <parameter type="rsuint8" name="Flash" description="True if message should be deleted when read" />
+        <parameter type="rsbool" name="Alarm" description="True if it is an alarm" />
+        <parameter type="rsuint8" name="AlarmPriority" description="priority if there is an alarm" />
+        <parameter type="rsuint8" name="Confirmation" description="True if message should be confirmed by user" />
+        <parameter type="rsuint8" name="Status" description="status. eg. 10 for delete" />
+        <parameter type="rsuint16" name="AlarmNumber" description="alarmnumber is used when a messages is requested deleted, then the delete messages holds the alarnumber that should be deleted" />
+        <parameter type="SwSignalType" name="Signal" description="Signal type" />
+        <parameter type="rsuint8" name="NumberOfRings" description="Number of times the message must alert" />
+        <parameter type="rsuint32" name="ReferenceNumberHash" description="32-bit hash value of ReferenceNumber" />
+        <parameter type="rsuint8" name="CallingPartyNumberLen" description="The address length of sending unit." />
+        <parameter type="rsuint8" name="CalledPartyNumberLen" description="The address length of receiving unit (own address)." />
+        <parameter type="rsuint8" name="SmsDataLen" description="The length of the Sms data." />
+        <parameter type="rsuint8" name="ExternalIdStringLen" description="The length of the External ID string." />
+        <parameter type="rsuint8" name="Data" vararraysize="rsuint8" vararraylengthname="DataLength" description="Data (externalid, ReceiverAddress + SenderAddress +  Smsm + externalId string)" />
+      </mail>
+      <mail primitive="SMS_RECEIVE_RES" id="0x4D04" direction="in" description="This mail is used by the application to inform the protocol that a message is received" >
+        <parameter type="SmsResponseAckType" name="ResponseAck" description="Acknowledge or error" />
+        <parameter type="rsuint8" name="confirmation" description="0: No User confirmation needed, 1: User Received Job confirmation needed, 2: User Confirmed/Reject Job confirmation needed." />
+      </mail>
+      <mail primitive="SMS_RECEIVE_CFM" id="0x4D05" direction="in" description="This mail is used by the application to send EE (End Entity) acknowledge (user has seen message)" >
+        <parameter type="rsuint32" name="CissSmspTextMsgXml" description="pointer info to the TextMsgXml that was received when the Alarm was received from the base" />
+        <parameter type="rsuint8" name="externalIdString" vararraysize="rsuint8" description="Used to transfer back the External ID to the base. The Base will use this in the responce to the messages server" />
+      </mail>
+      <mail primitive="SMS_RECEIVE_REJ" id="0x4D06" direction="in" description="This mail is used by the application to send EE (End Entity) reject (user has seen message)" >
+        <parameter type="SmsRejectReasonType" name="RejectReason" description="Reason that the message is rejected." />
+        <parameter type="rsuint32" name="CissSmspTextMsgXml" description="pointer info to the TextMsgXml that was received when the Alarm was received from the base" />
+        <parameter type="rsuint8" name="externalIdString" vararraysize="rsuint8" description="Used to transfer back the External ID to the base. The Base will use this in the responce to the messages server" />
+      </mail>
+      <mail primitive="SMS_RECEIVE_REJECT_IND" id="0x4D07" direction="out" description="This mail is used to inform the application that message transmission is rejected." >
+        <parameter type="SmsRejectReasonType" name="RejectReason" description="Reason that the message is rejected." />
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

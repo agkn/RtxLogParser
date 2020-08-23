@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="API_PushToTalk.doc" wordmacrover="74">
+  <group name="ApiPushToTalk">
+    <types>
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" description="Include of API configuration header." />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" description="Include of generic API types." />
+    </includefiles>
+    <macros>
+    </macros>
+    <mails>
+      <mail primitive="API_PUSHTOTALK_ENABLE_REQ" id="0x4460" direction="out" description="Enable or disable PushToTalk" >
+        <parameter type="rsuint8" name="Enabled" description="0x00 disabled, enabled otherwise" />
+      </mail>
+      <mail primitive="API_PUSHTOTALK_ENABLE_CFM" id="0x4461" direction="out" description="This command replies to the API_PUSHTOTALK_ENABLE_REQ." >
+      </mail>
+      <mail primitive="API_PUSHTOTALK_SET_GROUP_REQ" id="0x4462" direction="out" description="Sets the name used to identify different host devices." >
+        <parameter type="rsuint8" name="Groups" vararraysize="rsuint8" vararraylengthname="DataLength" description="List of groups" />
+      </mail>
+      <mail primitive="API_PUSHTOTALK_SET_GROUP_CFM" id="0x4463" direction="out" description="This command replies to the API_PUSHTOTALK_SET_GROUP_REQ." >
+        <parameter type="RsStatusType" name="Status" description="Indicates whether the command succeeded or not." />
+      </mail>
+      <mail primitive="API_PUSHTOTALK_BROADCAST_SESSION_IND" id="0x4464" direction="out" description="Indication of a new Push to Talk broadcast starting or stopping" >
+        <parameter type="rsuint8" name="Active" description="0x00 broadcast has stopped, else broadcast has started" />
+        <parameter type="rsuint8" name="Group" description="Group of the incoming" />
+      </mail>
+      <mail primitive="API_PUSHTOTALK_BROADCAST_SESSION_RES" id="0x4465" direction="out" description="This command replies to the API_PUSHTOTALK_BROADCAST_SESSION_IND." >
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

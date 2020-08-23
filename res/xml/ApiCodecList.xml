@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="Phoenix_API_CodecList.doc" wordmacrover="60">
+  <group name="ApiCodecList">
+    <types>
+      <struct name="ApiCommonCodecListType" description="This struct holds all data for the codec negotiations." >
+        <member type="ApiNegotiationIndicatorType" name="NegotiationIndicator" description="Is negotiation allowed" />
+        <member type="rsuint8" name="NoOfCodecs" description="Number of codecs in the codec list" />
+        <member type="ApiCodecInfoType" name="Codec[NUMBER_OF_CODEC_LIST_ENTRIES
+]" description="The actual codecs." />
+      </struct>
+      <struct name="ApiCodecListHandlingType" description="This struct holds all data for the codec negotiations." >
+        <member type="ApiCommonCodecListType" name="CommonCodecList" description="This struct holds a codec list of the common codecs between the Fp and the Pp. The CommonCodecList is updated for each incoming codec list. The priority of the codecs corresponds to the incoming codec list." />
+        <member type="ApiCodecType" name="CodecForCurrentCall" description="The selected codec to the current call" />
+      </struct>
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" />
+    </includefiles>
+    <macros>
+    </macros>
+    <mails>
+    </mails>
+  </group>
+</rtxinterface>
+

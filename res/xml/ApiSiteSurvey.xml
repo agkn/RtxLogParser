@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="Programs/Darma/Include/Api/SiteSurvey/ApiSiteSurvey.docx" dextorver="1.15">
+  <group name="ApiSiteSurvey">
+    <types>
+      <enum name="LockStatusType" type="RSENUM8" description="The lock status for the device" >
+        <member name="UNLOCKED" value="0x00" />
+        <member name="LOCKED" value="0x01" />
+        <member name="CONVERSATION" value="0x02" />
+      </enum>
+      <enum name="WorkingModeType" type="RSENUM8" description="The lock status for the device" >
+        <member name="WORKING_MODE_NORMAL" value="0x00" />
+        <member name="WORKING_MODE_VLS" value="0x01" />
+        <member name="WORKING_MODE_MAX" value="0x02" />
+      </enum>
+      <struct name="SiteSurveyDataType" description="Data for the API_SITE_SURVEY_IND.">
+        <member type="rsuint8" name="bShortOrLong" description="" />
+        <member type="rsuint8" name="bSlot" description="" />
+        <member type="rsuint8" name="bCarrier" description="" />
+        <member type="LockStatusType" name="bLockStatus" description="" />
+        <member type="rsuint8" name="bFading" description="" />
+        <member type="rsuint8" name="bNrErrFrames" description="" />
+        <member type="rsuint8" name="bLockToBaseStatus" description="" />
+        <member type="rsuint8" name="bSyncOk_Cnt" description="" />
+        <member type="rsuint8" name="bACRC_Cnt" description="" />
+        <member type="rsuint8" name="bXCRC_Cnt" description="" />
+        <member type="rsuint8" name="bZCRC_Cnt" description="" />
+        <member type="rsuint8" name="bPpFer_Cnt" description="" />
+        <member type="rsuint8" name="bFpFer_Cnt" description="" />
+        <member type="WorkingModeType" name="workingMode" description="" />
+      </struct>
+      <struct name="SiteSurveyRpnDataType" description="Data for the API_SITE_SURVEY_RPN_IND.">
+        <member type="rsuint8" name="LockedRfpi[5]" description="" />
+        <member type="rsuint16" name="RPN[API_SITE_SURVEY_RPN_COUNT]" description="" />
+        <member type="rsuint8" name="dBm[API_SITE_SURVEY_RPN_COUNT]" description="" />
+      </struct>
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" description="Include of API configuration header." />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" description="Include of generic API types." />
+    </includefiles>
+    <macros>
+      <defines name="API_SITE_SURVEY_RPN_COUNT 5" description="The number of RPNs and RSSI levels forwarded" />
+    </macros>
+    <mails>
+      <mail primitive="API_SITE_SURVEY_START_REQ" id="0x4360" direction="in" description="This command is used to start the Site Survey. This will result in the API_SITE_SURVEY_IND and API_SITE_SURVEY_RPN_IND being send for every measurement made." />
+      <mail primitive="API_SITE_SURVEY_START_CFM" id="0x4361" direction="out" description="This command replies to the API_SITE_SURVEY_START_REQ" />
+      <mail primitive="API_SITE_SURVEY_STOP_REQ" id="0x4362" direction="in" description="This command is used to stop the Site Survey." />
+      <mail primitive="API_SITE_SURVEY_STOP_CFM" id="0x4363" direction="out" description="This command replies to the API_SITE_SURVEY_STOP_REQ" />
+      <mail primitive="API_SITE_SURVEY_HANDOVER_ENABLE_REQ" id="0x4364" direction="in" description="This command is used to enable handover and thereby allow the device to lock to any DAP." />
+      <mail primitive="API_SITE_SURVEY_HANDOVER_ENABLE_CFM" id="0x4365" direction="out" description="This command replies to the API_SITE_SURVEY_HANDOVER_ENABLE_REQ" />
+      <mail primitive="API_SITE_SURVEY_HANDOVER_DISABLE_REQ" id="0x4366" direction="in" description="This command is used to disable handover and thereby fix the device to the current DAP." />
+      <mail primitive="API_SITE_SURVEY_HANDOVER_DISABLE_CFM" id="0x4367" direction="out" description="This command replies to the API_SITE_SURVEY_HANDOVER_DISABLE_REQ" />
+      <mail primitive="API_SITE_SURVEY_SHORT_REQ" id="0x4368" direction="in" description="This command is used to request for rapid measurement (16 frames)." />
+      <mail primitive="API_SITE_SURVEY_SHORT_CFM" id="0x4369" direction="out" description="This command replies to the API_SITE_SURVEY_SHORT_REQ" />
+      <mail primitive="API_SITE_SURVEY_LONG_REQ" id="0x436A" direction="in" description="This command is used to request for normal measurement (256 frames)." />
+      <mail primitive="API_SITE_SURVEY_LONG_CFM" id="0x436B" direction="out" description="This command replies to the API_SITE_SURVEY_LONG_REQ" />
+      <mail primitive="API_SITE_SURVEY_IND" id="0x436C" direction="out" description="This command is used to provide site survey measurement data" >
+        <parameter type="SiteSurveyDataType" name="SiteSurveyData" description="Site Survey indication data" />
+      </mail>
+      <mail primitive="API_SITE_SURVEY_RPN_IND" id="0x436D" direction="out" description="This command is used to provide site survey RPN data" >
+        <parameter type="SiteSurveyRpnDataType" name="SiteSurveyRpnData" description="Site Survey RPN indication data" />
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

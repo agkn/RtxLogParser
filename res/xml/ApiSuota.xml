@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="Phoenix_API_SUOTA.doc" wordmacrover="59">
+  <group name="ApiSuota">
+    <types>
+      <typedef name="ApiSuotaDeviceIdType" type="rsuint8" description="This type is used to hold a device id." />
+      <typedef name="ApiSuotaEmcType" type="rsuint16" description="This type is used to hold the EMC." />
+      <typedef name="ApiSuotaFileNumberType" type="rsuint8" description="This type is used to hold a file number." />
+      <typedef name="ApiSuotaDelayType" type="rsuint16" description="This type is used to hold a SW update delay (in minutes)." />
+      <enum name="ApiSuotaFlagsType" type="RSENUM8" description="This enum identifies the SW update reason codes supported." >
+        <member name="ASF_NONE" value="0x00" description="No flags set." />
+        <member name="ASF_USER_INITIATED_SW_UPGRADE" value="0x01" description="User initiated software upgrade." />
+      </enum>
+      <enum name="ApiSuotaReasonType" type="RSENUM8" description="This enum id?s the SW update reason codes supported." >
+        <member name="ASR_SUCCESS" value="0x00" description="Success of previous files application. Request for a new file (indicated by &quot;file number&quot; field)." />
+        <member name="ASR_DOWNLOAD_FAILED" value="0x01" description="Download of file with indicated file number failed." />
+        <member name="ASR_APPLICATION_FAILED" value="0x02" description="Application of file with indicated file number failed." />
+        <member name="ASR_UNABLE_TO_DOWNLOAD_IN_TIME" value="0x03" description="Unable to download in time-New DelayMinutes requested ." />
+      </enum>
+      <enum name="ApiSuotaUserInteractionType" type="RSENUM8" description="This enum id?s the user interaction types supported." >
+        <member name="ASUI_NO_USER_INTERACTION" value="0x00" description="No user interaction required." />
+        <member name="ASUI_USER_INTERACTION_REQUIRED" value="0x01" description="User interaction required." />
+        <member name="ASUI_UNDEFINED" value="0x02" description="User interaction undefined." />
+      </enum>
+      <enum name="ApiSuotaRejectReasonType" type="RSENUM8" description="This enum id?s the Reject reason codes supported." >
+        <member name="ASRR_RESERVED" value="0x00" description="Reserved." />
+        <member name="ASRR_RETRY_LATER_CONNECTION_REFUSED" value="0x01" description="Retry later ? connection refused. Sent from FP to PP." />
+        <member name="ASRR_RETRY_LATER_NO_RESOURCES" value="0x02" description="Retry later ? FP resources overflow. Sent from FP to PP." />
+        <member name="ASRR_FILE_NOT_FOUND" value="0x03" description="The file specified does not exist. Sent from FP to PP." />
+        <member name="ASRR_URL1_INVALID" value="0x04" description="Invalid URL1 format. Sent from FP to PP." />
+        <member name="ASRR_URL1_UNREACHABLE" value="0x05" description="Unreachable URL1 (Server error). Sent from FP to PP." />
+        <member name="ASRR_CMD_FORMAT_ERROR" value="0x06" description="Command format error. Can be sent In both direactions." />
+      </enum>
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" description="Include of API configuration." />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" description="Include of common API types." />
+    </includefiles>
+    <macros>
+    </macros>
+    <mails>
+      <mail primitive="API_SUOTA_SW_VERSION_INFO_REQ" id="0x4880" direction="in" description="This mail is used from the SUOTA client application to enquire whether a new SW is available for download. This mail triggers the PP to send a ?handset version indication? (IWU_to_ IWU FACILITY) message to the FP." >
+        <parameter type="ApiSuotaEmcType" name="Emc" description="The EMC of the device." />
+        <parameter type="ApiSuotaFileNumberType" name="FileNumber" description="The file number. Used to identify the current file if the SW to update is stored in multiple files." />
+        <parameter type="ApiSuotaFlagsType" name="Flags" description="Indicates whether the update is initiated by the user." />
+        <parameter type="ApiSuotaReasonType" name="Reason" description="The reason for this command." />
+        <parameter type="rsuint8" name="SwVersionIdLength" description="The length of the string stored in the following SwVersionId parameter. Max length is 20." />
+        <parameter type="rsuint8" name="SwVersionId" constarraysize="20" description="The SW version identification string as array of  IA5 chars." />
+        <parameter type="rsuint8" name="HwVersionIdLength" description="The length of the string stored in the following HwVersionId parameter. Max length is 20." />
+        <parameter type="rsuint8" name="HwVersionId" constarraysize="20" description="The HW version identification string as array of  IA5 chars." />
+        <parameter type="rsuint8" name="Url" vararraysize="rsuint16" vararraylengthname="UrlLength" description="The URL as array of IA5 chars." />
+      </mail>
+      <mail primitive="API_SUOTA_SW_VERSION_INFO_IND" id="0x4881" direction="out" description="This mail is sent to the SUOTA server application on the FP when a  ?handset version indication? FACILITY message is received from the PP." >
+        <parameter type="ApiSuotaDeviceIdType" name="DeviceId" description="Id of the source." />
+        <parameter type="ApiSuotaEmcType" name="Emc" description="The EMC of the device requesting the SW info." />
+        <parameter type="ApiSuotaFileNumberType" name="FileNumber" description="The file number. Used to identify the current file if the SW to update is stored in multiple files." />
+        <parameter type="ApiSuotaFlagsType" name="Flags" description="Indicates whether the update is initiated by the user." />
+        <parameter type="ApiSuotaReasonType" name="Reason" description="The reason for this command." />
+        <parameter type="rsuint8" name="SwVersionIdLength" description="The length of the string stored in the following SwVersionId parameter. Max length is 20." />
+        <parameter type="rsuint8" name="SwVersionId" constarraysize="20" description="The SW version identification string as array of  IA5 chars." />
+        <parameter type="rsuint8" name="HwVersionIdLength" description="The length of the string stored in the following HwVersionId parameter. Max length is 20." />
+        <parameter type="rsuint8" name="HwVersionId" constarraysize="20" description="The HW version identification string as array of  IA5 chars." />
+        <parameter type="rsuint8" name="Url" vararraysize="rsuint16" vararraylengthname="UrlLength" description="The URL as array of IA5 chars." />
+      </mail>
+      <mail primitive="API_SUOTA_NEW_SW_AVAILABLE_REQ" id="0x4882" direction="in" description="This mail is sent from the SUOTA server application on the FP when new SW version information has been received from the software upgrade management server (MS). The information is sent to the PP in a ?handset version available? (IWU_to_ IWU FACILITY) message." >
+        <parameter type="ApiSuotaDeviceIdType" name="DeviceId" description="Id of the destination" />
+        <parameter type="ApiSuotaDelayType" name="Delay" description="specifies a delay in minutes that the client should wait before the download of the new SW is started." />
+        <parameter type="ApiSuotaUserInteractionType" name="UserInteraction" description="Indicates whether user interaction is required to do the SW update." />
+        <parameter type="rsuint8" name="SwVersionIdLength" description="The length of the string stored in the following SwVersionId parameter. Max length is 20." />
+        <parameter type="rsuint8" name="SwVersionId" constarraysize="20" description="The SW version identification string as array of  IA5 chars." />
+        <parameter type="rsuint8" name="Url" vararraysize="rsuint16" vararraylengthname="UrlLength" description="The URL as array of IA5 chars." />
+      </mail>
+      <mail primitive="API_SUOTA_NEW_SW_AVAILABLE_IND" id="0x4883" direction="out" description="This mail is sent to the SUOTA client application when the requested SW version information, sent in a ?handset version available? (IWU_to_ IWU FACILITY) message, is received from the FP." >
+        <parameter type="ApiSuotaDelayType" name="Delay" description="specifies a delay in minutes that the client should wait before the download of the new SW is started." />
+        <parameter type="ApiSuotaUserInteractionType" name="UserInteraction" description="Indicates whether user interaction is required to do the SW update." />
+        <parameter type="rsuint8" name="SwVersionIdLength" description="The length of the string stored in the following SwVersionId parameter. Max length is 20." />
+        <parameter type="rsuint8" name="SwVersionId" constarraysize="20" description="The SW version identification string as array of  IA5 chars." />
+        <parameter type="rsuint8" name="Url" vararraysize="rsuint16" vararraylengthname="UrlLength" description="The URL as array of IA5 chars." />
+      </mail>
+      <mail primitive="API_SUOTA_NEGATIVE_ACK_REQ" id="0x4884" direction="in" description="This mail is used to request a ?Negative acknowledgement? FACILITY message to be sent. This mail can be used on both sides." >
+        <parameter type="ApiSuotaDeviceIdType" name="DeviceId" description="Id of the destination ." />
+        <parameter type="ApiSuotaRejectReasonType" name="Reason" description="Reject reason." />
+      </mail>
+      <mail primitive="API_SUOTA_NEGATIVE_ACK_IND" id="0x4885" direction="out" description="This mail is sent to the application when a ?Negative acknowledgement? FACILITY message has been received from the remote." >
+        <parameter type="ApiSuotaDeviceIdType" name="DeviceId" description="Id of the source." />
+        <parameter type="ApiSuotaRejectReasonType" name="Reason" description="Reject reason." />
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

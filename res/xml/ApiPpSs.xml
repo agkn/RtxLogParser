@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="Phoenix_API_PP_SS.doc" wordmacrover="52">
+  <group name="ApiPpSs">
+    <types>
+      <typedef name="ApiPpSsConEiType" type="rsuint16" description="This type is used to hold the Connection Instance, identifying the endpoint in the switch control." />
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" description="The following API files must be included." />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" />
+    </includefiles>
+    <macros>
+    </macros>
+    <mails>
+      <mail primitive="API_PP_SS_SETUP_REQ" id="0x5C20" direction="in" description="This mail is used by the MMI to initiate a CISS connection." >
+        <parameter type="ApiPpSsConEiType" name="ConEi" description="The connection instance for the connection. The ConEi is supplied by the MMI. A utility function (TBD) is available for the MMI to request an individual ConEi  for this call." />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the format:
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task searches through the info data package to search for the requested elements and pick out the info data.
+
+Possible Info elements:
+None at the moment" />
+      </mail>
+      <mail primitive="API_PP_SS_FACILITY_REQ" id="0x5C21" direction="in" description="This mail is used by the MMI to send facility data on the current CISS connection" >
+        <parameter type="ApiPpSsConEiType" name="ConEi" description="The Instance of the connection defined by the setup_req.
+For this call/connection the selected connection instance should be used for following call handling mails" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the format:
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_PROPRIETARY]" />
+      </mail>
+      <mail primitive="API_PP_SS_RELEASE_IND" id="0x5C22" direction="out" description="This mail is used by the protocol to release the CISS connection." >
+        <parameter type="ApiPpSsConEiType" name="ConEi" description="The handset id and connection instance." />
+        <parameter type="ApiCcReleaseReasonType" name="Reason" description="DECT reason code" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+[API_IE_CODEC_LIST]" />
+      </mail>
+      <mail primitive="API_PP_SS_SETUP_IND" id="0x5C23" direction="out" description="This mail is used to inform the MMI of an incoming CISS connection from the protocol." >
+        <parameter type="ApiPpSsConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Info elements:
+None at the moment" />
+      </mail>
+      <mail primitive="API_PP_SS_FACILITY_IND" id="0x5C24" direction="out" description="This mail is used to inform the MMI about received facility data." >
+        <parameter type="ApiPpSsConEiType" name="ConEi" description="The handset id and connection instance." />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the in the format
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+None at the moment" />
+      </mail>
+      <mail primitive="API_PP_SS_RELEASE_REQ" id="0x5C25" direction="in" description="This mail is used by the MMI to release the CISS connection." >
+        <parameter type="ApiPpSsConEiType" name="ConEi" description="The Instance of the connection defined by switch control. For this call/connection the received ConnectionEi should be used for responding mails" />
+        <parameter type="ApiCcReleaseReasonType" name="Reason" description="DECT reason code" />
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number Info Elements placed in the format:
+
+{ Ie, IeLength, IeData[], Ie, IeLength, IeData[], ...} 
+
+Each element is packed following the ApiInfoElementType.
+
+At reception the receiving task should search through the info data package to search for the requested elements and pick out the info data.
+
+Possible Infoelements:
+None at the moment" />
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="API_FpList.doc" wordmacrover="75">
+  <group name="ApiFpList">
+    <types>
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" description="Include of API configuration header." />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" description="Include of generic API types." />
+    </includefiles>
+    <macros>
+    </macros>
+    <mails>
+      <mail primitive="API_FPLIST_START_REQ" id="0x4470" direction="in" description="This command is used to start searching for fixed parts" >
+      </mail>
+      <mail primitive="API_FPLIST_START_CFM" id="0x4471" direction="out" description="This command is used to start searching for fixed parts" >
+      </mail>
+      <mail primitive="API_FPLIST_STOP_REQ" id="0x4472" direction="in" description="This command is used to stop searching for fixed parts" >
+      </mail>
+      <mail primitive="API_FPLIST_STOP_CFM" id="0x4473" direction="out" description="This command is used to stop searching for fixed parts" >
+      </mail>
+      <mail primitive="API_FPLIST_SUSPEND_REQ" id="0x4474" direction="in" description="This command is used to suspend searching for fixed parts" >
+      </mail>
+      <mail primitive="API_FPLIST_SUSPEND_CFM" id="0x4475" direction="out" description="This command is used to suspend searching for fixed parts" >
+      </mail>
+      <mail primitive="API_FPLIST_RESUME_REQ" id="0x4476" direction="in" description="This command is used to resume searching for fixed parts" >
+      </mail>
+      <mail primitive="API_FPLIST_RESUME_CFM" id="0x4477" direction="out" description="This command is used to resume searching for fixed parts" >
+      </mail>
+      <mail primitive="API_FPLIST_DATA_IND" id="0x4478" direction="out" description="This indication is used for notifying the client that a new fixed part has been detected" >
+        <parameter type="rsuint8" name="rssi" />
+        <parameter type="rsuint8" name="rfpi" constarraysize="5" />
+        <parameter type="rsuint8" name="macAddress" constarraysize="6" />
+        <parameter type="rsuint8" name="ipAddress" constarraysize="16" />
+      </mail>
+      <mail primitive="API_FPLIST_LOOPBACK_REQ" id="0x4479" direction="in" description="This command is used to start audio loopback" >
+        <parameter type="rsbool" name="enable" description="True ? start loopback, False ? stop loopback" />
+      </mail>
+      <mail primitive="API_FPLIST_LOOPBACK_CFM" id="0x447A" direction="out" description="This command is used to start audio loopback" >
+      </mail>
+      <mail primitive="API_FPLIST_RFPI_LOCK_REQ" id="0x447B" direction="in" description="This command is used to start audio loopback" >
+        <parameter type="rsuint8" name="rfpi" constarraysize="5" />
+      </mail>
+      <mail primitive="API_FPLIST_RFPI_LOCK_CFM" id="0x447C" direction="out" description="This command is used to start audio loopback" >
+      </mail>
+      <mail primitive="API_FPLIST_RFPI_LOCK_DATA_IND" id="0x447D" direction="out" description="This command is used to start audio loopback" >
+        <parameter type="rsuint8" name="rssi" />
+      </mail>
+      <mail primitive="API_FPLIST_TONE_REQ" id="0x447E" direction="in" description="This command is used to start audio loopback" >
+        <parameter type="rsuint8" name="tone" description="Tone ID to play" />
+      </mail>
+      <mail primitive="API_FPLIST_TONE_CFM" id="0x447F" direction="out" description="This command is used to start audio loopback" >
+        <parameter type="RsStatusType" name="status" description="RsStatusType" />
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

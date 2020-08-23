@@ -31,8 +31,8 @@ public class Loader {
 
 
     public void process() {
-
     }
+
     public static Iterable<Node> iterable(final NodeList nodeList) {
         return () -> new Iterator<Node>() {
 
@@ -74,6 +74,7 @@ public class Loader {
                     case "typedef": addType(new TypeDef((Element)t)); break;
                     case "enum": addType(new TypeEnum((Element)t)); break;
                     case "struct": addType(new TypeStruct((Element)t)); break;
+                    case "union": addType(new TypeUnion((Element)t)); break;
                     default: System.err.printf("Unsupported type %s\n", t.getNodeName());
                 }
             }
@@ -101,7 +102,6 @@ public class Loader {
         mContext.addType(aType);
     }
 
-
     public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
 /*
         Loader loader = new Loader();
@@ -115,19 +115,6 @@ public class Loader {
         for(String file: aFile.list()) {
             load(new File(aFile.getAbsolutePath(), file));
         }
-    }
-
-    private void check() {
-        String typeId = "ApiLdsTxDoneEventParameterType";
-        ByteBuffer buff = ByteBuffer.wrap(new byte[] {0x10, 00, 0x09, 0x3f, 00, 01, (byte)0x83, 0x42, 00, 00, 02, 01, 0x08});
-        buff.getShort(); // 10 00
-        buff.getShort(); // 09 3f
-        buff.getShort(); // 00 01
-        buff.order(ByteOrder.LITTLE_ENDIAN);
-        short id = buff.getShort();
-        Mail mail = mContext.getMail(id);
-        mail.print(mContext, buff, 0);
-        //mContext.resolve(typeId).print(mContext, buff, 0);
     }
 
 }

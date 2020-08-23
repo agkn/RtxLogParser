@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="Phoenix_API_AudioModule.doc" wordmacrover="73">
+  <group name="ApiAudioModule">
+    <types>
+      <enum name="ApiPcmFscFreqType" type="RSENUM8" description="The enum defines the PCM FSC frequencies supported by the device." >
+        <member name="AP_FSC_FREQ_8KHZ" value="0x00" description="PCM FSC frequency is 8 KHz." />
+        <member name="AP_FSC_FREQ_16KHZ" value="0x01" description="PCM FSC frequency is 16 KHz." />
+        <member name="AP_FSC_FREQ_32KHZ" value="0x02" description="PCM FSC frequency is 32 KHz." />
+        <member name="AP_FSC_FREQ_INVALID" value="0xFF" description="[0x03; 0xFF] is invalid." />
+      </enum>
+      <enum name="ApiPcmFscLengthType" type="RSENUM8" description="This enum defines the FSC pulse length settings supported by the device when it is master on the PCM interface." >
+        <member name="AP_FSC_LENGTH_1" value="0x00" description="The length of PCM FSC pulse is equal to 1 data bit.    (Master)" />
+        <member name="AP_FSC_LENGTH_8" value="0x01" description="The length of PCM FSC pulse is equal to 8 data bits.   (Master)" />
+        <member name="AP_FSC_LENGTH_16" value="0x02" description="The length of PCM FSC pulse is equal to 16 data bits. (Master)" />
+        <member name="AP_FSC_LENGTH_32" value="0x03" description="The length of PCM FSC pulse is equal to 32 data bits. (Master)" />
+        <member name="AP_FSC_LENGTH_48" value="0x04" description="The length of PCM FSC pulse is equal to 48 data bits. (Master)" />
+        <member name="AP_FSC_LENGTH_NORMAL" value="0x05" description="Ch 0-5 shifted in after FSC edge. (Slave)" />
+        <member name="AP_FSC_LENGTH_SPLIT" value="0x06" description="Ch 0-2 shifted in after FSC edge, Ch 3-5 shifted after opposite FSC edge. (Slave)" />
+        <member name="AP_FSC_LENGTH_INVALID" value="0xFF" description="[0x07; 0xFF] is invalid." />
+      </enum>
+      <enum name="ApiPcmClkType" type="RSENUM8" description="This enum defines the possible PCM_CLK frequencies (1 clock/bit) supported by the device module when it is master on the PCM interface." >
+        <member name="AP_PCM_CLK_1152" value="0x00" description="1.152 MHz" />
+        <member name="AP_PCM_CLK_2304" value="0x01" description="2.304 MHz" />
+        <member name="AP_PCM_CLK_4608" value="0x02" description="4.608 MHz" />
+        <member name="AP_PCM_CLK_MAX" value="0x03" description="Number of possible PCM_CLK frequencies" />
+        <member name="AP_PCM_CLK_INVALID" value="0xFF" description="[0x03; 0xFF] is invalid." />
+      </enum>
+      <enum name="ApiAudioSrcDeviceType" type="RSENUM8" description="This enum defines possible source devices" >
+        <member name="API_AUDIO_SRC_DEV_NONE" value="0x00" description="No Device" />
+        <member name="API_AUDIO_SRC_DEV_MIC0" value="0x01" description="Frontend Microphone 0" />
+        <member name="API_AUDIO_SRC_DEV_HEADSET_MIC0" value="0x02" description="Frontend Headset Microphone 0" />
+        <member name="API_AUDIO_SRC_DEV_PCM0_IN" value="0x03" description="PCM channel 0" />
+        <member name="API_AUDIO_SRC_DEV_PCM1_IN" value="0x04" description="PCM channel 1" />
+        <member name="API_AUDIO_SRC_DEV_PCM2_IN" value="0x05" description="PCM channel 2" />
+        <member name="API_AUDIO_SRC_DEV_PCM3_IN" value="0x06" description="PCM channel 3" />
+        <member name="API_AUDIO_SRC_DEV_TONGEN0" value="0x0A" description="Tone generator 0 output" />
+        <member name="API_AUDIO_SRC_DEV_DECT0_IN" value="0x10" description="DECT channel 0" />
+      </enum>
+      <enum name="ApiAudioDstDeviceType" type="RSENUM8" description="This enum defines possible destination devices" >
+        <member name="API_AUDIO_DST_DEV_NONE" value="0x00" description="No Device" />
+        <member name="API_AUDIO_DST_DEV_EARPIECE0" value="0x01" description="Earpiece output" />
+        <member name="API_AUDIO_DST_DEV_SPEAKER0" value="0x02" description="Speaker" />
+        <member name="API_AUDIO_DST_DEV_HEADSET" value="0x03" description="Headset" />
+        <member name="API_AUDIO_DST_DEV_PCM0_OUT" value="0x04" description="PCM channel 0" />
+        <member name="API_AUDIO_DST_DEV_PCM1_OUT" value="0x05" description="PCM channel 1" />
+        <member name="API_AUDIO_DST_DEV_PCM2_OUT" value="0x06" description="PCM channel 2" />
+        <member name="API_AUDIO_DST_DEV_PCM3_OUT" value="0x07" description="PCM channel 3" />
+        <member name="API_AUDIO_DST_DEV_SPK_HEADSET" value="0x0A" description="Speaker + headset at the same time" />
+        <member name="API_AUDIO_DST_DEV_BUZZER" value="0x0B" description="Buzzer" />
+        <member name="API_AUDIO_DST_DEV_BUZZER_HEADSET" value="0x0C" description="Buzzer + headset at the same time" />
+        <member name="API_AUDIO_DST_DEV_DECT0_OUT" value="0x10" description="DECT channel 0" />
+      </enum>
+      <enum name="ApiAudioFormatType" type="RSENUM8" description="This enum defines possible audio formats" >
+        <member name="API_AUDIO_FORMAT_NONE" value="0x00" />
+        <member name="API_AUDIO_FORMAT_FOLLOW" value="0x01" description="Best possible compared to source format. Used as destination format, if no specific format is required." />
+        <member name="API_AUDIO_FORMAT_PCM8_KHZ" value="0x02" description="PCM Audio 8 kHz" />
+        <member name="API_AUDIO_FORMAT_PCM16_KHZ" value="0x03" description="PCM Audio 16 kHz" />
+        <member name="API_AUDIO_FORMAT_PCM32_KHZ" value="0x04" description="PCM Audio 32 kHz" />
+        <member name="API_AUDIO_FORMAT_G726" value="0x05" description="G726 Audio format" />
+        <member name="API_AUDIO_FORMAT_G722" value="0x06" description="G722 Audio format" />
+        <member name="API_AUDIO_FORMAT_G711" value="0x07" description="G711 Audio format" />
+        <member name="API_AUDIO_FORMAT_ALAW_8KHZ" value="0x08" description="A-Law Audio format 8 kHz" />
+        <member name="API_AUDIO_FORMAT_ALAW_16KHZ" value="0x09" description="A-Law Audio format 16 kHz" />
+        <member name="API_AUDIO_FORMAT_ULAW_8KHZ" value="0x0A" description="u-Law Audio format 8 kHz" />
+        <member name="API_AUDIO_FORMAT_ULAW_16KHZ" value="0x0B" description="u-Law Audio format 16 kHz" />
+      </enum>
+      <enum name="ApiAudioPropertyType" type="RSENUM8" description="This enum defines possible properties" >
+        <member name="API_AUDIO_PROP_ALWAYS_ON" value="0x00" description="Turn device always on" />
+      </enum>
+      <enum name="ApiAudioEcModeType" type="RSENUM8" description="This enum defines the modes of the Echo Canceller." >
+        <member name="API_AUDIO_EC_MODE_NORMAL" value="0x00" description="Normal operation (Default)" />
+        <member name="API_AUDIO_EC_MODE_BYPASS" value="0x01" description="Bypass the Echo Canceller." />
+        <member name="API_AUDIO_EC_MODE_FREEZE" value="0x02" description="Freeze the Echo Canceller. IF you do not want it to adapt, but still cancel echo." />
+        <member name="API_AUDIO_EC_MODE_UNFREEZE" value="0x03" description="Go back to Normal operation." />
+      </enum>
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" description="Include of API configuration." />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" description="Include of common API types." />
+    </includefiles>
+    <macros>
+    </macros>
+    <mails>
+      <mail primitive="API_AUDIO_INIT_PCM_REQ" id="0x4280" direction="in" description="This command is used by the HOST to initialize the PCM interface." >
+        <parameter type="rsbool" name="PcmEnable" description="Enable or disable the PCM interface.
+The remaining parameters of this message are ignored by the module if the PCM interface is disabled." />
+        <parameter type="rsbool" name="IsMaster" description="Controls whether the device is master or slave on the PCM interface." />
+        <parameter type="rsbool" name="SlaveClkSync" description="If set, module will do FSC clock synchronization. For DECT applications this means that the external clock must be within +-5ppm. Only relevant if IsMaster is false." />
+        <parameter type="ApiPcmFscFreqType" name="PcmFscFreq" description="PCM  FSC frequency; 8,16, or 32kHz." />
+        <parameter type="ApiPcmFscLengthType" name="PcmFscLength" description="The length of the FSC pulse. 1, 8, 16, 32 or 48 bits. Or special slave mode setting, see type description." />
+        <parameter type="rsbool" name="PcmFscStartAligned" description="If true FSC starts at the same time as MSB bit of PCM channel 0 data, otherwise it starts 1 clocks cycle before data." />
+        <parameter type="ApiPcmClkType" name="PcmClk" description="The clock frequency generated by the module if the module is master on the PCM interface. Ignored if the device is slave." />
+        <parameter type="rsbool" name="PcmClkOnRising" description="Controls whether PCM data is clocked out on rising or falling edge of the PCM_CLK." />
+        <parameter type="rsuint8" name="PcmClksPerBit" description="Number of bit clocks per data bit. See datasheet for options." />
+        <parameter type="rsbool" name="PcmFscInvert" description="If true, FSC is inverted." />
+        <parameter type="rsuint8" name="PcmCh0Delay" description="5 bit delay value in number of 8 bits.  Delay of data bits in number of channels." />
+        <parameter type="rsbool" name="PcmDoutIsOpenDrain" description="Controls whether PCM_DOUT is push-pull (0) or open drain (1). 
+Sets DSP_PCM_CTRL_REG.PCM_PPOD to the value specified by PcmDoOd. Can be used if the I/O levels (VDDIO) on the PCM interface is 1.8V. Must be set to 1 if multiple devices are connected to the PCM bus.
+DSP_PCM_CTRL_REG.PCM_PPOD is set to 0 after reset." />
+        <parameter type="rsbool" name="PcmIsOpenDrain" description="Controls the PCM_DI, PCM_DO, PCM_CLK, and PCM_FSC I/O mode.
+0: Normal mode.
+1: Forced to open drain if output and pull-up resistor is always disabled if input (back-drive protection). 
+Sets PAD_CTRL_REG.P225_OD and PAD_CTRL_REG.P234_OD to the value specified by PcmOd. Must be set to 1 if the I/O levels (VDDIO) on the PCM interface is &gt; 1.8V. VDDIO up to 3.45V is supported if set to 1. PAD_CTRL_REG.P225_OD and PAD_CTRL_REG.P234_OD are set to 0 after reset.
+Please note that PAD_CTRL_REG.P234_OD = 1 overrules DSP_PCM_CTRL_REG.PCM_PPOD." />
+      </mail>
+      <mail primitive="API_AUDIO_INIT_PCM_CFM" id="0x4281" direction="out" description="This mail is used to confirm API_AUDIO_INIT_PCM_REQ." >
+        <parameter type="RsStatusType" name="Status" description="Indicates whether the command succeeded or not." />
+      </mail>
+      <mail primitive="API_AUDIO_CH_OPEN_REQ" id="0x4282" direction="in" description="This mail is used by the HOST to open an audio channel from source to destination. For example from microphone to PCM interface.
+" >
+        <parameter type="rsuint8" name="tId" description="Mail Id for identification of confirm message. Returned in confirm message by module." />
+        <parameter type="ApiAudioSrcDeviceType" name="AudioSrc" description="Source." />
+        <parameter type="ApiAudioDstDeviceType" name="AudioDst" description="Destination." />
+        <parameter type="ApiAudioFormatType" name="FormatSrc" description="Audio Format at Src." />
+        <parameter type="ApiAudioFormatType" name="FormatDst" description="Audio Format at Dst." />
+        <parameter type="rsint8" name="Volume_dB" description="Volume setting in dB -128 &lt;-&gt; 127 dB" />
+        <parameter type="rsbool" name="TrackGenVol" description="Follow general volume (If set Volume_dB is used as offset). Useful for mixing." />
+      </mail>
+      <mail primitive="API_AUDIO_CH_OPEN_CFM" id="0x4283" direction="out" description="This mail is used to confirm API_AUDIO_CH_OPEN_REQ." >
+        <parameter type="RsStatusType" name="Status" description="Indicates whether the command succeeded or not." />
+        <parameter type="rsuint8" name="tId" description="Mail Id for identification of confirm message." />
+        <parameter type="rsuint8" name="ChId" description="Unique channel ID, used for further reference to this channel, if open command succeeded." />
+        <parameter type="rsbool" name="Ready" description="Channel has been opened, but if false then it is not ready to receive audio yet. API_AUDIO_CH_OPEN_IND will be sent when ready. True means that the channel is ready for use." />
+      </mail>
+      <mail primitive="API_AUDIO_CH_OPEN_IND" id="0x4284" direction="out" description="Audio Channel is ready for input.
+" >
+        <parameter type="rsuint8" name="ChId" description="Unique channel ID." />
+      </mail>
+      <mail primitive="API_AUDIO_CH_CLOSE_REQ" id="0x4285" direction="in" description="This mail is used by the HOST to close an audio channel.
+" >
+        <parameter type="rsuint8" name="ChId" description="Unique channel ID." />
+      </mail>
+      <mail primitive="API_AUDIO_CH_CLOSE_CFM" id="0x4286" direction="out" description="This mail is used to confirm API_AUDIO_CH_CLOSE_REQ." >
+        <parameter type="RsStatusType" name="Status" description="Indicates whether the command succeeded or not." />
+        <parameter type="rsuint8" name="ChId" description="Unique channel ID." />
+      </mail>
+      <mail primitive="API_AUDIO_CH_SET_VOLUME_REQ" id="0x4287" direction="in" description="This mail is used by the HOST to control the volume of an audio channel.
+" >
+        <parameter type="rsuint8" name="ChId" description="Unique channel ID." />
+        <parameter type="rsint8" name="Volume_dB" description="Volume setting in dB -128 &lt;-&gt; 127 dB" />
+        <parameter type="rsbool" name="TrackGenVol" description="Follow general volume (If set Volume_dB is used as offset). Useful for mixing." />
+      </mail>
+      <mail primitive="API_AUDIO_CH_SET_VOLUME_CFM" id="0x4288" direction="out" description="This mail is used to confirm API_AUDIO_CH_SET_VOLUME_REQ." >
+        <parameter type="RsStatusType" name="Status" description="Indicates whether the command succeeded or not." />
+        <parameter type="rsuint8" name="ChId" description="Unique channel ID." />
+      </mail>
+      <mail primitive="API_AUDIO_CH_EC_CTRL_REQ" id="0x4289" direction="in" description="This mail is used by the HOST to control the echo canceller in an audio channel.
+" >
+        <parameter type="rsuint8" name="ChId" description="Unique channel ID." />
+        <parameter type="ApiAudioEcModeType" name="Mode" description="Set mode for Echo Canceller. For example Freeze before playing tones." />
+      </mail>
+      <mail primitive="API_AUDIO_CH_EC_CTRL_CFM" id="0x428A" direction="out" description="This mail is used to confirm API_AUDIO_CH_EC_CTRL_REQ." >
+        <parameter type="RsStatusType" name="Status" description="Indicates whether the command succeeded or not." />
+        <parameter type="rsuint8" name="ChId" description="Unique channel ID." />
+      </mail>
+      <mail primitive="API_AUDIO_SET_PROPERTY_REQ" id="0x428B" direction="in" description="This mail is used by the HOST to control different properties for destination or sources.
+" >
+        <parameter type="rsuint8" name="tId" description="Mail Id for identification of confirm message." />
+        <parameter type="ApiAudioSrcDeviceType" name="AudioSrc" description="Source." />
+        <parameter type="ApiAudioDstDeviceType" name="AudioDst" description="Destination." />
+        <parameter type="ApiAudioPropertyType" name="Property" description="The property to set." />
+        <parameter type="rsuint8" name="Data" vararraysize="rsuint8" vararraylengthname="DataLength" description="The property to set." />
+      </mail>
+      <mail primitive="API_AUDIO_SET_PROPERTY_CFM" id="0x428C" direction="out" description="This mail is used to confirm API_AUDIO_SET_PROPERTY_REQ." >
+        <parameter type="RsStatusType" name="Status" description="Indicates whether the command succeeded or not." />
+        <parameter type="rsuint8" name="tId" description="Mail Id for identification of confirm message." />
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="API_OledDisplay.doc" wordmacrover="74">
+  <group name="ApiOledDisplay">
+    <types>
+      <enum name="ApiOledDisplayDirectionType" type="RSENUM8" description="Datatype for reading direction of the data" >
+        <member name="API_OLED_DISPLAY_UP" value="0x00" />
+        <member name="API_OLED_DISPLAY_DOWN" value="0x01" />
+        <member name="API_OLED_DISPLAY_LEFT" value="0x02" />
+        <member name="API_OLED_DISPLAY_RIGHT" value="0x03" />
+      </enum>
+      <enum name="ApiOledDisplayPatternType" type="RSENUM8" description="Datatype describing fixed patterns on the OLED display" >
+        <member name="API_OLED_PATTERN_WHITE" value="0x00" />
+        <member name="API_OLED_PATTERN_BLACK" value="0x01" />
+        <member name="API_OLED_PATTERN_BORDER" value="0x02" />
+        <member name="API_OLED_PATTERN_OFF" value="0x03" />
+        <member name="API_OLED_PATTERN_ON" value="0x04" />
+        <member name="API_OLED_PATTERN_CHECKER_A" value="0x05" />
+        <member name="API_OLED_PATTERN_CHECKER_B" value="0x06" />
+      </enum>
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" description="Include of API configuration header." />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" description="Include of generic API types." />
+    </includefiles>
+    <macros>
+    </macros>
+    <mails>
+      <mail primitive="API_OLED_OFF_REQ" id="0x4410" direction="out" description="Turn off the OLED display." >
+      </mail>
+      <mail primitive="API_OLED_OFF_CFM" id="0x4411" direction="out" description="Turn off the OLED display." >
+        <parameter type="RsStatusType" name="Status" description="Indicates whether the command succeeded or not." />
+      </mail>
+      <mail primitive="API_OLED_PATTERN_REQ" id="0x4412" direction="out" description="Turn off the OLED display." >
+        <parameter type="ApiOledDisplayPatternType" name="Pattern" description="Show a fixed pattern on the OLED display" />
+      </mail>
+      <mail primitive="API_OLED_PATTERN_CFM" id="0x4413" direction="out" description="Turn off the OLED display." >
+        <parameter type="RsStatusType" name="Status" description="Indicates whether the command succeeded or not." />
+      </mail>
+      <mail primitive="API_OLED_UPDATE_REQ" id="0x4414" direction="out" description="Send new data to be displayed on the OLED display." >
+        <parameter type="rsbool" name="Clear" description="Clear whole display before start.
+If false we will keep the current frame displayed and only update the provided area. If true the display is cleared before start. If Data[] is empty and this is set to true we will turn off the display." />
+        <parameter type="rsuint8" name="AreaX" description="Area to update (X)" />
+        <parameter type="rsuint8" name="AreaY" description="Area to update (Y)" />
+        <parameter type="rsuint8" name="PosX" description="Top corner of (AreaX,AreaY) which is to be updated" />
+        <parameter type="rsuint8" name="PosY" description="Top corner of (AreaX,AreaY) which is to be updated" />
+        <parameter type="rsuint16" name="UpdateInterval" description="Animation speed/frequency [ms]" />
+        <parameter type="rsuint8" name="StepSize" description="If this is the same as a full frame size then it will simply change the graphics without animation [pixels]" />
+        <parameter type="ApiOledDisplayDirectionType" name="Direction" description="The direction to move in the buffer." />
+        <parameter type="rsbool" name="InitialClear" description="Should the first frame be empty or the first content of the data?" />
+        <parameter type="rsuint16" name="InitialPause" description="Initial pause on first frame [ms]" />
+        <parameter type="rsbool" name="EndClear" description="Should the last frame be empty or the last content of the data?" />
+        <parameter type="rsuint16" name="EndPause" description="Pause on last frame [ms]
+When pause expires we will show the first frame again. If pause is -1 then the pause will be indefinitely" />
+        <parameter type="rsuint8" name="AnimationInterval" description="Pause every pixels animation [pixels]" />
+        <parameter type="rsuint16" name="AnimationPause" description="Pause duration [ms]" />
+        <parameter type="rsuint16" name="NumPixels" description="Number of pixels in the graphics data array (1bpp)" />
+        <parameter type="rsuint8" name="NumDataPackages" description="Number of extra data packages" />
+        <parameter type="rsuint8" name="Data" vararraysize="rsuint8" vararraylengthname="DataLength" description="Graphical monochrome bitmap data (1bpp)" />
+      </mail>
+      <mail primitive="API_OLED_UPDATE_CFM" id="0x4415" direction="out" description="Turn off the OLED display." >
+        <parameter type="RsStatusType" name="Status" description="Indicates whether the command succeeded or not." />
+      </mail>
+      <mail primitive="API_OLED_DATA_REQ" id="0x4416" direction="out" description="Add data to animation. This is part of NumDataPackages in API_OLED_UPDATE_REQ." >
+        <parameter type="rsuint8" name="Data" vararraysize="rsuint8" vararraylengthname="DataLength" description="Graphical monochrome bitmap data (1bpp)" />
+      </mail>
+      <mail primitive="API_OLED_DATA_CFM" id="0x4417" direction="out" description="Added data confirm." >
+        <parameter type="RsStatusType" name="Status" description="Indicates whether the command succeeded or not." />
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

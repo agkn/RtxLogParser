@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="Phoenix_API_LED.doc" wordmacrover="73">
+  <group name="ApiLed">
+    <types>
+      <struct name="ApiLedPhaseType" description="Defines a phase in a led color pattern" >
+        <member type="rsuint32" name="Color" description="ARGB color format:
+Alpha channel (bits 24 - 31)
+Red channel (bits 16 - 23)
+Green channel (bits 8 - 15)
+Blue channel (bits 0 - 7)" />
+        <member type="rsuint32" name="Duration" description="Duration of the led state in milliseconds. Use API_LED_INFINITE_DURATION to indicate infinite duration" />
+      </struct>
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" description="Include of API configuration header" />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" description="Include of generic API types." />
+    </includefiles>
+    <macros>
+      <defines name="API_LED_PHASE_COUNT_ZERO 0" description="Should be used when turning off the led" />
+      <defines name="API_LED_PATTERN_EMPTY 0" description="Should be used when turning off the led" />
+      <defines name="API_LED_INFINITE_REPETITIONS 0" description="Should be used for setting an infinite number of repetitions. The pattern will be repeated until a new pattern is requested" />
+      <defines name="API_LED_IGNORE_REPETITIONS 0" description="Should be used when the repetitions argument will be ignored" />
+      <defines name="API_LED_INFINITE_DURATION 0" description="Should be used for setting an infinite duration for a phase. All subsequent phases will be ignored" />
+    </macros>
+    <mails>
+      <mail primitive="API_LED_SET_PATTERN_REQ" id="0x4970" direction="in" description="This mail is used by the client to set a led pattern" >
+        <parameter type="rsuint8" name="Id" description="The id of the led" />
+        <parameter type="rsuint8" name="Repetitions" description="Number of times the pattern is repeated. Use API_LED_INFINITE_REPETITIONS to indicate infinite number of repetitions. The value is ignored if the pattern only contains a single phase" />
+        <parameter type="ApiLedPhaseType" name="Pattern" vararraysize="rsuint8" vararraylengthname="PhaseCount" description="A pattern of led phases" />
+      </mail>
+      <mail primitive="API_LED_SET_PATTERN_CFM" id="0x4971" direction="out" description="This mail is used by the API to confirm the API_LED_SET_PATTERN_REQ has been received and accepted" >
+        <parameter type="rsuint8" name="Id" description="The id of the led" />
+        <parameter type="RsStatusType" name="Status" description="RSS_SUCCESS: Success. The request was accepted
+RSS_NO_DEVICE: No led with this id. The request was ignored
+RSS_NOT_SUPPORTED: The RGB color value is not supported by the led. The request was ignored
+RSS_BAD_DATA: The data is inconsistent. The request was ignored" />
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

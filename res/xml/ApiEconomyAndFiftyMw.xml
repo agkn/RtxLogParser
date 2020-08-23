@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="API_EconomyAndFiftyMw.doc" wordmacrover="74">
+  <group name="ApiEconomyAndFiftyMw">
+    <types>
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" description="Include of API configuration header." />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" description="Include of generic API types." />
+    </includefiles>
+    <macros>
+    </macros>
+    <mails>
+      <mail primitive="API_ECONOMY_MODE_REQ" id="0x4370" direction="in" description="This command is used to enable / disable economy mode" >
+        <parameter type="rsbool" name="EnableEconomyMode" description="TRUE to set Economy mode. FALSE = disable" />
+      </mail>
+      <mail primitive="API_ECONOMY_MODE_CFM" id="0x4371" direction="out" description="This command replies to the API_ECONOMY_MODE_REQ" >
+      </mail>
+      <mail primitive="API_FIFTY_MW_MODE_REQ" id="0x4372" direction="in" description="This command is used to enable / disable DECT 50 mW mode" >
+        <parameter type="rsbool" name="Enable50mwMode" description="TRUE to set 50 mW mode. FALSE = disable" />
+      </mail>
+      <mail primitive="API_FIFTY_MW_MODE_CFM" id="0x4373" direction="out" description="This command replies to the API_FIFTY_MW_MODE_REQ" >
+      </mail>
+      <mail primitive="API_CRADLE_STATUS_REQ" id="0x4374" direction="in" description="This command" >
+        <parameter type="rsbool" name="InsideCradle" description="TRUE if HS is placed inside the cradle" />
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

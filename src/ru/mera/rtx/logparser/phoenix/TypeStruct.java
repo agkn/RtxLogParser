@@ -20,13 +20,9 @@ public class TypeStruct extends BasicType {
         }
     }
 
-
     @Override
     void print(Context aContext, ByteBuffer aByteBuffer, int aIndent) {
-        PrintStream out = aContext.out();
-        aContext.out().println();
-        aContext.outIndent(aIndent);
-        out.println(mName);
+        aContext.outIndent(aIndent).printf("%s // %s", mName, mDescription);
         for(TypeField f: mMembers) {
             f.print(aContext, aByteBuffer, aIndent + INDENT);
         }

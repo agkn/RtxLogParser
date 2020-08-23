@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="Darma_API_PP_PROJECT.doc" wordmacrover="74">
+  <group name="ApiPpProject">
+    <types>
+      <enum name="ApiDummyDIdType" type="RSENUM8" description="This enum defines the Dummy?s supported." >
+        <member name="AL_RESERVED" value="0x00" description="Reserved." />
+      </enum>
+      <enum name="HeadsetStateEventType" type="RSENUM8" description="State of the headset detected." >
+        <member name="API_HEADSET_PLUGGED" value="0x00" description="Event: Headset plugged" />
+        <member name="API_HEADSET_UNPLUGGED" value="0x01" description="Event: Headset unplugged" />
+        <member name="API_HEADPHONE_PLUGGED" value="0x02" description="Event: Head-phone plugged" />
+        <member name="API_HEADPHONE_UNPLUGGED" value="0x03" description="Event: Head-phone unplugged" />
+        <member name="API_HEADSET_EVENT_NOT_DEFINE" value="0x04" />
+      </enum>
+      <enum name="HeadsetKeyEventType" type="RSENUM8" description="Key Events from the headset." >
+        <member name="API_HEADSET_HOOK_PRESSED" value="0x00" description="Event: Hookkey press" />
+        <member name="API_HEADSET_VOLUME_UP_PRESSED" value="0x01" description="Event: Volume up key press" />
+        <member name="API_HEADSET_VOLUME_DOWN_PRESSED" value="0x02" description="Event: Volume down key press" />
+        <member name="API_HEADSET_KEY_RELEASED" value="0x03" description="Event: key release" />
+        <member name="API_HEADSET_KEY_EVENT_NOT_DEFINE" value="0x04" />
+      </enum>
+      <enum name="DetachType" type="RSENUM8" description="Cause of detach." >
+        <member name="API_DETACH_NORMAL" value="0x00" description="Normal: HS placed in charger" />
+        <member name="API_DETACH_POWER_DOWN" value="0x01" description="Power down: HS shuts down" />
+      </enum>
+      <enum name="ProtocolAndSystemIdType" type="RSENUM8" description="Identify the system reference and protocol version and type." >
+        <member name="API_PROT_GAP" value="0x00" />
+        <member name="API_PROT_EGAP_SEPLOS" value="0x01" description="ALU mode 1" />
+        <member name="API_PROT_EGAP_WS" value="0x02" description="ALU mode 2" />
+        <member name="API_PROT_CATiq_WS" value="0x03" description="ALU mode 3" />
+        <member name="API_PROT_CATiq" value="0x04" />
+        <member name="API_PROT_CATiq_LAS" value="0x05" />
+      </enum>
+      <enum name="HandoverCriteriaType" type="RSENUM8" description="Handover criteria type" >
+        <member name="API_HANDOVER_CRITERIA_NORMAL" value="0x00" />
+        <member name="API_HANDOVER_CRITERIA_NOISY" value="0x01" />
+        <member name="API_HANDOVER_CRITERIA_ENHANCED" value="0x02" />
+      </enum>
+      <enum name="SipProrietaryInfoType" type="RSENUM8" description="Handover criteria type" >
+        <member name="API_SIP_DISPLAY_NAME" value="0x00" />
+        <member name="API_SIP_EXTENSION_NUMBER" value="0x01" />
+      </enum>
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" description="The following API files must be included." />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" />
+    </includefiles>
+    <macros>
+    </macros>
+    <mails>
+      <mail primitive="API_PP_PROJ_RESET_IND" id="0x4388" direction="out" description="This command is sent from Darma on reset every 1 second until API_PP_PROJ_RESET_RES is received" >
+        <parameter type="rsuint16" name="Sequence_number" description="Continuous increasing number starting from 0." />
+        <parameter type="rsbool" name="TestMode" description="Whether Dect is in TestMode or not" />
+        <parameter type="rsuint8" name="SystemProvider" description="The system provider the Modem is set to" />
+        <parameter type="rsuint8" name="MmiProvider" description="The MMI provider the Modem is set to" />
+        <parameter type="rsuint8" name="ApiCompatibilityVersion" description="Manually updated API version" />
+        <parameter type="rsuint16" name="SwVersion" description="The version number of the DECT modem software in hex format" />
+        <parameter type="rsuint16" name="SwBranch" description="The branch number of the DECT modem software in hex format" />
+      </mail>
+      <mail primitive="API_PP_PROJ_RESET_RES" id="0x4389" direction="in" description="This command is sent to Darma when App has received the API_PP_PROJ_RESET_IND." >
+      </mail>
+      <mail primitive="API_PP_PROJ_RESET_REQ" id="0x438A" direction="in" description="This command is sent to Darma when a reset is wanted" >
+      </mail>
+      <mail primitive="API_PP_PROJ_SHUTDOWN_REQ" id="0x438B" direction="in" description="This command is sent to Darma when a shutdown is wanted" >
+      </mail>
+      <mail primitive="API_PP_PROJ_HEADSET_STATE_IND" id="0x438C" direction="out" description="This command is sent from Darma when a headset is detected" >
+        <parameter type="HeadsetStateEventType" name="StateEvent" description="Events indicating headset state" />
+      </mail>
+      <mail primitive="API_PP_DETACH_REQ" id="0x4390" direction="in" description="Detach from PBX" >
+        <parameter type="DetachType" name="DetachCause" description="Detach cause" />
+      </mail>
+      <mail primitive="API_PP_RSSI_SET_THRESHOLD_REQ" id="0x4392" direction="in" description="Set RSSI threshold. A API_PP_RSSI_THRESHOLD_IND is sent when the threshold is passed." >
+        <parameter type="rsuint8" name="RSSIThreshold" description="RSSI threshold where to send indication." />
+      </mail>
+      <mail primitive="API_PP_RSSI_SET_THRESHOLD_CFM" id="0x4393" direction="out" description="The RSSI threshols is set" >
+      </mail>
+      <mail primitive="API_PP_RSSI_THRESHOLD_IND" id="0x4394" direction="out" description="Indicates the RSSI has passed the threshold" >
+      </mail>
+      <mail primitive="API_PP_IWU_IN_LOCATE_ACC_IND" id="0x4395" direction="out" description="This command is sent from Darma after a location registration (RX of  PP_MNCC_IWU_IN_LOCATE_ACC_IND) ." >
+        <parameter type="ProtocolAndSystemIdType" name="ProtAndSysId" description="ALU protocol and system reference." />
+      </mail>
+      <mail primitive="API_PP_MESSAGE_WAITING_IND" id="0x4396" direction="out" description="This command is sent from Darma after a location registration (RX of  PP_MNCC_IWU_IN_LOCATE_ACC_IND) ." >
+        <parameter type="rsuint8" name="CountOfEvents" description="Number of event notifications." />
+      </mail>
+      <mail primitive="API_PP_HEADSET_STATE_REQ" id="0x4397" direction="in" description="Ask for a status of the Headset. Darma will reply with an API_PP_HEADSET_STATE_CNF." >
+      </mail>
+      <mail primitive="API_PP_HEADSET_STATE_CFM" id="0x4398" direction="out" description="This command returns the Headset connected status." >
+        <parameter type="HeadsetStateEventType" name="StateEvent" description="Connected status." />
+      </mail>
+      <mail primitive="API_PP_HEADSET_KEY_IND" id="0x4399" direction="out" description="This command is sent every time a key status change." >
+        <parameter type="HeadsetKeyEventType" name="KeyEvent" description="Key status." />
+      </mail>
+      <mail primitive="API_PP_PROJ_DECT_SYNC_IND" id="0x439A" direction="out" description="Signal that DECT is synchronizing to App." >
+      </mail>
+      <mail primitive="API_PP_PROJ_SYNC_IND" id="0x439B" direction="out" description="Signal that DECT is ready for sync from App." >
+      </mail>
+      <mail primitive="API_PP_PROJ_SYNC_RES" id="0x439C" direction="in" description="Signal to DECT that sync from App is done." >
+      </mail>
+      <mail primitive="API_PP_PROJ_DECT_READY_IND" id="0x439D" direction="out" description="Signal that DECT is ready." >
+      </mail>
+      <mail primitive="API_PP_HANDOVER_CRITERIA_SET_REQ" id="0x439E" direction="in" description="Set Handover criteria" >
+        <parameter type="HandoverCriteriaType" name="Criteria" description="Handover criteria type." />
+      </mail>
+      <mail primitive="API_PP_HANDOVER_CRITERIA_SET_CFM" id="0x439F" direction="out" description="Confirms setting handover criteria" >
+        <parameter type="RsStatusType" name="Status" description="Status." />
+      </mail>
+      <mail primitive="API_PP_HANDOVER_CRITERIA_GET_REQ" id="0x43A0" direction="in" description="Get Handover criteria" >
+      </mail>
+      <mail primitive="API_PP_HANDOVER_CRITERIA_GET_CFM" id="0x43A1" direction="out" description="Confirms getting handover criteria" >
+        <parameter type="HandoverCriteriaType" name="Criteria" description="Handover criteria type." />
+      </mail>
+      <mail primitive="API_PP_MAC_COVERAGE_WARNING_IND" id="0x43A2" direction="out" description="Signal that DECT is out of network coverage." >
+      </mail>
+      <mail primitive="API_PP_CDA_AVAILABLE_IND" id="0x43A3" direction="out" description="This command is sent from Darma after a location registration" >
+        <parameter type="rsbool" name="CdNecAvailable" />
+      </mail>
+      <mail primitive="API_PP_RECONNECT_REQ" id="0x43A4" direction="in" description="Request for reconnect to FP when detached" >
+      </mail>
+      <mail primitive="API_PP_RECONNECT_CFM" id="0x43A5" direction="out" description="Confirm reception of request for reconnect to FP when detached" >
+      </mail>
+      <mail primitive="API_PP_LOCATE_ACC_IND" id="0x43A6" direction="out" description="Signal that DECT is out of network coverage." >
+      </mail>
+      <mail primitive="API_PP_MM_ACC_RIGHTS_TERM_REQ" id="0x43A7" direction="in" description="Request termination of registration" >
+        <parameter type="rsuint8" name="Index" description="Index of registration (1 based)" />
+      </mail>
+      <mail primitive="API_PP_MM_ACC_RIGHTS_TERM_CFM" id="0x43A8" direction="out" description="Confirm termination of registration" >
+      </mail>
+      <mail primitive="API_PP_PROVISIONING_IND" id="0x43A9" direction="out" description="Indicate Handset that it shall provision itself" >
+        <parameter type="rsuint8" name="DeviceNr" description="Device number. 0=base 1..n=handsets" />
+      </mail>
+      <mail primitive="API_PP_PROVISIONING_RES" id="0x43AA" direction="in" description="Confirm provisioning indication" >
+        <parameter type="rsuint8" name="DeviceNr" description="Device number. 0=base 1..n=handsets" />
+        <parameter type="RsStatusType" name="Status" description="Result" />
+      </mail>
+      <mail primitive="API_PP_STATUSDATA_IND" id="0x43AB" direction="in" description="Confirm provisioning indication" >
+        <parameter type="rsuint8" name="StatusFlags" description="Status flags" />
+      </mail>
+      <mail primitive="API_PP_STATUSDATA_RES" id="0x43AC" direction="in" description="Confirm provisioning indication" >
+        <parameter type="RsStatusType" name="Status" description="Result" />
+      </mail>
+      <mail primitive="API_VLS_HANDOVER_TO_NEW_SLOT_TYPE" id="0x43AD" direction="in" description="VLS handover to a new slot type" >
+        <parameter type="RsStatusType" name="Status" description="VLS has initiated a handover to a new slot type. Status can be RSS_SUCCESS, RSS_FAILED or RSS_PENDING" />
+      </mail>
+      <mail primitive="API_PP_MM_IWU_IN_LOCATE_ACC_IND" id="0x43AE" direction="out" description="Contains IWU-TO-IWU received in LOCATE-ACCEPT" >
+        <parameter type="rsuint8" name="InfoElement" vararraysize="rsuint16" vararraylengthname="InfoElementLength" metatype="InfoElement" description="The InfoElementList can hold a number of Info Elements" />
+      </mail>
+      <mail primitive="API_PP_MM_PROPRIETARY_IND" id="0x43AF" direction="out" description="Contains proprietary received in LOCATE-ACCEPT" >
+        <parameter type="rsuint16" name="Emc" description="EMC" />
+        <parameter type="rsuint8" name="Data" vararraysize="rsuint16" vararraylengthname="DataLength" description="Proprietary data" />
+      </mail>
+      <mail primitive="API_PP_MM_UNITDATA_PROPRIETARY_IND" id="0x4425" direction="out" description="Contains proprietary received in PP_MM_UNITDATA" >
+        <parameter type="rsuint8" name="Data" vararraysize="rsuint16" vararraylengthname="Length" description="Proprietary data" />
+      </mail>
+      <mail primitive="API_PP_SIP_PROPRIETARY_INFO_IND" id="0x4426" direction="out" description="Various proprietary information received from the system" >
+        <parameter type="SipProrietaryInfoType" name="InfoType" description="Type of information in the data field" />
+        <parameter type="rsuint8" name="Data" vararraysize="rsuint16" vararraylengthname="Length" description="Proprietary data" />
+      </mail>
+      <mail primitive="API_PP_SET_COVERAGE_WARNING_LIMIT_REQ" id="0x4427" direction="in" description="Various proprietary information received from the system" >
+        <parameter type="rsuint8" name="State" description="0x00: Disable, 0x01 Enable with default limit, 0x02 Custom level, 0x03 Get current limit" />
+        <parameter type="rsuint8" name="CustomLimitValue" description="If Custom level then use this value" />
+      </mail>
+      <mail primitive="API_PP_SET_COVERAGE_WARNING_LIMIT_CFM" id="0x4428" direction="out" description="Various proprietary information received from the system" >
+        <parameter type="RsStatusType" name="Status" description="Result" />
+        <parameter type="rsuint8" name="State" description="0x00: Disable, 0x01 Enable with default limit, 0x02 Custom level, 0x03 Get current limit" />
+        <parameter type="rsuint8" name="Limit" description="Current coverage warning limit" />
+      </mail>
+    </mails>
+  </group>
+</rtxinterface>
+

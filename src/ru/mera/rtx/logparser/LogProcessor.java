@@ -105,6 +105,7 @@ public class LogProcessor {
             try {
                 mail.print(aContext, mBuffer, 0);
             } catch (Exception aE) {
+                aContext.out().printf("\n !!! Can't parse mail: %s\n", aE);
                 System.err.println("!!! Can't parse:  " + aEntry + ": " + aE);
             }
         }

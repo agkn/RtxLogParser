@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="BcspInterface.doc" wordmacrover="54">
+  <!-- This file started as a copy of "J:/sw/Include/RtxEai/RosCfg.xml"
+       The reference is the C-header file "J:/sw/Include/RtxEai/RtxEap.h"
+       The mail parameters have been hand-coded from the header file.
+  -->
+  <group name="RtxEai">
+    <includefiles>
+    </includefiles>
+    <types>
+    </types>
+    <macros>
+    </macros>
+    <!--
+    <tasks>
+      <task name="RTX_EAI_TASK" taskfunction="RtxEaiTask" initfunction="RtxEaiTaskInit" id="0x00" description="RTX EAI task - MUST have id = 0!"/>
+      <task name="TESTBUS_INTERRUPT_TASK" />
+    </tasks>
+    <timers>
+      <timer name="RTX_EAI_PMM_TIMER" description="" />
+      <timer name="RTX_EAI_TX_TIMER0" description="" condition="(RTX_EAI_HDLC_SUPPORT == 1)" />
+      <timer name="RTX_EAI_TX_TIMER1" description="" condition="((RTX_EAI_HDLC_SUPPORT == 1)&amp;&amp;(RTX_EAI_NO_INSTANCES>1))" />
+      <timer name="RTX_EAI_TX_TIMER2" description="" condition="((RTX_EAI_HDLC_SUPPORT == 1)&amp;&amp;(RTX_EAI_NO_INSTANCES>2))" />
+      <timer name="RTX_EAI_TX_TIMER3" description="" condition="((RTX_EAI_HDLC_SUPPORT == 1)&amp;&amp;(RTX_EAI_NO_INSTANCES>3))" />
+      <timer name="RTX_EAI_TX_TIMER4" description="" condition="((RTX_EAI_HDLC_SUPPORT == 1)&amp;&amp;(RTX_EAI_NO_INSTANCES>4))" />
+      <timer name="RTX_EAI_TX_TIMER5" description="" condition="((RTX_EAI_HDLC_SUPPORT == 1)&amp;&amp;(RTX_EAI_NO_INSTANCES>5))" />
+    </timers>
+    <mails>
+      <mail primitive="RTX_EAI_MAIL2TX" />
+      <mail primitive="EE_WRITE_DEFAULT_req" id="0x3A" />
+    </mails>
+    -->
+    <mails rangestart="0xF000" rangeend="0xF1FF">
+      <mail primitive="RTX_EAP_TEST_CONNECTION_PING_PONG_IND" id="0xFF00" direction="inout"
+            description="This message is used by the Host to test the connection to the target">
+      </mail>
+      <!--
+      <mail primitive="RTX_EAP_TRACE_START_REQ" id="0xF000" direction="out" description="" />
+      <mail primitive="RTX_EAP_TRACE_START_CFM" id="0xF001" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_STOP_REQ" id="0xF002" direction="out" description="" />
+      <mail primitive="RTX_EAP_TRACE_STOP_CFM" id="0xF003" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_DOWNLOAD_REQ" id="0xF004" direction="out" description="" />
+      <mail primitive="RTX_EAP_TRACE_DOWNLOAD_CFM" id="0xF005" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_DOWNLOAD_START_REQ" id="0xF006" direction="out" description="" />
+      <mail primitive="RTX_EAP_TRACE_START_TIMER_IND" id="0xF007" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_STOP_TIMER_IND" id="0xF008" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_OUTPUT_MAIL_IND" id="0xF009" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_INPUT_MAIL_IND" id="0xF00A" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_COMMENT_IND" id="0xF00B" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_STOP_IND" id="0xF00C" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_PDU_IND" id="0xF00D" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_FUNCTION_IND" id="0xF00E" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_DATA_IND" id="0xF00F" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_IND" id="0xF010" direction="in" description="" />
+      -->
+      <mail primitive="RTX_EAP_RUNTIME_ERROR_IND" id="0xF011" direction="in" description="">
+        <parameter type="rsuint8" name="TraceCounter" description="" />
+        <parameter type="rsuint8" name="TaskId" description="The id of the task that has detected the runtime error." />
+        <parameter type="rsuint32" name="LineNumber" description="The line number in which the runtime error was detected." />
+        <parameter type="rsuint16" name="FileNameLength" description="The number of bytes stored in FileName[]." />
+        <parameter type="rsuint8" name="FileName" vararraysize="rsuint16" vararraylengthname="FileNameLength" description="The name of the file in which the runtime error was detected." />
+      </mail>
+      <mail primitive="RTX_EAP_ASSERT_IND" id="0xF012" direction="in" description="">
+        <parameter type="rsuint8" name="TraceCounter" description="" />
+        <parameter type="rsuint8" name="TaskId" description="The id of the task that has detected the runtime error." />
+        <parameter type="rsuint32" name="LineNumber" description="The line number in which the runtime error was detected." />
+        <parameter type="rsuint16" name="FileNameLength" description="The number of bytes stored in FileName[]." />
+        <parameter type="rsuint8" name="FileName" vararraysize="rsuint16" vararraylengthname="FileNameLength" description="The name of the file in which the runtime error was detected." />
+      </mail>
+      <!--
+      <mail primitive="RTX_EAP_TRACE_TIME_INPUT_MAIL_IND" id="0xF013" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_TIME_OUTPUT_MAIL_IND" id="0xF014" direction="in" description="" />
+      <mail primitive="RTX_EAP_RESERVED_MAIL_2" id="0xF015" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_TIME_START_TIMER_IND" id="0xF016" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_TIME_STOP_TIMER_IND" id="0xF017" direction="in" description="" />
+      <mail primitive="RTX_EAP_RESERVED_MAIL_1" id="0xF018" direction="in" description="" />
+      <mail primitive="RTX_EAP_TARGET_TIME_INFO_IND" id="0xF019" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_COMMENT2_IND" id="0xF01A" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_TIME_COMMENT2_IND" id="0xF01B" direction="in" description="" />
+
+      <mail primitive="RTX_EAP_AFIELD_START_REQ" id="0xF020" direction="out" description="" />
+      <mail primitive="RTX_EAP_AFIELD_START_CFM" id="0xF021" direction="in" description="" />
+      <mail primitive="RTX_EAP_AFIELD_STOP_REQ" id="0xF022" direction="out" description="" />
+      <mail primitive="RTX_EAP_AFIELD_STOP_CFM" id="0xF023" direction="in" description="" />
+      <mail primitive="RTX_EAP_AFIELD_DATA_FP_RX_IND" id="0xF024" direction="in" description="" />
+      <mail primitive="RTX_EAP_AFIELD_DATA_FP_TX_IND" id="0xF025" direction="in" description="" />
+      <mail primitive="RTX_EAP_AFIELD_DATA_PP_RX_IND" id="0xF026" direction="in" description="" />
+      <mail primitive="RTX_EAP_AFIELD_DATA_PP_TX_IND" id="0xF027" direction="in" description="" />
+      <mail primitive="RTX_EAP_A_B_FULL_SLOT_DATA_FP_RX_IND" id="0xF028" direction="in" description="" />
+      <mail primitive="RTX_EAP_A_B_FULL_SLOT_DATA_FP_TX_IND" id="0xF029" direction="in" description="" />
+      <mail primitive="RTX_EAP_A_B_FULL_SLOT_DATA_PP_RX_IND" id="0xF02A" direction="in" description="" />
+      <mail primitive="RTX_EAP_A_B_FULL_SLOT_DATA_PP_TX_IND" id="0xF02B" direction="in" description="" />
+      <mail primitive="RTX_EAP_A_B_DOUBLE_SLOT_DATA_FP_RX_IND" id="0xF02C" direction="in" description="" />
+      <mail primitive="RTX_EAP_A_B_DOUBLE_SLOT_DATA_FP_TX_IND" id="0xF02D" direction="in" description="" />
+      <mail primitive="RTX_EAP_A_B_DOUBLE_SLOT_DATA_PP_RX_IND" id="0xF02E" direction="in" description="" />
+      <mail primitive="RTX_EAP_A_B_DOUBLE_SLOT_DATA_PP_TX_IND" id="0xF02F" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_TIME_AFIELD_DATA_FP_RX_IND" id="0xF0B4" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_TIME_AFIELD_DATA_FP_TX_IND" id="0xF0B5" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_TIME_AFIELD_DATA_PP_RX_IND" id="0xF0B6" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_TIME_AFIELD_DATA_PP_TX_IND" id="0xF0B7" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_TIME_A_B_FULL_SLOT_DATA_FP_RX_IND" id="0xF0B8" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_TIME_A_B_FULL_SLOT_DATA_FP_TX_IND" id="0xF0B9" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_TIME_A_B_FULL_SLOT_DATA_PP_RX_IND" id="0xF0BA" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_TIME_A_B_FULL_SLOT_DATA_PP_TX_IND" id="0xF0BB" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_TIME_A_B_DOUBLE_SLOT_DATA_FP_RX_IND" id="0xF0BC" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_TIME_A_B_DOUBLE_SLOT_DATA_FP_TX_IND" id="0xF0BD" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_TIME_A_B_DOUBLE_SLOT_DATA_PP_RX_IND" id="0xF0BE" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_TIME_A_B_DOUBLE_SLOT_DATA_PP_TX_IND" id="0xF0BF" direction="in" description="" />
+
+      <mail primitive="RTX_EAP_RAM_WRITE_REQ" id="0xF030" direction="out" description="" />
+      <mail primitive="RTX_EAP_RAM_READ_REQ" id="0xF031" direction="out" description="" />
+      <mail primitive="RTX_EAP_RAM_READ_CFM" id="0xF032" direction="in" description="" />
+      <mail primitive="RTX_EAP_RAM_WRITE_CFM" id="0xF033" direction="in" description="" />
+      <mail primitive="RTX_EAP_RAM_MEMSET_REQ" id="0xF034" direction="out" description="" />
+      <mail primitive="RTX_EAP_RAM_MEMSET_CFM" id="0xF035" direction="in" description="" />
+      <mail primitive="RTX_EAP_MEMORY_WRITE_WORD_REQ" direction="out" id="0xF036" />
+      <mail primitive="RTX_EAP_MEMORY_WRITE_WORD_CFM" direction="in" id="0xF037" />
+      <mail primitive="RTX_EAP_TRACE_INPUT_MAIL2_IND" id="0xF03C" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_TIME_INPUT_MAIL2_IND" id="0xF03D" direction="in" description="" />
+
+      <mail primitive="RTX_EAP_BMC_TRACE_START_REQ" id="0xF040" direction="out" description="" />
+      <mail primitive="RTX_EAP_BMC_TRACE_START_CFM" id="0xF041" direction="in" description="" />
+      <mail primitive="RTX_EAP_BMC_TRACE_STOP_REQ" id="0xF042" direction="out" description="" />
+      <mail primitive="RTX_EAP_BMC_TRACE_STOP_CFM" id="0xF043" direction="in" description="" />
+      <mail primitive="RTX_EAP_BMC_TRACE_MSG_IND" id="0xF044" direction="in" description="" />
+      <mail primitive="RTX_EAP_BMC_TRACE_START_REQ_MULTIBEARER" id="0xF045" direction="out" description="" />
+      <mail primitive="RTX_EAP_BMC_TRACE_MSG_IND_MULTIBEARER" id="0xF046" direction="in" description="" />
+      <mail primitive="RTX_EAP_BMC_TIME_TRACE_MSG_IND" id="0xF047" direction="in" description="" />
+      <mail primitive="RTX_EAP_BMC_TIME_TRACE_MSG_IND_MULTIBEARER" id="0xF048" direction="in" description=""/>
+
+      <mail primitive="RTX_EAP_BMC_TRACE_EVENT_IND" direction="in" id="0xF04F" />
+      <mail primitive="RTX_EAP_BMC_TRACE_TIME_EVENT_IND" direction="in" id="0xF050" />
+
+      <mail primitive="RTX_EAP_TRACE_TIME_START_EXTIMER_IND" direction="in" id="0xF054" />
+      <mail primitive="RTX_EAP_TRACE_START_EXTIMER_IND" direction="in" id="0xF055" />
+      <mail primitive="RTX_EAP_TRACE_TIME_STOP_EXTIMER_IND" direction="in" id="0xF056" />
+      <mail primitive="RTX_EAP_TRACE_STOP_EXTIMER_IND" direction="in" id="0xF057" />
+      -->
+      <!--
+      <mail primitive="RTX_EAP_MODULE_TEST_START_REQ" id="0xF060" direction="out" description="" />
+      <mail primitive="RTX_EAP_MODULE_TEST_STOP_REQ" id="0xF061" direction="out" description="" />
+      <mail primitive="RTX_EAP_PROJECT_TEST_REQ" id="0xF062" direction="out" description="" />
+      <mail primitive="RTX_EAP_PROJECT_TEST_CFM" id="0xF063" direction="in" description="" />
+      -->
+      <mail primitive="RTX_EAP_RF_TEST_REQ" id="0xF064" direction="out"
+            description="/* This message is used to send a RF test command to the target. The function RTX_EAI_RF_TEST_HANDLER() is called when this request is received.">
+        <parameter type="rsuint8" name="ProgramId"
+                   description="The program id that should be used in when a RTX_EAP_RF_TEST_CFM is sent back to the host."/>
+        <parameter type="rsuint8" name="TaskId"
+                   description="The task id that should be used in when a RTX_EAP_RF_TEST_CFM is sent back to the host."/>
+        <parameter type="rsuint16" name="Opcode" description="Op-code identifying the RF test command."/>
+        <parameter type="rsuint16" name="Length" description="The total length in bytes of the parameters."/>
+        <parameter type="rsuint8" name="Parameters" vararraysize="rsuint8" vararraylengthname="Length" description="Optional parameters"/>
+      </mail>
+      <mail primitive="RTX_EAP_RF_TEST_CFM" id="0xF065" direction="in"
+            description="This message is used to send a response to a RF test command to the host.">
+        <parameter type="rsuint16" name="Opcode" description="Op-code identifying the response."/>
+        <parameter type="rsuint16" name="Length" description="The total length in bytes of the parameters."/>
+        <parameter type="rsuint8" name="Parameters" vararraysize="rsuint8" vararraylengthname="Length" description="Optional parameters"/>
+      </mail>
+      <mail primitive="RTX_EAP_HW_TEST_REQ" id="0xF066" direction="out"
+            description="This message is used to send a HW test command to the target. The function RTX_EAI_HW_TEST_HANDLER() is called when this request is received.">
+        <parameter type="rsuint8" name="ProgramId"
+                   description="The program id that should be used in when a RTX_EAP_HW_TEST_CFM is sent back to the host."/>
+        <parameter type="rsuint8" name="TaskId"
+                   description="The task id that should be used in when a RTX_EAP_HW_TEST_CFM is sent back to the host."/>
+        <parameter type="rsuint16" name="Opcode" description="Op-code identifying the HW test command."/>
+        <parameter type="rsuint16" name="Length" description="The total length in bytes of the parameters."/>
+        <parameter type="rsuint8" name="Parameters" vararraysize="rsuint8" vararraylengthname="Length" description="Optional parameters"/>
+
+      </mail>
+      <mail primitive="RTX_EAP_HW_TEST_CFM" id="0xF067" direction="in"
+            description="This message is used to send a response to a HW test command to the host.">
+        <parameter type="rsuint16" name="Opcode" description="Op-code identifying the response."/>
+        <parameter type="rsuint16" name="Length" description="The total length in bytes of the parameters."/>
+        <parameter type="rsuint8" name="Parameters" vararraysize="rsuint8" vararraylengthname="Length" description="Optional parameters"/>
+      </mail>
+      <!--
+      <mail primitive="RTX_EAP_SW_TEST_REQ" id="0xF068" direction="out" description="" />
+      <mail primitive="RTX_EAP_SW_TEST_CFM" id="0xF069" direction="in" description="" />
+      <mail primitive="RTX_EAP_AUDIO_IND" id="0xF06A" direction="in" description="" />
+      -->
+      <!--
+      <mail primitive="RTX_EAP_PRINTF_START_REQ" id="0xF070" direction="out" description="" />
+      <mail primitive="RTX_EAP_PRINTF_START_REQ_NO_CFM" id="0xF071" direction="out" description="" />
+      <mail primitive="RTX_EAP_PRINTF_START_CFM" id="0xF072" direction="in" description="" />
+      <mail primitive="RTX_EAP_PRINTF_STOP_REQ" id="0xF073" direction="out" description="" />
+      <mail primitive="RTX_EAP_PRINTF_STOP_CFM" id="0xF074" direction="in" description="" />
+      <mail primitive="RTX_EAP_PRINTF_IND" id="0xF075" direction="in" description="" />
+      <mail primitive="RTX_EAP_CLEAR_SCREEN_IND" id="0xF076" direction="in" description="" />
+      <mail primitive="RTX_EAP_SCREEN_GOTOXY_IND" id="0xF077" direction="in" description="" />
+
+      <mail primitive="RTX_EAP_TRACE_TIME_PDU_IND" id="0xF0C0" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_TIME_FUNCTION_IND" id="0xF0C1" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_TIME_DATA_IND" id="0xF0C2" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_TIME_IND" id="0xF0C3" direction="in" description="" />
+
+      <mail primitive="RTX_EAP_MEMORY_READ_REQ" id="0xF0E0" direction="out" description="" />
+      <mail primitive="RTX_EAP_MEMORY_READ_CFM" id="0xF0E1" direction="in" description="" />
+      <mail primitive="RTX_EAP_MEMORY_WRITE_REQ" id="0xF0E2" direction="out" description="" />
+      <mail primitive="RTX_EAP_MEMORY_WRITE_CFM" id="0xF0E3" direction="in" description="" />
+      <mail primitive="RTX_EAP_MEMORY_MEMSET_REQ" id="0xF0E4" direction="out" description="" />
+      <mail primitive="RTX_EAP_MEMORY_MEMSET_CFM" id="0xF0E5" direction="in" description="" />
+      <mail primitive="RTX_EAP_MEMORY_SET_DEFAULT_REQ" id="0xF0E6" direction="out" description="" />
+      <mail primitive="RTX_EAP_MEMORY_SET_DEFAULT_CFM" id="0xF0E7" direction="in" description="" />
+      -->
+      <mail primitive="RTX_EAP_VERSION_REQ" id="0xF0F0" direction="out"
+            description="This message is used by the host / PC get the version of the EAP implemented in the target.">
+        <parameter type="rsuint8" name="ProgramId" description=""/>
+        <parameter type="rsuint8" name="TaskId" description=""/>
+      </mail>
+      <mail primitive="RTX_EAP_VERSION_CFM" id="0xF0F1" direction="in"
+            description="The target uses this message to return the version of the EAP.">
+        <parameter type="rsuint32" name="Version"
+                   description="The EAP version supported by the target. The version number is incremented by one when major changes are made to the EAP."/>
+      </mail>
+      <mail primitive="RTX_EAP_SW_BUILD_INFO_REQ" id="0xF0F2" direction="out"
+            description="The host uses this message to get the SW version of the firmware in the target.">
+        <parameter type="rsuint8" name="ProgramId" description=""/>
+        <parameter type="rsuint8" name="TaskId" description=""/>
+      </mail>
+      <mail primitive="RTX_EAP_SW_BUILD_INFO_CFM" id="0xF0F3" direction="in"
+            description="/* The target uses this message to return the SW version to the Host.">
+        <parameter type="rsuint8" name="ProgrammerId" constarraysize="8" description=""/>
+        <parameter type="rsuint16" name="VersionHexFormat" description=""/>
+        <!-- NOTE: This VersionStrFormat is actually a const 4-byte array in the header file -->
+        <parameter type="rsuint32" name="VersionStrFormat" description=""/>
+        <parameter type="rsuint8" name="LinkDate" constarraysize="5" description=""/>
+        <parameter type="rsuint8" name="ReleaseLabelLength" description=""/>
+        <parameter type="rsuint8" name="ReleaseLabel" vararraysize="rsuint8" vararraylengthname="ReleaseLabelLength" description=""/>
+      </mail>
+      <mail primitive="RTX_EAP_TARGET_RESET_IND" id="0xF0F4" direction="in"
+            description="The target uses this message to indicate to the host that the target has been reset. This can e.g. be used to clear all windows in the RTX Monitor when the target resets. (This message should only be used in ?debug systems?.)" >
+      </mail>
+      <mail primitive="RTX_EAP_PACKET_CFM" id="0xF0F5" direction="in"
+            description="The target uses this message to indicate to the host that the target has received the packet sent by the Host successfully. This can e.g. be used to implement flow control in the Host to target direction when a 3 wire serial cable is used to connect the PC and the Target." >
+        <parameter type="rsuint16" name="ReqPrimitive" description="Identifies the message received / acknowledged."/>
+      </mail>
+      <mail primitive="RTX_EAP_PACKET_ERROR_IND" id="0xF0F6" direction="in"
+            description="The target can use this message to indicate to the Host that the target encountered a timeout or checksum error while receiving a packet from the Host. This message can also be used by the RESP to signal to a client that it failed to send a packet to the target.">
+        <parameter type="rsuint16" name="ReqPrimitive"
+                   description="Identifies the message received / acknowledged. The Primitive value may be invalid if the target e.g. has timed out before receiving the primitive part of the message sent from the Host."/>
+      </mail>
+      <!--
+      <mail primitive="RTX_EAP_NVS_CACHE_EMPTY_REQ" id="0xF117" direction="out" description="" />
+      <mail primitive="RTX_EAP_NVS_CACHE_EMPTY_CFM" id="0xF118" direction="in" description="" />
+      <mail primitive="RTX_EAP_NVS_SET_DEFAULT_REQ" id="0xF119" direction="out" description="" />
+      <mail primitive="RTX_EAP_NVS_SET_DEFAULT_CFM" id="0xF11A" direction="in" description="" />
+      <mail primitive="RTX_EAP_NVS_READ_REQ" id="0xF11B" direction="out" description="" />
+      <mail primitive="RTX_EAP_NVS_READ_CFM" id="0xF11C" direction="in" description="" />
+      <mail primitive="RTX_EAP_NVS_WRITE_REQ" id="0xF11D" direction="out" description="" />
+      <mail primitive="RTX_EAP_NVS_WRITE_CFM" id="0xF11E" direction="in" description="" />
+      <mail primitive="RTX_EAP_NVS_SET_DOMAIN_REQ" id="0xF11F" direction="out" description="" />
+      <mail primitive="RTX_EAP_NVS_SET_DOMAIN_CFM" id="0xF120" direction="in" description="" />
+      <mail primitive="RTX_EAP_NVS_GET_DOMAIN_SIZE_REQ" id="0xF121" direction="out" description="" />
+      <mail primitive="RTX_EAP_NVS_GET_DOMAIN_SIZE_CFM" id="0xF122" direction="in" description="" />
+
+      <mail primitive="RTX_EAP_TRACESERVER_GET_LIST_REQ" id="0xF180" direction="out" description="" />
+      <mail primitive="RTX_EAP_TRACESERVER_GET_LIST_CFM" id="0xF181" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACESERVER_SELECT_TARGET_REQ" id="0xF182" direction="out" description="" />
+      <mail primitive="RTX_EAP_TRACESERVER_SELECT_TARGET_CFM" id="0xF183" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACESERVER_SELECT_TARGET_REJ" id="0xF184" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACESERVER_TARGET_DESC_IND" id="0xF185" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACESERVER_CONNECT_TARGET_REQ" id="0xF186" direction="out" description="" />
+      <mail primitive="RTX_EAP_TRACESERVER_CONNECT_TARGET_CFM" id="0xF187" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACESERVER_CONNECT_TARGET_REJ" id="0xF188" direction="in" description="" />
+
+      <mail primitive="RTX_EAP_TRACE_CREATE_RT_TIMER_IND" id="0xF1A0" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_DESTROY_RT_TIMER_IND" id="0xF1A1" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_START_RT_TIMER_IND" id="0xF1A2" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_STOP_RT_TIMER_IND" id="0xF1A3" direction="in" description="" />
+
+      <mail primitive="RTX_EAP_TRACE_MEM_ALLOC_IND" id="0xF1B0" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_MEM_FREE_IND" id="0xF1B1" direction="in" description="" />
+      <mail primitive="RTX_EAP_TRACE_ADD_WATCH_IND" id="0xF1B2" direction="in" description="" />
+      <mail primitive="RTX_EAP_GRAPH_DATA_IND" id="0xF1B3" direction="in" description="" />
+      <mail primitive="RTX_EAP_GRAPH_UPDATE_IND" id="0xF1B4" direction="in" description="" />
+      <mail primitive="RTX_EAP_KEY_PRESS_REQ" id="0xF1B5" direction="out" description="" />
+      <mail primitive="RTX_EAP_KEY_PRESS_CFM" id="0xF1B6" direction="in" description="" />
+      <mail primitive="RTX_EAP_ADD_GRAPH_IND" id="0xF1B7" direction="in" description="" />
+      <mail primitive="RTX_EAP_ADD_LINE_TO_GRAPH_IND" id="0xF1B8" direction="in" description="" />
+      <mail primitive="RTX_EAP_REMOVE_GRAPH_IND" id="0xF1B9" direction="in" description="" />
+      -->
+    </mails>
+  </group>
+</rtxinterface>

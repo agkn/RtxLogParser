@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rtxinterface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="RtxIfDef.xsd" worddocname="Phoenix_API_PP_NoEmission.doc" wordmacrover="60">
+  <group name="ApiPpNoEmission">
+    <types>
+    </types>
+    <includefiles>
+      <includefile name="Api/ApiCfg.h" description="The following API files must be included." />
+      <includefile name="Phoenix/Api/Types/ApiTypes.h" description="The following API files must be included." />
+    </includefiles>
+    <macros>
+    </macros>
+    <mails>
+      <mail primitive="API_PP_MAC_NO_EMISSION_MODE_ENABLE_REQ" id="0x5C00" direction="in" description="This mail is send from the PpApplication to enable No Emission mode.
+This command is intended for debugging/test purposes only." />
+      <mail primitive="API_PP_MAC_NO_EMISSION_MODE_DISABLE_REQ" id="0x5C01" direction="in" description="This mail is send from the PpApplication to disable No Emission mode.
+This command is intended for debugging/test purposes only." />
+      <mail primitive="API_PP_MAC_NO_EMISSION_MODE_STOP_REQ" id="0x5C02" direction="in" description="This mail is send from the PpApplication to leave No Emission State to be able to make calls." />
+      <mail primitive="API_PP_MAC_NO_EMISSION_MODE_PENDING_IND" id="0x5C03" direction="out" description="Signals to the PpApplication that the protocol of the FP has entered count down state to No Emission State" />
+      <mail primitive="API_PP_MAC_NO_EMISSION_MODE_ACTIVE_IND" id="0x5C04" direction="out" description="Signals to the PpApplication that the protocol of the FP has entered No Emission State" />
+      <mail primitive="API_PP_MAC_NO_EMISSION_MODE_STOP_IND" id="0x5C05" direction="out" description="Signals to the PpApplication that the protocol of the FP has left No Emission State" />
+    </mails>
+  </group>
+</rtxinterface>
+
